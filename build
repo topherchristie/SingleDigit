@@ -1,0 +1,2 @@
+lessc --verbose css/custom-bootstrap.less > public/custom/custom-bootstrap.css
+lessc --verbose css/custom-bootstrap-responsive.less > public/custom/custom-bootstrap-responsive.css
