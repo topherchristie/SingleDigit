@@ -1,7 +1,7 @@
 // Amelia 2.3.1
 // Variables
 // --------------------------------------------------
-
+@Headingfont: 'alegreya-sc', Verdana, sans-serif;
 
 // Global values
 // --------------------------------------------------
@@ -23,7 +23,7 @@
 @blue:                  #00BCE1;
 @blueDark:              #1269B0;
 @green:                 #48CA3B;
-@red:                   #AD1D28;
+@red:                   #006600;// #AD1D28;
 @yellow:                #DEBB27;
 @orange:                #DF6E1E;
 @pink:                  #FFBCB9;
@@ -32,7 +32,7 @@
 
 // Scaffolding
 // -------------------------
-@bodyBackground:        #003F4D;
+@bodyBackground:        #009900;//#003F4D;
 @textColor:             rgba(255, 255, 255, 0.9);
 
 
@@ -44,16 +44,16 @@
 
 // Typography
 // -------------------------
-@sansFontFamily:        'Cabin', Verdana, sans-serif;
+@sansFontFamily:        source-code-pro, serif, Verdana, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
 
 @baseFontSize:          14px;
 @baseFontFamily:        @sansFontFamily;
 @baseLineHeight:        20px;
-@altFontFamily:         @serifFontFamily;
+@altFontFamily:         @sansFontFamily;
 
-@headingsFontFamily:    'Lobster', cursive; // empty to use BS default, @baseFontFamily
+@headingsFontFamily:    @Headingfont; // empty to use BS default, @baseFontFamily
 @headingsFontWeight:    normal;    // instead of browser default, bold
 @headingsColor:         inherit; // empty to use BS default, @textColor
 

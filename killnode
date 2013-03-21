@@ -1,0 +1,10 @@
+result=$(netstat -npl | grep node-openshif)
+echo $result
+processId=$(echo $result|grep -Po "[^\s]+(?=/node)")
+echo $processId
+if ["processid" eq ""]; then
+  echo "nothing to kill"
+else
+	echo "killing"
+	kill -7 $processId
+fi
