@@ -2,7 +2,8 @@ requirejs.config({
     baseUrl:'app/js',
     paths:{
         text: 'lib/text',
-        xdate: '/public/xdate/xdate'
+        xdate: '/public/xdate/xdate',
+        scoreCalculator:'lib/scoreCalculator'
     },
     shim:{
         '/public/underscore/underscore-min.js': {

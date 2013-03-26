@@ -1,21 +1,52 @@
 
-<div class="scoreDate span2">{{prettyDate}}</div>
-<div class="course span4">{{courseName}}<br />
+<div class="scoreDate span1">{{prettyDate}}</div>
+<div class="course span4">{{course.name}}<br />
 <span class="tee">{{tee.name}}</div>
-<div class="score span2">{{score}}<br />
+<div class="score span1">{{score}}<br />
+<span class="tee">{{handicap}}<br />
 <span class="tee">{{overPar}}</div>
+<div class="span2">
 <dl>
     <dd>Birdies</dd>
-    <dt>{{birdies}}</dt>
-    <dd>Par</dd>
+    <dt>{{birdies+eagles}}{{eagleAstrix}}</dt>
+</dl>
+<dl>
+    <dd>Pars</dd>
     <dt>{{pars}}</dt>
+</dl>
+<dl>
     <dd>Bogies</dd>
-    <dt>{{bogies}}{{eagleAstrix}}</dt>
+    <dt>{{bogies}}</dt>
+</dl>
+<dl>
     <dd>Doubles</dd>
     <dt>{{doubles}}</dt>
+</dl>
+<dl>
     <dd>Others</dd>
     <dt>{{others}}</dt>
-    
 </dl>
-
+</div>
+<div class="span2">
+<dl>
+    <dd>Putts</dd>
+    <dt>{{putts}}</dt>
+</dl>
+<dl>
+    <dd>1 putts</dd>
+    <dt>{{onePutts}}</dt>
+</dl>
+<dl>
+    <dd>3 putts</dd>
+    <dt>{{threePutts}}</dt>
+</dl>
+<dl>
+    <dd>Ch15</dd>
+    <dt>{{ch15}}</dt>
+</dl>
+<dl>
+    <dd>/ Hole</dd>
+    <dt>{{puttsPerHole}}</dt>
+</dl>
+</div>
 

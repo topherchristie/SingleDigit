@@ -6,7 +6,7 @@ var flash = require('connect-flash');
 var express = require('express');
 var app = module.exports = express();
 var swig = require('swig');
-
+var config = require('./config');
 //var routes = require('./routes');
   
 swig.init({
@@ -50,6 +50,20 @@ app.configure(function(){
 
 var dao = require("./dao/scoresDao.js");
 
+dao.connect(config.ConnectionString,function(error){
+    console.log('connect returned');
+    if(error) throw error;
+});
+    
+    
+app.on('close',function(err){
+    console.log('closing!');
+    if(err){
+        console.error('Error Closing',err);
+    }
+	dao2.disconnect(function(err){console.error('error closing:' + err);});
+});
+
 app.get('/', function(req,res){
     var locals = {"title":"Golf Home",scores:dao.getScores()};
     res.render("index.html",locals);  
@@ -57,7 +71,16 @@ app.get('/', function(req,res){
 });
 
 app.get('/scores',function(req,res){
-   res.json(dao.getScores()) ;
+    dao.getScores('me',function(err,result){
+        res.json(result) ; 
+    });
+});
+var goalManager = require('./domain/goalManager');
+app.get('/goals',function(req,res){
+    dao.reduceByYear(function(err,result){
+        if(err) throw err;
+        res.json(goalManager.GetGoals(result)); 
+    });
 });
 
 
