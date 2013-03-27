@@ -79,10 +79,18 @@ exports.reduceByYear = function(callback){
     
     
     // reduce it
-    /*
+    
     var o = {
         map: function(){
-            emit(this.date.getFullYear(),{"threePutts":this.threePutts});
+            var total = 0;
+            this.holes.forEach(function(h){
+                if(h.putts >= 3){
+                    total++;
+                }
+            });
+            
+            emit(this.date.getFullYear(),{"threePutts":total});    
+            
         },
         scope:{},
         reduce: function(key,vals){
@@ -92,14 +100,16 @@ exports.reduceByYear = function(callback){
                 cnt ++;
                 total += v.threePutts;
             });
-            return {"threePutts": math.round(this.threePutts/cnt*10)/10};
+            
+            return {"threePutts": Math.round(total/cnt*10)/10};
+            
         },
         query:{}
     };
     ScoreModel.mapReduce(o,callback);
-    */
-    // fake it
     
+    // fake it
+    /*
     var hopefullResult= [];
     var y2012 = {};
     y2012._id = 2012;
@@ -110,9 +120,9 @@ exports.reduceByYear = function(callback){
     y2013._id = 2013;
     y2013.value = {};
     y2013.value.threePutts = 3.0;
-    hopefullResult.push(y2013);
+    //hopefullResult.push(y2013);
     callback(false,hopefullResult);
-    
+    */
     
     
 };

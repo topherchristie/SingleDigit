@@ -15,10 +15,17 @@ manager.GetGoals = function (reduction){
         }
         y++;
     });
+
     goals.forEach(function(i){
-        //todo years need to be dynamic
-       i.yearDiff = Math.round( (i.thisYear - i.lastYear) * 10.0)/10;
-       i.goalDiff = Math.round( (i.goal - i.thisYear) * 10.0)/10;
+       if(i.thisYear){
+            //todo years need to be dynamic
+           i.yearDiff = Math.round( (i.thisYear - i.lastYear) * 10.0)/10;
+           i.goalDiff = Math.round( (i.goal - i.thisYear) * 10.0)/10;
+       }else{
+           i.thisYear = 0;
+           i.yearDiff = 0;
+           i.goalDiff = 0;
+       }
     });
     return goals;
 };
