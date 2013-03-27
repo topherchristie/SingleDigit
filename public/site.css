@@ -45,3 +45,6 @@ table.scores td {
 table.scores td.text {
   text-align: left;
 }
+.slick-cell {
+  font-size: .7em;
+}

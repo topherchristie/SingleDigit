@@ -21,7 +21,7 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
        collections: {},
        init:function(){
            var self = this;
-           self.collections.scores.fetch({data:{},success: function(res){ }});
+           self.collections.scores.fetch({data:{},success: function(res){ self.views.recentTable.render() }});
            self.collections.goals.fetch({data:{},success: function(res){ }});
        }
        

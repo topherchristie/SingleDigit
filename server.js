@@ -43,6 +43,7 @@ app.configure(function(){
   app.use("/public/xdate",express.static(__dirname + '/components/xdate/src',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/underscore",express.static(__dirname + '/components/underscore',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/backbone",express.static(__dirname + '/components/backbone',{maxAge: 31557600000, "Cache-Control":"public"}));
+  app.use("/public/slickgrid",express.static(__dirname + '/components/slickgrid',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/app",express.static(__dirname + '/app'));
   app.use("/public",express.static(__dirname + '/public'));
   
