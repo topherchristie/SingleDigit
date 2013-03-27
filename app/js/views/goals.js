@@ -13,6 +13,7 @@ define(['views/goal'],function(GoalItemView){
             var self = this;
             self.$el.empty();
             this.collection.forEach(function(goal){
+                console.log("goal calling render:",goal);
               var item = new GoalItemView({model:goal});
                self.$el.append(item.render().el);
             });

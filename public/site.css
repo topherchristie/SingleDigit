@@ -21,7 +21,7 @@ div.card dl {
 }
 div.card dd {
   display: inline-block;
-  width: 45px;
+  width: 60px;
   white-space: nowrap;
 }
 div.card dt {
@@ -33,4 +33,15 @@ div.card dt {
   text-align: right;
   display: inline-block;
   width: 20px;
+}
+table.scores td,
+table.scores th {
+  border: solid 1px black;
+  font-size: .7em;
+}
+table.scores td {
+  text-align: right;
+}
+table.scores td.text {
+  text-align: left;
 }

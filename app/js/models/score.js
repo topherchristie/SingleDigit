@@ -4,7 +4,7 @@ define(['xdate','scoreCalculator'],function(xdate,scoreCalculator){
         initialize:function(){
             var pretty = (new xdate(this.get("date"),true)).toString('yyyy-MM-dd');     
             
-            
+       /*     
             var course = this.get("courseId");
             var teeName = this.get("teeName");
             this.set({"course":course});
@@ -22,11 +22,12 @@ define(['xdate','scoreCalculator'],function(xdate,scoreCalculator){
                         var r = new scoreCalculator().calc(self.get("score"),self.get("ESC"),self.get("holes"),course,t);
                         self.set(r);
                     }
-                });    
+                });    */
             var eagles = this.get("eagles");
             var eagleAstrix = (eagles && eagles > 0)?"*":"";
-            console.log(course.name + ":" + eagles);
+            
             this.set({"prettyDate":pretty,"eagleAstrix":eagleAstrix});
+            
       }
     });
     return Score;

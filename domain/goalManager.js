@@ -5,14 +5,19 @@ var manager = exports;
 manager.GetGoals = function (reduction){
     var goals = [];
     var goal = {"id":"3 putt",name:"threePutts",goal:2.2};
+    
+    var goal2 = {"id":"Extra Chips",name:"extraChips",goal:1.3};
     goals.push(goal);
+    goals.push(goal2);
     var y = 0;
     reduction.forEach(function(r){
-        if(y===0){
-            goal.lastYear = r.value[goal.name];
-        }else{
-            goal.thisYear = r.value[goal.name];
-        }
+        goals.forEach(function(g){
+            if(y===0){
+                g.lastYear = r.value[g.name];
+            }else{
+                g.thisYear = r.value[g.name];
+            }
+        });
         y++;
     });
 

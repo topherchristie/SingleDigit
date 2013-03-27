@@ -8,7 +8,7 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
       this.collections.scores = new ScoreList();
       this.collections.goals = new GoalList();      
      
-      this.views.recent = new RecentView({collection:this.collections.scores});
+      //this.views.recent = new RecentView({collection:this.collections.scores});
       this.views.recentTable = new RecentTableView({collection:this.collections.scores});
       this.views.goals = new GoalsView({collection:this.collections.goals});
       

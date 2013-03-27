@@ -3,50 +3,102 @@
 <div class="course span4">{{course.name}}<br />
 <span class="tee">{{tee.name}}</div>
 <div class="score span1">{{score}}<br />
-<span class="tee">{{handicap}}<br />
-<span class="tee">{{overPar}}</div>
+<span class="tee">{{stats.handicap}}<br />
+<span class="tee">{{stats.overPar}}</div>
 <div class="span2">
 <dl>
     <dd>Birdies</dd>
-    <dt>{{birdies+eagles}}{{eagleAstrix}}</dt>
+    <dt>{{stats.birdies+stats.eagles}}{{eagleAstrix}}</dt>
 </dl>
 <dl>
     <dd>Pars</dd>
-    <dt>{{pars}}</dt>
+    <dt>{{stats.pars}}</dt>
 </dl>
 <dl>
     <dd>Bogies</dd>
-    <dt>{{bogies}}</dt>
+    <dt>{{stats.bogies}}</dt>
 </dl>
 <dl>
     <dd>Doubles</dd>
-    <dt>{{doubles}}</dt>
+    <dt>{{stats.doubles}}</dt>
 </dl>
 <dl>
     <dd>Others</dd>
-    <dt>{{others}}</dt>
+    <dt>{{stats.others}}</dt>
 </dl>
 </div>
 <div class="span2">
 <dl>
     <dd>Putts</dd>
-    <dt>{{putts}}</dt>
+    <dt>{{stats.putts}}</dt>
 </dl>
 <dl>
     <dd>1 putts</dd>
-    <dt>{{onePutts}}</dt>
+    <dt>{{stats.onePutts}}</dt>
 </dl>
 <dl>
     <dd>3 putts</dd>
-    <dt>{{threePutts}}</dt>
+    <dt>{{stats.threePutts}}</dt>
 </dl>
 <dl>
     <dd>Ch15</dd>
-    <dt>{{ch15}}</dt>
+    <dt>{{stats.ch15}}</dt>
 </dl>
 <dl>
     <dd>/ Hole</dd>
-    <dt>{{puttsPerHole}}</dt>
+    <dt>{{stats.puttsPerHole}}</dt>
 </dl>
 </div>
+<div class="span2">
+<dl>
+    <dd>Chips</dd>
+    <dt>{{stats.chips}}</dt>
+</dl>
+<dl>
+    <dd>Chip In</dd>
+    <dt>{{stats.chipIn}}</dt>
+</dl>
+<dl>
+    <dd>Extra Chips</dd>
+    <dt>{{stats.extraChips}}</dt>
+</dl>
+<dl>
+    <dd>Scrambles</dd>
+</dl>
+<dl>
+<dd>{{stats.scrambles}} of {{stats.scrambleChances}}</dd>
+</dl>
+<dl>
+    <dd>Scramble %</dd>
+    <dt>{{stats.scramblePercent}}</dt>
+</dl>
 
+</div>
+<div class="span2">
+<dl>
+    <dd>GIR</dd>
+    <dt>{{stats.GIR}}</dt>
+</dl>
+<dl>
+    <dd>Short Game</dd>
+    <dt>{{stats.shortGame}}</dt>
+</dl>
+<dl>
+    <dd>Putts w/ Chip</dd>
+    <dt>{{stats.avgPuttsWithChip}}</dt>
+</dl>
+<dl>
+    <dd>Putts w/ Chip</dd>
+    <dt>{{stats.avgPuttsWithoutChip}}</dt>
+</dl>
+<dl>
+    <dd>Short Game %</dd>
+    <dt>{{stats.shoreGamePercent}}</dt>
+</dl>
+<dl>
+    <dd>Fairways</dd>
+</dl>
+<dl>
+    <dt>{{stats.fairways}} of {{stats.totalFairways}}</dt>
+</dl>
+</div>

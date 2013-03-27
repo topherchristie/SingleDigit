@@ -61,7 +61,7 @@ app.on('close',function(err){
     if(err){
         console.error('Error Closing',err);
     }
-	dao2.disconnect(function(err){console.error('error closing:' + err);});
+	dao.disconnect(function(err){console.error('error closing:' + err);});
 });
 
 app.get('/', function(req,res){
