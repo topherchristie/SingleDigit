@@ -39,6 +39,7 @@ app.configure(function(){
   app.use("/public/bootstrap/custom",express.static(__dirname + '/public/custom',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/bootstrap",express.static(__dirname + '/components/bootstrap/docs/assets',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/jquery",express.static(__dirname + '/components/jquery',{maxAge: 31557600000, "Cache-Control":"public"}));
+  app.use("/public/datatables",express.static(__dirname + '/components/datatables/media',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/xdate",express.static(__dirname + '/node_modules/xdate/src',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public",express.static(__dirname + '/public'));
   

@@ -34,13 +34,20 @@ div.card dt {
   display: inline-block;
   width: 20px;
 }
+table.scores th {
+  background-color: #1ba7b4;
+}
 table.scores td,
 table.scores th {
   border: solid 1px black;
   font-size: .7em;
+  padding: 0;
+  margin: 0;
 }
 table.scores td {
   text-align: right;
+  background-color: #cccccc;
+  color: black;
 }
 table.scores td.text {
   text-align: left;

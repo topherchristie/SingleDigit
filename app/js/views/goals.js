@@ -6,7 +6,7 @@ define(['views/goal'],function(GoalItemView){
         
         },
         initialize: function(){
-             this.collection.on('add', this.render, this);
+            // this.collection.on('add', this.render, this);
         },
         render:function(){
             

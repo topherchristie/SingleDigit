@@ -1,11 +1,11 @@
-define(['views/scoreTableItem'],function(ScoreTableItemView){
+define(['views/scoreTableItem','fixedColumns'],function(ScoreTableItemView){
     var RecentView = Backbone.View.extend({
         el: '#recentTable',  
         events:{
         
         },
         initialize: function(){
-             this.collection.on('add', this.render, this);
+           //  this.collection.on('add', this.render, this);
         },
         render:function(){
             console.log("rendering: score table view");
@@ -15,6 +15,16 @@ define(['views/scoreTableItem'],function(ScoreTableItemView){
               var item = new ScoreTableItemView({model:score});
                self.$el.append(item.render().el);
             });
+            
+           var oTable =  self.$el.parent().dataTable({
+                "iDisplayLength":25,
+                "sScrollY": 200,
+        "sScrollX": "100%",
+        "sScrollXInner": "110%"
+                
+                
+            });
+            new FixedColumns(oTable);
             return this;
         }
     });
