@@ -34,14 +34,56 @@ div.card dt {
   display: inline-block;
   width: 20px;
 }
+table.scores {
+  border-left: solid 1px;
+  border-top: solid 1px;
+  border-color: #002900;
+  /*width:100%;*/
+
+}
 table.scores td,
 table.scores th {
-  border: solid 1px black;
-  font-size: .7em;
+  /*border:solid 1px;*/
+
+  font-size: .8em;
+  border: none;
+  border-right: solid 1px;
+  border-bottom: solid 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 0;
+}
+table.scores th {
+  background-color: #006600;
+  border-color: #002900;
+  text-align: center;
+  padding-bottom: 1px;
+  padding-top: 1px;
+  line-height: 15px;
 }
 table.scores td {
   text-align: right;
+  color: #555555;
+  border: none;
+  border-right: solid 1px;
+  border-bottom: solid 1px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  background-color: #dddddd;
 }
 table.scores td.text {
   text-align: left;
+  white-space: nowrap;
+}
+table.scores span.slash {
+  display: inline-block;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+@media (max-width: 480px) {
+  .scoreRow,
+  .driving,
+  .shortGame {
+    display: none;
+  }
 }

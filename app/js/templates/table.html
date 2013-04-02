@@ -1,23 +1,33 @@
 <td class="text"><a href="" id="{{_id}}" class="scorelink">{{prettyDate}}</a></td>
-<td class="text">{{course.name}} - {{tee.name}}</td>
+<td class="text courseName" title="{{course.name}} - {{tee.name}}">{{shortName}}</td>
 <td>{{score}}</td>
-<td>{{stats.handicap}}</td>
+<td>{{stats.handicap.toFixed(2)}}</td>
 <td>{{stats.GIR}}</td>
 <td>{{stats.putts}}</td><td>{{stats.onePutts}}</td><td>{{stats.threePutts}}</td>
-<td>{{stats.chipIn}}</td><td>{{stats.chips}}</td><td>{{stats.shortGame}}</td><td>{{stats.ch15}}</td><td>{{stats.avgPuttsWithChip}}</td>
-<td>{{stats.avgPuttsWithoutChip}}</td><td>{{stats.shortGamePercent}}</td>
-<td>{{stats.fairways}} of {{stats.totalFairways}}</td>
-<td>{{stats.fairwayPercent}}</td>
-<td>{{stats.drivePoints}}</td>
-<td>{{stats.playable}} of {{stats.totalFairways}}</td>
-<td>{{stats.playablePercent}}</td>
-<td>{{stats.penalties}}</td>
-<td>{{stats.extra}}</td>
-<td>{{stats.scrambles}} of {{stats.scrambleChances}}</td>
-<td>{{stats.scramblePercent}}</td>
-<td>{{stats.birdies}}</td>
-<td>{{stats.pars}}</td>
-<td>{{stats.bogies}}</td>
-<td>{{stats.doubles}}</td>
-<td>{{stats.others}} </td>
-<td>{{stats.extraChips}} </td>
+<td class="shortGame">{{stats.avgPuttsWithChip.toFixed(2)}}</td>
+<td class="shortGame">{{stats.avgPuttsWithoutChip.toFixed(2)}}</td>
+<td class="shortGame">{{stats.chipIn}}</td>
+<td class="shortGame">{{stats.chips}}</td>
+<td class="shortGame">{{stats.extraChips}} </td>
+<td class="shortGame">{{stats.scrambles}}<span class="slash">/</span>{{stats.scrambleChances}}</td>
+<td class="shortGame">{{stats.scramblePercent}}</td>
+
+<td class="shortGame">{{stats.shortGame}}</td>
+<td class="shortGame">{{stats.shortGamePercent.toFixed(2)}}</td>
+
+<td>{{stats.ch15}}</td>
+<!-- driving -->
+<td class="driving">{{stats.fairways}}<span class="slash">/</span>{{stats.totalFairways}}</td>
+<td class="driving">{{stats.fairwayPercent.toFixed(0)}}</td>
+<td class="driving">{{stats.drivePoints}}</td>
+<td class="driving">{{stats.playable}}<span class="slash">/</span>{{stats.totalFairways}}</td>
+<td class="driving">{{stats.playablePercent.toFixed(0)}}</td>
+
+<td class="scoreRow">{{stats.penalties}}</td>
+<td class="scoreRow">{{stats.extra}}</td>
+<td class="scoreRow">{{stats.birdies}}</td>
+<td class="scoreRow">{{stats.pars}}</td>
+<td class="scoreRow">{{stats.bogies}}</td>
+<td class="scoreRow">{{stats.doubles}}</td>
+<td class="scoreRow">{{stats.others}} </td>
+

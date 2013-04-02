@@ -3,7 +3,8 @@ define(['xdate','scoreCalculator'],function(xdate,scoreCalculator){
         url:'scores',
         initialize:function(){
             var pretty = (new xdate(this.get("date"),true)).toString('yyyy-MM-dd');     
-            
+            var shortName = this.get("course")._id.substring(0,10) + " - " + this.get("tee").name.substring(0,10);
+          
        /*     
             var course = this.get("courseId");
             var teeName = this.get("teeName");
@@ -26,7 +27,7 @@ define(['xdate','scoreCalculator'],function(xdate,scoreCalculator){
             var eagles = this.get("eagles");
             var eagleAstrix = (eagles && eagles > 0)?"*":"";
             
-            this.set({"prettyDate":pretty,"eagleAstrix":eagleAstrix});
+            this.set({"prettyDate":pretty,"eagleAstrix":eagleAstrix,'shortName':shortName});
             
       }
     });

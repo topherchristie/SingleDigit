@@ -38,7 +38,7 @@
 
 // Links
 // -------------------------
-@linkColor:             lighten(@yellow, 15%);
+@linkColor:             lighten(@purple, 15%);
 @linkColorHover:        @linkColor;
 
 
@@ -70,17 +70,17 @@
 @paddingSmall:          8px 12px;  // 34px
 @paddingMini:           4px 8px;   // 28px
 
-@baseBorderRadius:      0;
+@baseBorderRadius:      6px;
 @borderRadiusLarge:     6px;
 @borderRadiusSmall:     3px;
 
 
 // Tables
 // -------------------------
-@tableBackground:                   lighten(#147E88, 10%); // overall background-color
-@tableBackgroundAccent:             lighten(#147E88, 15%); // for striping
-@tableBackgroundHover:              rgba(255, 255, 255, 0.4); // for hover
-@tableBorder:                       lighten(#147E88, 12%); // table and cell border
+@tableBackground:                   #f7f7f7;//lighten(#f7f7f7, 10%); // overall background-color
+@tableBackgroundAccent:             rgb(234, 234, 234);//lighten(#147E88, 15%); // for striping
+@tableBackgroundHover:              lighten(@red,40%); //rgba(255, 255, 255, 0.4); // for hover
+@tableBorder:                       darken(@navbarBackground, 12%);//@blue;//lighten(#999, 12%); // table and cell border
 
 // Buttons
 // -------------------------
