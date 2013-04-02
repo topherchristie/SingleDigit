@@ -1,6 +1,6 @@
 define(['text!templates/goal.html'],function(template){
     var GoalView = Backbone.View.extend({
-        tagName:'dl',
+        tagName:'tr',
         template: _.template(template),
         events:{
             

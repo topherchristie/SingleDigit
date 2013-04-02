@@ -1,12 +1,12 @@
 define(['views/goal'],function(GoalItemView){
     var GoalsView = Backbone.View.extend({
         el: '#goallist',
-        tagName:'div',        
+        tagName:'tbody',        
         events:{
         
         },
         initialize: function(){
-             this.collection.on('add', this.render, this);
+             //this.collection.on('add', this.render, this);
         },
         render:function(){
             

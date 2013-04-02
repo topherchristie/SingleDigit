@@ -15,8 +15,9 @@ define(['text!templates/table.html'],function(template){
             var $el = $(this.el);
          //   $el.data('scoreId', this.model.get('_id'));
             var html =this.template(this.model.toJSON());
+         
             $el.html(html);
-            
+               $el.addClass(this.model.get("className"));
            /* $el.find("td.courseName").each(function(e){
                var html = e.html();
                console.log("content html");

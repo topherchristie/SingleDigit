@@ -139,21 +139,48 @@ exports.reduceByYear = function(callback){
     // reduce it    
     var o = {
         map: function(){
-            emit(this.date.getFullYear(),{"threePutts":this.stats.threePutts,"extraChips":this.stats.extraChips});                
+            emit(this.date.getFullYear(),{
+                "threePutts":this.stats.threePutts,
+                "extraChips":this.stats.extraChips, 
+                "putts":this.stats.putts, 
+                "scramblePercent":this.stats.scramblePercent,
+                "extras":this.stats.extra,
+                "GIR":this.stats.GIR,
+                "drivePoints":this.stats.drivePoints,
+                "score":this.score
+                });                
         },
         scope:{},
         reduce: function(key,vals){
             var total = 0;
             var cnt =0;
             var extraChips = 0;
+            var putts = 0;
+            var scramblePercent=0;
+            var extras = 0;
+            var GIR = 0;
+            var drivePoints =0;
+            var score = 0;
             vals.forEach(function(v){
                 cnt ++;
                 total += v.threePutts;
                 extraChips += v.extraChips;
+                putts += v.putts;
+                scramblePercent += v.scramblePercent;
+                extras += v.extras;
+                GIR += v.GIR;
+                drivePoints += v.drivePoints;
+                score += v.score;
             });
             return {
                 "threePutts": Math.round(total/cnt*10)/10,
-                "extraChips": Math.round(extraChips/cnt*10)/10
+                "extraChips": Math.round(extraChips/cnt*10)/10,
+                "putts": Math.round(putts/cnt*10)/10,
+                "scramblePercent": Math.round(scramblePercent/cnt*10)/10,
+                "extras": Math.round(extras/cnt*10)/10,
+                "GIR": Math.round(GIR/cnt*10)/10,
+                "drivePoints": Math.round(drivePoints/cnt*10)/10,
+                "score": Math.round(score/cnt*10)/10
             };
         },
         query:{}

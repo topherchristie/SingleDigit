@@ -1,15 +1,20 @@
 
-<div class="span10 minGraph">
-    <h2>Recent Scores
-        <button class="btn btn-mini" type="button" data-toggle="modal" data-target="#bookModal"><span class="icon-plus-sign"></span></button>
-    </h2>
-    <div id="recentScores"></div>
-</div>
-<div class="span2 minGraph hero-unit">
-<h2>Goals By Year</h2>
-<div id="goallist" ></div>
-</div>
 
+<div class="span4">
+<h2>Goals By Year</h2>
+<table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores">
+    <thead><tr><th colspan="2">Goal</th><th>Last Year</th><th>This Year</th><th>Year Diff</th><th>Goal</th><th>Goal Diff</th></tr></thead>
+    <tbody id="goallist"></tbody>
+</table>
+</div>
+<div class="span4">
+<h2>Handicap</h2>
+<table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores"></table>
+</div>
+<div class="span12">
+<h2>Recent Scores
+    <button class="btn btn-mini" type="button" data-toggle="modal" data-target="#bookModal"><span class="icon-plus-sign"></span></button>
+</h2>
 <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores">
             <thead>
     <tr>
@@ -32,7 +37,7 @@
         <th colspan="2" class="driving">Playable</th>
         <th class="scoreRow" rowspan="2" title="Penalties">Pens</th>
         <th class="scoreRow" rowspan="2" title="Extras">EX</th>
-        
+        <th class="scoreRow" rowspan="2" title="Eagles">-2</th>
         <th class="scoreRow" rowspan="2" title="Birdies">-1</th>
         <th class="scoreRow" rowspan="2" title="Pars">0</th>
         <th class="scoreRow" rowspan="2" title="Bogies">+1</th>
@@ -65,3 +70,4 @@
         <tbody id="recentTable">
         </tbody>
     </table>
+</div>

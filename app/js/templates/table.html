@@ -9,22 +9,23 @@
 <td class="shortGame">{{stats.chipIn}}</td>
 <td class="shortGame">{{stats.chips}}</td>
 <td class="shortGame">{{stats.extraChips}} </td>
-<td class="shortGame">{{stats.scrambles}}<span class="slash">/</span>{{stats.scrambleChances}}</td>
-<td class="shortGame">{{stats.scramblePercent}}</td>
+<td class="shortGame" title="{{stats.scrambles}} / {{stats.scrambleChances}}">{{scrambleText}}</td>
+<td class="shortGame">{{stats.scramblePercent.toFixed(0)}}</td>
 
 <td class="shortGame">{{stats.shortGame}}</td>
-<td class="shortGame">{{stats.shortGamePercent.toFixed(2)}}</td>
+<td class="shortGame">{{stats.shortGamePercent.toFixed(0)}}</td>
 
 <td>{{stats.ch15}}</td>
 <!-- driving -->
-<td class="driving">{{stats.fairways}}<span class="slash">/</span>{{stats.totalFairways}}</td>
+<td class="driving" title="{{stats.fairways}} / {{stats.totalFairways}}">{{fairwayText}}</td>
 <td class="driving">{{stats.fairwayPercent.toFixed(0)}}</td>
 <td class="driving">{{stats.drivePoints}}</td>
-<td class="driving">{{stats.playable}}<span class="slash">/</span>{{stats.totalFairways}}</td>
+<td class="driving" title="{{stats.playable}} / {{stats.totalFairways}}">{{playableText}}</td>
 <td class="driving">{{stats.playablePercent.toFixed(0)}}</td>
 
 <td class="scoreRow">{{stats.penalties}}</td>
 <td class="scoreRow">{{stats.extra}}</td>
+<td class="scoreRow">{{stats.eagles}}</td>
 <td class="scoreRow">{{stats.birdies}}</td>
 <td class="scoreRow">{{stats.pars}}</td>
 <td class="scoreRow">{{stats.bogies}}</td>
