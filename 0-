@@ -1,0 +1,11 @@
+--2013-04-03 16:26:17--  https://toolbelt.heroku.com/install.sh
+Resolving toolbelt.heroku.com... 50.16.215.104, 107.22.234.17, 174.129.23.129, ...
+Connecting to toolbelt.heroku.com|50.16.215.104|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 849 [text/plain]
+Saving to: “install.sh”
+
+     0K                                                       100% 69.0M=0s
+
+2013-04-03 16:26:18 (69.0 MB/s) - “install.sh” saved [849/849]
+

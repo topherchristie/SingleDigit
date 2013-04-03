@@ -1,38 +1,48 @@
-div.card {
-  padding: 2px;
-  border-bottom: solid 1px #cccccc;
+/*
+div.card{
+    padding: 2px;
+    border-bottom: solid 1px #cccccc;
+    .scoreDate{
+        font-size:.8em;
+        line-height:12px;
+    }
+    .tee{
+        font-size:.8em;
+        padding-top:0px;
+    }
+    .course{
+        padding-bottom:0px;
+    }
+    dl{
+        font-size:.8em;
+        display:inline-block;
+        padding:0;
+        margin:0;
+    }
+    dd{
+        display:inline-block;
+        width:60px;
+        white-space:nowrap;
+    }
+    dt{
+        display:inline-block;
+        width:20px;
+        text-align:right;
+    }
 }
-div.card .scoreDate {
-  font-size: .8em;
-  line-height: 12px;
+#goallist {
+    dd{
+        text-align:right;
+        display:inline-block;
+        width:20px;
+    }
 }
-div.card .tee {
-  font-size: .8em;
-  padding-top: 0px;
+*/
+div.scorecard {
+  color: black;
 }
-div.card .course {
-  padding-bottom: 0px;
-}
-div.card dl {
-  font-size: .8em;
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-}
-div.card dd {
-  display: inline-block;
-  width: 60px;
-  white-space: nowrap;
-}
-div.card dt {
-  display: inline-block;
-  width: 20px;
-  text-align: right;
-}
-#goallist dd {
-  text-align: right;
-  display: inline-block;
-  width: 20px;
+div.scorecard h5 {
+  color: black;
 }
 table.scores {
   border-left: solid 1px;
@@ -47,8 +57,8 @@ table.scores th {
 
   font-size: .8em;
   border: none;
-  border-right: solid 1px;
-  border-bottom: solid 1px;
+  border-right: solid 1px #002900;
+  border-bottom: solid 1px #002900;
   padding-left: 2px;
   padding-right: 2px;
   margin: 0;
@@ -60,6 +70,7 @@ table.scores th {
   padding-bottom: 1px;
   padding-top: 1px;
   line-height: 15px;
+  color: white;
 }
 table.scores td {
   text-align: right;
@@ -84,10 +95,24 @@ table.scores tr.goalFoot td {
   background-color: #00BCE1;
   color: black;
 }
+#scoreModal {
+  width: 700px;
+}
 @media (max-width: 480px) {
   .scoreRow,
   .driving,
   .shortGame {
     display: none;
+  }
+}
+@media (max-width: 767px) {
+  div.modal.fade {
+    top: -100px;
+  }
+  div.modal {
+    width: 100%;
+  }
+  div.modal.fade.in {
+    top: 20px;
   }
 }

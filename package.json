@@ -17,7 +17,8 @@
         "vows":"*",
         "should":"*",
         "uglify-js":"*",
-        "less":"*"
+        "less":"*",
+        "requirejs":"*"
   },
   "engines": {
     "node": "0.x.x",

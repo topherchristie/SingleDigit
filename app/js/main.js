@@ -20,6 +20,7 @@ requirejs.config({
 });
 require(['app'],
     function(App){
+        console.log('main.js App is created');
           _.templateSettings = {    interpolate: /\{\{(.+?)\}\}/g  };
         window.Golf = new App();
     }

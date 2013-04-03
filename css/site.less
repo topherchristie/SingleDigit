@@ -1,3 +1,4 @@
+/*
 div.card{
     padding: 2px;
     border-bottom: solid 1px #cccccc;
@@ -36,31 +37,36 @@ div.card{
         width:20px;
     }
 }
+*/
+div.scorecard{
+    color:black;
+    h5{
+        color:black;
+    }
+}
 table.scores{
-   
     border-left:solid 1px;
     border-top:solid 1px;
-     border-color:#002900;
+    border-color:#002900;
     /*width:100%;*/
     td,th {
         /*border:solid 1px;*/
-       
         font-size:.8em;
         border:none;
-        border-right:solid 1px;
-        border-bottom:solid 1px;
+        border-right:solid 1px #002900;
+        border-bottom:solid 1px #002900;
         padding-left:2px;
         padding-right:2px;
-
         margin:0;
     }
     th{
         background-color:#006600;
-         border-color:#002900;
+        border-color:#002900;
         text-align:center;
         padding-bottom:1px;
         padding-top:1px;
         line-height: 15px;
+        color:white;
     }
     td{
         text-align:right;
@@ -86,8 +92,22 @@ table.scores{
         color:black;
     }
 }
+#scoreModal{
+      width:700px;
+}
 @media( max-width:480px){
     .scoreRow, .driving, .shortGame{
         display:none;
     }
+}
+@media (max-width: 767px) {
+  div.modal.fade {
+    top: -100px;
+  }
+  div.modal{
+      width:100%;
+  }
+  div.modal.fade.in {
+    top: 20px;
+  }
 }

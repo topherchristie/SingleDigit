@@ -1,6 +1,6 @@
+* Highlight cells based on Goal Record
 * add fixed link to toggle table view (putt, score, chip, drive) for small screens
 * Filter by Year or Course, last 5, 10, 20
-* Highlight cells based on Goal Record
 * allow adding course
 * allow adding tee
 * allow adding score + stats hole by hole
@@ -8,3 +8,25 @@
 * make mouse over bar chart of goals by round, with running average line, and const goal line
 * design then add Handicap table
 * port Handicap predictor
+* add score card view
+* Hole Score Entry Form
+    * Course (readonly)
+    * Tee (readonly)
+    * Hole # (readonly)
+    * yards
+    * par
+    * score
+    * putts
+    * chips
+    * fairway
+    * club off tee
+    * drive points
+    * penalties
+    * playable drive
+    * approach distance
+    * approach club
+    * approach result distance (Geen, short, long, Miss Hit)
+    * approach result direction (left, right, miss hit)
+    * Sand Shot
+    * 1st putt distance
+    * made putt distance

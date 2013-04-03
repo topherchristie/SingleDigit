@@ -1,0 +1,51 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h5>{{course.name}}</h5>
+  </div>
+  <div class="modal-body">
+    <table class="scores scoreFront table table-bordered">
+        <thead>
+            <tr>
+                <th>Hole</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>Out</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        {{frontTable}}
+    </table>
+     <table class="scores scoreBack table table-bordered">
+        <thead>
+            <tr>
+                <th>Hole</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
+                <th>13</th>
+                <th>14</th>
+                <th>15</th>
+                <th>16</th>
+                <th>17</th>
+                <th>18</th>
+                <th>In</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{backTable}}
+        </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+  <a href="#" class="btn btn-primary" id="btnFront">Front</a><a href="#" class="btn" id="btnBack">Back</a><a href="#" class="btn" id="btnStats" >Stats</a>
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="/book/all" class="btn">Not sure</a>
+  </div>
