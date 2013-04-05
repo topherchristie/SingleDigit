@@ -6,6 +6,14 @@ define(['views/scoreTableItem','models/score','models/sum'],function(ScoreTableI
         initialize: function(){
             // this.collection.on('add', this.render, this);
         },
+        hide:function(){
+          this.$el.parent().parent().hide();  
+          return this;
+        },
+        show:function(){
+          this.$el.parent().parent().show();  
+          return this;
+        },
         render:function(){
             console.log("rendering: score table view");
             var self = this;

@@ -123,7 +123,7 @@ exports.getScores = function(userId,callback){
 };
 
 exports.getCourses = function(callback){
-    CourseModel.find(callback);
+    CourseModel.find().sort("name").exec(callback);
 };
 
 

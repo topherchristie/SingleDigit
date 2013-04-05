@@ -83,7 +83,12 @@ app.get('/goals',function(req,res){
     });
 });
 
-
+app.get('/courses',function(req,res){
+    dao.getCourses(function(err,result){
+        if(err) throw err;
+        res.json(result); 
+    });
+});
 if(process.env.PORT){
     app.listen(process.env.PORT,process.env.IP);
     console.log("listening at",process.env.PORT);

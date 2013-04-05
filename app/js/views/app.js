@@ -11,6 +11,7 @@ define(['text!templates/app.html'],function(template){
             console.log('appview initialized');
         },
         render: function(){
+          
             console.log('appview rendered');
             this.$el.html(this.template());
             return this;

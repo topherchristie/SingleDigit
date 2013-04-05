@@ -49,9 +49,9 @@ define(['text!templates/scorecard.html'],function(template){
             html += this.getRow(holes,index,"Score","score",this.model.get("score"));
             html += this.getRow(holes,index,"Putts","putts",this.model.get("stats").putts);
             html += this.getBoolRow(holes,tee.holes,index,"GIR","GIR",this.model.get("stats").GIR);
-            html += this.getFairwayRow(holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"&&val=="hit");});
+            html += this.getFairwayRow(holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"||val=="hit");});
             html += this.getFairwayRow(holes,index,"Playable","playable",this.model.get("stats").playablePercent,function(val) {return val;});
-            
+            html += this.getRow(holes,index,"Penalties","penalties",this.model.get("stats").penalties);
             html += "</tbody>";
             return html;
          },
@@ -61,8 +61,12 @@ define(['text!templates/scorecard.html'],function(template){
                 var sum = 0;
                 for(var i = 0;i< 9;i++){
                     var val = holes[index+i][stat];
-                    sum += val;
-                    html += "<td>" + val + "</td>";
+                    if(typeof val != 'undefined'){
+                        sum += val;
+                        html += "<td>" + val + "</td>";
+                    }else{
+                        html += "<td>0</td>";
+                    }
                 }
                 html += "<td>" + sum + "</td>";
                 html += "<td>" + total + "</td>";
