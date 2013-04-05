@@ -119,6 +119,9 @@ var ScoreCalculator = (function(){
             total.puttsPerHole = Math.round(total.putts / 18 * 10)/10;
             return total;
         };
+     var getExtra = proto.getExtra = function(scoreHole, teeHolePar){
+            return scoreHole.score - (scoreHole.chips+scoreHole.putts) - (teeHolePar -2);// - (scoreHole.penalties?scoreHole.penalties:0);
+        }
     var processHole = function (scoreHole,teeHole){
         var result = scoreHole;
         result.GIR = false;
@@ -128,7 +131,11 @@ var ScoreCalculator = (function(){
         
         result.Ch15 = (result.GIR && result.putts>2);
         result.shortGame = result.chips+result.putts;	
-        result.extra = scoreHole.score - scoreHole.shortGame - (teeHole.par -2);
+        if(scoreHole.penalties)
+            result.penalties = scoreHole.penalties;
+        else
+            result.penalties = 0;
+        result.extra = getExtra(result,teeHole.par);
         result.par = teeHole.par;
         result.yards = teeHole.yards;
         result.fairway = scoreHole.fairway;

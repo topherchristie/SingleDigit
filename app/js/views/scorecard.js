@@ -1,4 +1,4 @@
-define(['text!templates/scorecard.html'],function(template){
+define(['text!templates/scorecard.html','scoreCalculator'],function(template,scoreCalculator){
     var RecentView = Backbone.View.extend({
         el: '#scoreModal',  
         tagName:"div",
@@ -49,10 +49,12 @@ define(['text!templates/scorecard.html'],function(template){
             html += this.getScoreRow(holes,tee.holes,index,"Score","score",this.model.get("score"));
             html += this.getRow(holes,index,"Putts","putts",this.model.get("stats").putts);
             html += this.getBoolRow(holes,tee.holes,index,"GIR","GIR",this.model.get("stats").GIR);
+            html += this.getRow(holes,index,"Chips","chips",this.model.get("stats").chips);
             html += this.getFairwayRow(holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"||val=="hit");});
             html += this.getFairwayRow(holes,index,"Playable","playable",this.model.get("stats").playablePercent,function(val) {return val;});
+            html += this.getExtraRow(holes,tee.holes,index,"Extras",this.model.get("stats").extra);
             html += this.getRow(holes,index,"Penalties","penalties",this.model.get("stats").penalties);
-            html += this.getRow(holes,index,"Chips","chips",this.model.get("stats").chips);
+            
             html += "</tbody>";
             return html;
          },
@@ -62,6 +64,27 @@ define(['text!templates/scorecard.html'],function(template){
                 var sum = 0;
                 for(var i = 0;i< 9;i++){
                     var val = holes[index+i][stat];
+                    if(typeof val != 'undefined'){
+                        sum += val;
+                        html += "<td>" + val + "</td>";
+                    }else{
+                        html += "<td>0</td>";
+                    }
+                }
+                html += "<td>" + sum + "</td>";
+                html += "<td>" + total + "</td>";
+            html += "</tr>";
+            return html;
+        },
+        getExtraRow: function(holes,teeHoles,index,label,total){
+            var html = "<tr>";
+                html += "<th>" + label + "</th>";
+                var sum = 0;
+                for(var i = 0;i< 9;i++){
+                    var scoreHole = holes[index+i];
+                    var teeHole = teeHoles[index+i];
+                    var val = (new scoreCalculator()).getExtra(scoreHole,teeHole.par);//holes[index+i][stat];
+                    console.log("getExtraRow:",val);
                     if(typeof val != 'undefined'){
                         sum += val;
                         html += "<td>" + val + "</td>";

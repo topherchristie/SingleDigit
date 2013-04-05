@@ -1,7 +1,5 @@
 
 
-// End Authentication Setup
-
 var flash = require('connect-flash');
 var express = require('express');
 var app = module.exports = express();
@@ -75,6 +73,22 @@ app.get('/scores',function(req,res){
         res.json(result) ; 
     });
 });
+app.get('/scores/refresh',function(req,res){
+    var async = require("async");
+    dao.getScores('me',function(err,scores){
+        if(err) throw err;
+        async.eachLimit(scores,5,
+            function(score,callback){
+                console.log('saving');
+                score.save(callback);
+            },
+            function(err){
+                if(err) throw err;
+                res.send('finished refreshing');
+            }
+        );
+    }); 
+});
 var goalManager = require('./domain/goalManager');
 app.get('/goals',function(req,res){
     dao.reduceByYear(function(err,result){
@@ -89,6 +103,11 @@ app.get('/courses',function(req,res){
         res.json(result); 
     });
 });
+
+app.get('/handicap/month',function(req,res){
+    res.json([]);
+});
+
 if(process.env.PORT){
     app.listen(process.env.PORT,process.env.IP);
     console.log("listening at",process.env.PORT);
