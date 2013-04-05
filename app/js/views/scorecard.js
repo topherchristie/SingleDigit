@@ -52,6 +52,7 @@ define(['text!templates/scorecard.html'],function(template){
             html += this.getFairwayRow(holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"||val=="hit");});
             html += this.getFairwayRow(holes,index,"Playable","playable",this.model.get("stats").playablePercent,function(val) {return val;});
             html += this.getRow(holes,index,"Penalties","penalties",this.model.get("stats").penalties);
+            html += this.getRow(holes,index,"Chips","chips",this.model.get("stats").chips);
             html += "</tbody>";
             return html;
          },
@@ -83,7 +84,6 @@ define(['text!templates/scorecard.html'],function(template){
                         sum += val;
                         var diff = val - teeHoles[index+i].par;
                         var className = getScoreClassName(diff);
-                        console.log(diff,className);
                         html += "<td class='" + className + "'>" + val + "</td>";
                     }else{
                         html += "<td class='bogie'>0</td>";
@@ -99,8 +99,9 @@ define(['text!templates/scorecard.html'],function(template){
             var sum = 0;
             for(var i = 0;i< 9;i++){
                 var val = holes[index+i];
-                var gir = ((teeHoles[i].par - 2 ) >= ( val.score - val.putts));
-                console.log('bool row:',gir);
+                var gir = ((teeHoles[index+i].par - 2 ) >= ( val.score - val.putts));
+                
+                console.log('bool row:',index+i,gir);
                 if(gir){
                     sum += 1;
                     html += "<td><i class='icon icon-ok' /></td>";

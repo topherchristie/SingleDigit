@@ -1,43 +1,3 @@
-/*
-div.card{
-    padding: 2px;
-    border-bottom: solid 1px #cccccc;
-    .scoreDate{
-        font-size:.8em;
-        line-height:12px;
-    }
-    .tee{
-        font-size:.8em;
-        padding-top:0px;
-    }
-    .course{
-        padding-bottom:0px;
-    }
-    dl{
-        font-size:.8em;
-        display:inline-block;
-        padding:0;
-        margin:0;
-    }
-    dd{
-        display:inline-block;
-        width:60px;
-        white-space:nowrap;
-    }
-    dt{
-        display:inline-block;
-        width:20px;
-        text-align:right;
-    }   
-}
-#goallist {
-    dd{
-        text-align:right;
-        display:inline-block;
-        width:20px;
-    }
-}
-*/
 div.scorecard {
   color: black;
 }
@@ -48,8 +8,6 @@ table.scores {
   border-left: solid 1px;
   border-top: solid 1px;
   border-color: #002900;
-  /*width:100%;*/
-
 }
 table.scores td,
 table.scores th {
@@ -76,19 +34,21 @@ table.scores td.eagle {
   background-color: #cdff00;
 }
 table.scores td.birdie {
-  background-color: #339aff;
+  background-color: #2fff51;
 }
 table.scores td.par {
-  background-color: #33cdff;
+  background-color: #2fddff;
+  /*#33CC66;*/
+
 }
 table.scores td.bogie {
   background-color: inherit;
 }
 table.scores td.double {
-  background-color: #ff9a33;
+  background-color: #CC3299;
 }
 table.scores td.other {
-  background-color: #ff0033;
+  background-color: #ff512f;
 }
 table.scores td.text {
   text-align: left;
@@ -113,8 +73,23 @@ table.scores tr.goalFoot td {
   background-color: #00BCE1;
   color: black;
 }
+table.scorecard {
+  margin-bottom: 0px;
+}
+table.scorecard thead th {
+  width: 35px;
+}
+table.scorecard thead th:nth-child(1) {
+  width: auto;
+}
+table.scorecard thead th:last-child {
+  width: 45px;
+}
 #scoreModal {
-  width: 700px;
+  width: 550px;
+}
+#scoreModal .modal-body {
+  padding: 5px;
 }
 @media (max-width: 480px) {
   .scoreRow,
