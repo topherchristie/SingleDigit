@@ -46,7 +46,7 @@ define(['text!templates/scorecard.html'],function(template){
             var html = "<tbody>";
             html += this.getRow(tee.holes,index,"Yards","yards",tee.yards);
             html += this.getRow(tee.holes,index,"Par","par",tee.par);
-            html += this.getRow(holes,index,"Score","score",this.model.get("score"));
+            html += this.getScoreRow(holes,tee.holes,index,"Score","score",this.model.get("score"));
             html += this.getRow(holes,index,"Putts","putts",this.model.get("stats").putts);
             html += this.getBoolRow(holes,tee.holes,index,"GIR","GIR",this.model.get("stats").GIR);
             html += this.getFairwayRow(holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"||val=="hit");});
@@ -70,6 +70,27 @@ define(['text!templates/scorecard.html'],function(template){
                 }
                 html += "<td>" + sum + "</td>";
                 html += "<td>" + total + "</td>";
+            html += "</tr>";
+            return html;
+        },
+        getScoreRow: function(holes,teeHoles,index,label,stat,total){
+            var html = "<tr>";
+                html += "<th>" + label + "</th>";
+                var sum = 0;
+                for(var i = 0;i< 9;i++){
+                    var val = holes[index+i][stat];
+                    if(typeof val != 'undefined'){
+                        sum += val;
+                        var diff = val - teeHoles[index+i].par;
+                        var className = getScoreClassName(diff);
+                        console.log(diff,className);
+                        html += "<td class='" + className + "'>" + val + "</td>";
+                    }else{
+                        html += "<td class='bogie'>0</td>";
+                    }
+                }
+                html += "<td class='bogie'>" + sum + "</td>";
+                html += "<td class='bogie'>" + total + "</td>";
             html += "</tr>";
             return html;
         },
@@ -115,5 +136,22 @@ define(['text!templates/scorecard.html'],function(template){
             return html;
         }
     });
+    function getScoreClassName(diff){
+        switch(diff){
+            case -3:
+            case -2:
+                return "eagle";
+            case -1:
+                return "birdie";
+            case 0:
+                return "par";
+            case 1:
+                return "bogie";
+            case 2:
+                return "double";
+            default:
+                return "other";
+        }
+    }
     return RecentView;
 });

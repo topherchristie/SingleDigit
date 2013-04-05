@@ -28,7 +28,7 @@ div.card{
         display:inline-block;
         width:20px;
         text-align:right;
-    }
+    }   
 }
 #goallist {
     dd{
@@ -72,6 +72,28 @@ table.scores th {
   line-height: 15px;
   color: white;
 }
+table.scores td.eagle {
+  background-color: #cdff00;
+}
+table.scores td.birdie {
+  background-color: #339aff;
+}
+table.scores td.par {
+  background-color: #33cdff;
+}
+table.scores td.bogie {
+  background-color: inherit;
+}
+table.scores td.double {
+  background-color: #ff9a33;
+}
+table.scores td.other {
+  background-color: #ff0033;
+}
+table.scores td.text {
+  text-align: left;
+  white-space: nowrap;
+}
 table.scores td {
   text-align: right;
   color: #555555;
@@ -81,10 +103,6 @@ table.scores td {
   padding-bottom: 2px;
   padding-top: 2px;
   background-color: #dddddd;
-}
-table.scores td.text {
-  text-align: left;
-  white-space: nowrap;
 }
 table.scores span.slash {
   display: inline-block;
