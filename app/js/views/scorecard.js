@@ -54,6 +54,7 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             html += this.getFairwayRow(holes,index,"Playable","playable",this.model.get("stats").playablePercent,function(val) {return val;});
             html += this.getExtraRow(holes,tee.holes,index,"Extras",this.model.get("stats").extra);
             html += this.getRow(holes,index,"Penalties","penalties",this.model.get("stats").penalties);
+            html += this.getRow(holes,index,"Dr Pnts","drivePoints",this.model.get("stats").drivePoints);
             
             html += "</tbody>";
             return html;

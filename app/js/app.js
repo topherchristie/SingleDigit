@@ -1,7 +1,7 @@
 define(['views/app','collections/scorelist','views/recent','views/recentTable','collections/goallist','views/goals','config'
-        ,'collections/courselist','views/courses'
+        ,'views/courseLayer'
         ], function(AppView,ScoreList,RecentView,RecentTableView,GoalList,GoalsView,config
-        ,CourseList,CourseListView){
+        , CourseLayer){
    var App = function(){
        
       console.log('app loaded');
@@ -10,12 +10,11 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
      
       this.collections.scores = new ScoreList();
       this.collections.goals = new GoalList();      
-      this.collections.courses = new CourseList();
       
-      //this.views.recent = new RecentView({collection:this.collections.scores});
       this.views.recentTable = new RecentTableView({collection:this.collections.scores});
       this.views.goals = new GoalsView({collection:this.collections.goals});
-      this.views.courses = new CourseListView({collection:this.collections.courses});
+      
+      this.views.courseLayer = new CourseLayer();
       
       console.log("render!");
       this.init();
@@ -28,15 +27,20 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
            var self = this;
            self.collections.scores.fetch({data:{},success: function(res){ self.views.recentTable.render(); }});
            self.collections.goals.fetch({data:{},success: function(res){ self.views.goals.render();}});
-           self.collections.courses.fetch({data:{},success: function(res){ self.views.courses.hide().render(); }});
+           
+           self.views.courseLayer.hide();
             $("body").on("click","#coursesLink",function(){
                 self.views.recentTable.hide();
-                self.views.courses.show();
+                self.views.courseLayer.show();
+              //  $('div#courseLayer').show();
             });
              $("body").on("click","#scoresLink",function(){
-                self.views.courses.hide();
+                self.views.courseLayer.hide();
+                //$('div#courseLayer').hide();
                 self.views.recentTable.show();
             });
+            $('div#courseLayer').hide();
+            self.views.courseLayer.hide();
        }
        
    };

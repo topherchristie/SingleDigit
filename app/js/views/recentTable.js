@@ -104,7 +104,7 @@ define(['views/scoreTableItem','models/score','models/sum'],function(ScoreTableI
                 avgPuttsWithChip:1.6,
                 fairways:8, totalFairways:14,
                 fairwayPercent:57,
-                drivePoints:4,
+                drivePoints:7,
                 playable:12,
                 playablePercent:85.7,
                 chips:10,

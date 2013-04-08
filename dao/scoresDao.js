@@ -135,6 +135,49 @@ exports.addNewTee = function(newTee,callback){
 exports.getTee = function(courseId, teeName, callback){
     TeeModel.findOne({"course":courseId,"name":teeName},callback);
 };
+exports.reduceByCourse = function(courseId,callback){
+    var r = {
+        map: function(){
+            
+            this.holes.forEach(function(h){
+                if(h.fairway){
+                    var fairways = h.fairway=="Hit"||h.fairway =="hit"?1:0;
+                    var playable = h.playable?1:0;
+                    emit(h.id,{"par3":false,
+                        "fairway":fairways,
+                        "playable":playable,
+                        "fairwayPercent":(fairways/1*100).toFixed(0),
+                        "playablePercent":(playable/1*100).toFixed(0)}
+                    );
+                }else{
+                    emit(h.id,{"par3":true,"fairwayPercent":'n/a','playablePercent':'n/a'});
+                }
+            });
+        },
+        scope:{},
+        reduce: function(key,vals){
+            var fairways = 0;
+            var playable =0, count = 0;
+            vals.forEach(function(v){
+                if(!vals.par3){
+                    count++;
+                    fairways += v.fairway;
+                    playable += v.playable;
+                }
+            });
+            return {
+                "par3": vals[0].par3,
+                "count": count,
+                "fairway":fairways,
+                "playable":playable,
+                "fairwayPercent":count===0?'n/a':(fairways/count*100).toFixed(0),
+                "playablePercent":count===0?'n/a':(playable/count*100).toFixed(0)
+            };
+        },
+        query:{"course":courseId}
+    };
+    ScoreModel.mapReduce(r,callback);
+};
 exports.reduceByYear = function(callback){
     // reduce it    
     var o = {

@@ -30,9 +30,9 @@ vows.describe('goal reduce Tests').addBatch({
           should.exist(topic);
           topic.should.be.an.instanceOf(Array);
         },
-        'array length = 4':function(topic){
+        'array length = 8':function(topic){
             should.exist(topic);
-            topic.length.should.equal(4);
+            topic.length.should.equal(8);
         },
         'first goal is 3 putts':function(topic){
             should.exist(topic);
@@ -85,8 +85,8 @@ vows.describe('goal reduce Tests').addBatch({
         'returns array':function(topic){
           topic.should.be.an.instanceOf(Array);
         },
-        'array length = 4':function(topic){
-            topic.length.should.equal(4);
+        'array length = 8':function(topic){
+            topic.should.have.lengthOf(8);
         },
         'first goal is 3 putts':function(topic){
             topic[0].id.should.equal("3 putt");

@@ -104,6 +104,17 @@ app.get('/courses',function(req,res){
     });
 });
 
+app.get('/course/stats',function(req,res){
+    var cId = req.query.courseId
+    dao.reduceByCourse(cId,function(err,result){
+        if(err) throw err;
+        var model = {"holes":result,"courseId":cId};
+        res.json(model); 
+    });
+});
+
+
+
 app.get('/handicap/month',function(req,res){
     res.json([]);
 });

@@ -18,7 +18,7 @@ vows.describe('goal reduce Tests').addBatch({
               topic.should.be.an.instanceOf(Array);
           },
           'array length should be 2':function(topic){
-              topic.length.should.equal(2);
+              topic.should.have.lengthOf(2);
           },
           'first should be 2012':function(topic){
                 topic[0]._id.should.equal(2012);
