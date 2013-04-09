@@ -9,7 +9,6 @@ define(['collections/courselist','views/courses'],function(CourseList,CourseList
             $(this.el).hide();
         },
         show:function(){
-            
             var self = this;
             this.collections.courses.fetch({
                 data:{},
@@ -18,13 +17,11 @@ define(['collections/courselist','views/courses'],function(CourseList,CourseList
                     $(self.el).show();
                 }
             });
-            
         },
         collections:[],
         views:[],
         initialize: function(){
              //this.collection.on('add', this.render, this);
-            
             this.collections.courses = new CourseList();
             this.views.courses = new CourseListView({collection:this.collections.courses});
         },

@@ -12,11 +12,26 @@
   <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores"></table>
 </div>
 <div id="courseLayer" class="span12 row-fluid">
-    <div class="span4">
-        <h2>Course List by Name</h2>
-        <ul id="courselist" class="unstyled courselist"></ul>
+    <div class="span3">
+        <h2>Course List</h2>
+        <ul id="courselist" class="courselist unstyled"></ul>
     </div>
-    <div id="courseStats" class="span8">Yo Yo, check it out</div>
+    <div class="span9">
+        <div class="tabbable">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="#tab1" data-toggle="tab">Hole by Hole</a></li>
+            <li><a href="#tab2" data-toggle="tab">Handicap Predictor</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                 <div id="courseStats"></div>   
+            </div>
+            <div class="tab-pane" id="tab2">
+            </div>
+        </div>
+        </div>
+    </div>
+    
 </div>
 <div class="span12">
 <h2>Recent Scores

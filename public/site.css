@@ -123,12 +123,11 @@ ul.courselist li a {
   text-shadow: 0 1px 0 #006600;
   color: white;
   font-size: 1.1em;
-  font-weight: bold;
   width: 100%;
   display: inline-block;
 }
 ul.courselist li span {
-  margin-left: 5px;
+  padding: 10px;
 }
 ul.courselist li a:hover,
 ul.courselist li a.active {

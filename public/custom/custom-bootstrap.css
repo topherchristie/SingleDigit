@@ -5253,6 +5253,15 @@ a.badge:focus {
 .affix {
   position: fixed;
 }
+a {
+  color: #dddddd;
+}
+table a {
+  color: #4d3a7d;
+}
+.nav-pills {
+  margin-bottom: 0px;
+}
 .pull-right {
   float: right;
 }
