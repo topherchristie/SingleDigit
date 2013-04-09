@@ -61,10 +61,10 @@ app.on('close',function(err){
     }
 	dao.disconnect(function(err){console.error('error closing:' + err);});
 });
-
+var helper = require("./helper");
 app.get('/', function(req,res){
     var locals = {"title":"Golf Home",scores:dao.getScores()};
-    res.render("index.html",locals);  
+    helper.render(req,res,"index.html",locals);  
  //   res.send("hello world");
 });
 
@@ -83,8 +83,10 @@ app.get('/scores/refresh',function(req,res){
                 score.save(callback);
             },
             function(err){
-                if(err) throw err;
-                res.send('finished refreshing');
+                if(err) throw res.send(err);
+//                res.send('finished refreshing',err);
+                req.flash("info",'finished refreshing score stats');
+                res.redirect("/");
             }
         );
     }); 

@@ -1,5 +1,5 @@
 
-    <h2>{{courseId}} Course Stats</h2>
+    <h2>{{courseName}} Course Stats</h2>
     
 <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores">
     <thead>
@@ -7,6 +7,10 @@
         <th>#</th>
         <th>Fairway %</th>
         <th>Playable %</th>
+        <th>GIR %</th>
+        <th>Avg Putts</th>
+        <th>Avg Score to Par</th>
+        <th>Total Penalties</th>
     </tr>
     </thead>
     <tbody>
@@ -15,6 +19,10 @@
         <td>{{hole._id}}</td>
         <td title="{{hole.value.fairway}} of {{hole.value.count}}">{{hole.value.fairwayPercent}}</td>
         <td title="{{hole.value.playable}} of {{hole.value.count}}">{{hole.value.playablePercent}}</td>
+        <td title="{{hole.value.GIR}} of {{hole.value.count}}">{{hole.value.GIRPercent}}</td>
+        <td title="">{{hole.value.avgPutts}}</td>
+        <td title="">{{hole.value.avgScoreToPar}}</td>
+        <td>{{hole.value.penalties}}</td>
     </tr>
     <% }); %>
     </tbody>

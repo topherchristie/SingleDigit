@@ -109,3 +109,32 @@ table.scorecard thead th:last-child {
     top: 20px;
   }
 }
+ul.courselist {
+  background-color: #006600;
+  padding-left: 0px;
+  border: solid 1px black;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+ul.courselist li {
+  padding: 0px;
+}
+ul.courselist li a {
+  text-shadow: 0 1px 0 #006600;
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  width: 100%;
+  display: inline-block;
+}
+ul.courselist li span {
+  margin-left: 5px;
+}
+ul.courselist li a:hover,
+ul.courselist li a.active {
+  text-decoration: none;
+  background-color: #009900;
+  -webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+  -moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+}

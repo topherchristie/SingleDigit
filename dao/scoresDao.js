@@ -69,8 +69,21 @@ var ScoreSchema = new Schema({
 
 var scoreCalculator = new (require('../app/js/lib/scoreCalculator'))();
 ScoreSchema.pre('save',function(next){
+    
+    if(this.tee && this.tee.holes){
+        var self = this;
+        this.holes.forEach(function(h){
+            var teeHole = self.tee.holes[h.id-1];
+            if(teeHole){
+                h.stats = scoreCalculator.calculateHole(h,teeHole.par);
+            }
+        });
+    }else{
+        console.log('saving score,tee or tee.holes is false');
+    }
     this.stats = scoreCalculator.calc(this.score,this.ESC,this.holes,this.course,this.tee);
-    console.log(this.stats.extra);
+    this.markModified('holes');
+   //console.log(this.stats.extra);
     next();
 });
 
@@ -98,7 +111,22 @@ var HoleSchema = new Schema({
   drivePoints: Number,
   penalties :{type:Number,default:0},
   playable: Boolean,//{type:Boolean,default:false},
-  approachDistance:Number
+  approachDistance:Number,
+  stats :{
+    //  extraChips:Number,
+      overPar:Number,
+     // ch15:Boolean,
+     // chipIn:Boolean,
+      GIR:Boolean,
+      hasFairway:Boolean,
+      fairwayHit:Boolean//,
+     // playable:Boolean,
+     // shortGame:Number,
+     // shortGamePercent:Number,
+     // fairwayPercent:Number,
+     // playablePercent:Number,
+  //    extra:Number
+  }
 });
 //var dburl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/golfism';
 //var dburl2= 'mongodb://singleDigitUser:pizza4All@ds031947.mongolab.com:31947/golfism';
@@ -140,38 +168,66 @@ exports.reduceByCourse = function(courseId,callback){
         map: function(){
             
             this.holes.forEach(function(h){
-                if(h.fairway){
-                    var fairways = h.fairway=="Hit"||h.fairway =="hit"?1:0;
-                    var playable = h.playable?1:0;
-                    emit(h.id,{"par3":false,
-                        "fairway":fairways,
-                        "playable":playable,
-                        "fairwayPercent":(fairways/1*100).toFixed(0),
-                        "playablePercent":(playable/1*100).toFixed(0)}
-                    );
+                var par3,fairways,playable,fairwayPercent,playablePercent;
+                
+                if(h.stats.hasFairway){
+                    par3=false;
+                    fairways = h.stats.fairwayHit?1:0;
+                    playable = h.playable?1:0;
+                   // var gir = h.gir;
+                    fairwayPercent= (fairways/1*100).toFixed(0);
+                    playablePercent=(playable/1*100).toFixed(0);
                 }else{
-                    emit(h.id,{"par3":true,"fairwayPercent":'n/a','playablePercent':'n/a'});
+                    par3=true;
+                    fairwayPercent= 'n/a';
+                    playablePercent= 'n/a';
                 }
+                emit(h.id,{
+                    "par3":par3,
+                    "fairway":fairways,
+                    'avgScoreToPar':h.stats.overPar,
+                    "playable":playable,
+                    "fairwayPercent":fairwayPercent,
+                    "playablePercent":playablePercent,
+                    'GIR':h.stats.GIR?1:0,
+                    'GIRPercent':h.stats.GIR?'100':'0',
+                    'count':1,
+                    'avgPutts':h.putts,
+                    'penalties':h.penalties
+                });
             });
         },
         scope:{},
         reduce: function(key,vals){
             var fairways = 0;
-            var playable =0, count = 0;
+            var playable =0,count=0;
+            var GIR = 0;
+            var scoreToPar = 0;
+            var penalties = 0;
+            var putts = 0;
             vals.forEach(function(v){
                 if(!vals.par3){
-                    count++;
                     fairways += v.fairway;
-                    playable += v.playable;
+                    playable += v.playable;                    
                 }
+                count++;
+                GIR += v.GIR;
+                scoreToPar += v.avgScoreToPar;
+                penalties += v.penalties;
+                putts += v.avgPutts;
             });
             return {
                 "par3": vals[0].par3,
                 "count": count,
                 "fairway":fairways,
                 "playable":playable,
-                "fairwayPercent":count===0?'n/a':(fairways/count*100).toFixed(0),
-                "playablePercent":count===0?'n/a':(playable/count*100).toFixed(0)
+                'avgScoreToPar':count===0?'n/a':(scoreToPar/count).toFixed(2),
+                "GIR":GIR,
+                'GIRPercent':count===0?'n/a':(GIR/count*100).toFixed(0),
+                "fairwayPercent":count===0 ||vals[0].par3 ?'n/a':(fairways/count*100).toFixed(0),
+                "playablePercent":count===0||vals[0].par3?'n/a':(playable/count*100).toFixed(0),
+                'avgPutts':count===0?'n/a':(putts/count).toFixed(2),
+                'penalties':penalties
             };
         },
         query:{"course":courseId}

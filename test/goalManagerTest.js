@@ -4,7 +4,7 @@ var vows = require("vows");
 var manager = require('../domain/goalManager');
 var should = require('should');
 
-vows.describe('goal reduce Tests').addBatch({
+vows.describe('goal manager Tests').addBatch({
     'Goals Tests':{
         topic: function(){
             var fake = [];

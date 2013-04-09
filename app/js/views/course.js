@@ -18,11 +18,14 @@ define(['models/courseStats','views/courseStats','text!templates/course.html'],f
         },
         showStats:function(e){
             e.preventDefault();
+            this.$el.parent().find("a.active").removeClass('active');
+            this.$el.find("a").addClass('active');
             var courseId = this.model.get("_id");
+            var courseName = this.model.get("name");
             console.log('fecthing stats for',courseId);
             var model = new CourseStats();
             model.fetch({data:{"courseId":courseId},success: function(res){ 
-        
+                res.set({"courseName":courseName});
                 var courseStatsView = new CourseStatsView({model:res});
                 courseStatsView.render();
             

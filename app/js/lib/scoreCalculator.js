@@ -1,5 +1,4 @@
 var ScoreCalculator = (function(){
-
     var proto = ScoreCalculator.prototype;
     function ScoreCalculator() {
         return init(
@@ -20,7 +19,21 @@ var ScoreCalculator = (function(){
             
             return result;
         };
-        
+    var isGIR = function (par,score,putts){
+            return ((par - 2) >= (score - putts));
+        };
+    proto.calculateHole = function(hole,par){
+        var stats = {};
+        if(par === undefined)
+            throw "error par is required parameter";
+        stats.hasFairway = (par > 3);
+        if(stats.hasFairway)
+            stats.fairwayHit = (/[Hh]it/.test(hole.fairway));
+        stats.GIR = isGIR(par, hole.score,hole.putts); //stats.fairw
+        stats.overPar = hole.score - par;
+        //if(par)
+        return stats;  
+    };
     var processHoles= function (total,holes,tee){
             total.GIR = 0;
             total.ch15 =0;
@@ -119,14 +132,15 @@ var ScoreCalculator = (function(){
             total.puttsPerHole = Math.round(total.putts / 18 * 10)/10;
             return total;
         };
-     var getExtra = proto.getExtra = function(scoreHole, teeHolePar){
+    var getExtra = proto.getExtra = function(scoreHole, teeHolePar){
             return scoreHole.score - (scoreHole.chips+scoreHole.putts) - (teeHolePar -2);// - (scoreHole.penalties?scoreHole.penalties:0);
-        }
+        };
+    
     var processHole = function (scoreHole,teeHole){
         var result = scoreHole;
         result.GIR = false;
         if(scoreHole.putts && teeHole.par && scoreHole.score){
-            result.GIR =((teeHole.par - 2) >= (scoreHole.score - scoreHole.putts));
+            result.GIR = isGIR(teeHole.par,scoreHole.score,scoreHole.putts);
         }
         
         result.Ch15 = (result.GIR && result.putts>2);
