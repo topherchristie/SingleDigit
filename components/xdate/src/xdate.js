@@ -2,7 +2,7 @@
  * @preserve XDate v@VERSION
  * Docs & Licensing: http://arshaw.com/xdate/
  */
-//updated by me
+
 /*
  * Internal Architecture
  * ---------------------
@@ -77,6 +77,13 @@ proto.splice = Array.prototype.splice;
 /* Constructor
 ---------------------------------------------------------------------------------*/
 
+// TODO: in future, I'd change signature for the constructor regarding the `true` utc-mode param. ~ashaw
+//   I'd move the boolean to be the *first* argument. Still optional. Seems cleaner.
+//   I'd remove it from the `xdate`, `nativeDate`, and `milliseconds` constructors.
+//      (because you can simply call .setUTCMode(true) after)
+//   And I'd only leave it for the y/m/d/h/m/s/m and `dateString` constructors
+//      (because those are the only constructors that need it for DST-gap data-loss reasons)
+//   Should do this for 1.0
 
 function XDate() {
 	return init(
@@ -219,14 +226,19 @@ each(methodSubjects, function(subject, fieldIndex) {
 function _set(xdate, fieldIndex, value, args, useUTC) {
 	var getField = curry(_getField, xdate[0], useUTC);
 	var setField = curry(_setField, xdate[0], useUTC);
-	var month = fieldIndex == MONTH ? value % 12 : getField(MONTH);
+	var expectedMonth;
 	var preventOverflow = false;
 	if (args.length == 2 && isBoolean(args[1])) {
 		preventOverflow = args[1];
-		args = [value];
+		args = [ value ];
+	}
+	if (fieldIndex == MONTH) {
+		expectedMonth = (value % 12 + 12) % 12;
+	}else{
+		expectedMonth = getField(MONTH);
 	}
 	setField(fieldIndex, args);
-	if (preventOverflow && getField(MONTH) != month) {
+	if (preventOverflow && getField(MONTH) != expectedMonth) {
 		setField(MONTH, [ getField(MONTH) - 1 ]);
 		setField(DATE, [ getDaysInMonth(getField(FULLYEAR), getField(MONTH)) ]);
 	}
@@ -320,17 +332,22 @@ function _getWeek(getField) {
 
 function getWeek(year, month, date) {
 	var d = new Date(UTC(year, month, date));
-	var currentWeek1 = getWeek1(year);
-	var week1 = currentWeek1;
-	if (d < currentWeek1) {
-		week1 = getWeek1(year-1);
-	}else{
-		var nextWeek1 = getWeek1(year+1);
-		if (d >= nextWeek1) {
-			week1 = nextWeek1;
-		}
-	}
+	var week1 = getWeek1(
+		getWeekYear(year, month, date)
+	);
 	return Math.floor(Math.round((d - week1) / DAY_MS) / 7) + 1;
+}
+
+
+function getWeekYear(year, month, date) { // get the year that the date's week # belongs to
+	var d = new Date(UTC(year, month, date));
+	if (d < getWeek1(year)) {
+		return year - 1;
+	}
+	else if (d >= getWeek1(year + 1)) {
+		return year + 1;
+	}
+	return year;
 }
 
 
@@ -344,11 +361,21 @@ function getWeek1(year) { // returns Date of first week of year, in UTC
 function _setWeek(xdate, n, year, useUTC) {
 	var getField = curry(_getField, xdate, useUTC);
 	var setField = curry(_setField, xdate, useUTC);
-	var d = getWeek1(year===undefined ? getField(FULLYEAR) : year);
-	if (!useUTC) {
-		d = coerceToLocal(d);
+
+	if (year === undefined) {
+		year = getWeekYear(
+			getField(FULLYEAR),
+			getField(MONTH),
+			getField(DATE)
+		);
 	}
-	xdate.setTime(+d);
+
+	var week1 = getWeek1(year);
+	if (!useUTC) {
+		week1 = coerceToLocal(week1);
+	}
+
+	xdate.setTime(+week1);
 	setField(DATE, [ getField(DATE) + (n-1) * 7 ]); // would have used xdate.addUTCWeeks :(
 		// n-1 because n is 1-based
 }
@@ -797,12 +824,11 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 // AMD
-if (typeof define === 'function' && define.amd) {  
-  define([], function() {
-    return XDate;
-  });
+if (typeof define === 'function' && define.amd) {
+	define([], function() {
+		return XDate;
+	});
 }
-
 
 
 return XDate;

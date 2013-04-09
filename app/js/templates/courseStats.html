@@ -14,16 +14,16 @@
     </tr>
     </thead>
     <tbody>
-    <% _.each(holes, function(hole) { %>
+    {{#holes}}
     <tr>
-        <td>{{hole._id}}</td>
-        <td title="{{hole.value.fairway}} of {{hole.value.count}}">{{hole.value.fairwayPercent}}</td>
-        <td title="{{hole.value.playable}} of {{hole.value.count}}">{{hole.value.playablePercent}}</td>
-        <td title="{{hole.value.GIR}} of {{hole.value.count}}">{{hole.value.GIRPercent}}</td>
-        <td title="">{{hole.value.avgPutts}}</td>
-        <td title="">{{hole.value.avgScoreToPar}}</td>
-        <td>{{hole.value.penalties}}</td>
+        <td>{{_id}}</td>
+        <td title="{{value.fairway}} of {{value.count}}">{{value.fairwayPercent}}</td>
+        <td title="{{value.playable}} of {{value.count}}">{{value.playablePercent}}</td>
+        <td title="{{value.GIR}} of {{value.count}}">{{value.GIRPercent}}</td>
+        <td title="">{{value.avgPutts}}</td>
+        <td title="">{{value.avgScoreToPar}}</td>
+        <td>{{value.penalties}}</td>
     </tr>
-    <% }); %>
+    {{/holes}}
     </tbody>
 </table>

@@ -1,7 +1,7 @@
 define(['models/courseStats','views/courseStats','text!templates/course.html'],function(CourseStats,CourseStatsView,template){
     var GoalView = Backbone.View.extend({
         tagName:'li',
-        template: _.template(template),
+        template: Handlebars.compile(template),
         events:{
             "click a.showStats":"showStats"
         },

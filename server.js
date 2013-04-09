@@ -38,6 +38,7 @@ app.configure(function(){
   app.use("/public/bootstrap",express.static(__dirname + '/components/bootstrap/docs/assets',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/jquery",express.static(__dirname + '/components/jquery',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/requirejs",express.static(__dirname + '/components/requirejs',{maxAge: 31557600000, "Cache-Control":"public"}));
+  app.use("/public/handlebars",express.static(__dirname + '/components/handlebars',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/xdate",express.static(__dirname + '/components/xdate/src',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/underscore",express.static(__dirname + '/components/underscore',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/backbone",express.static(__dirname + '/components/backbone',{maxAge: 31557600000, "Cache-Control":"public"}));

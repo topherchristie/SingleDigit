@@ -13,8 +13,11 @@ requirejs.config({
             deps: ['/public/underscore/underscore-min.js'],
             exports: 'Backbone'
         },
+        '/public/handlebars/handlebars.js':{
+            exports: 'Handlebars'
+        },
         'app':{
-            deps:['/public/underscore/underscore-min.js', '/public/backbone/backbone-min.js']
+            deps:['/public/underscore/underscore-min.js', '/public/backbone/backbone-min.js','/public/handlebars/handlebars.js']
         }
     }
 });

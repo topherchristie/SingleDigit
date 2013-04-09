@@ -4,7 +4,7 @@ define(['text!templates/app.html'],function(template){
         tagName:'div',
         className:'container-fluid',
         el:'#score-app',
-        template: _.template(template),
+        template: Handlebars.compile(template),
         events:{
             
         },

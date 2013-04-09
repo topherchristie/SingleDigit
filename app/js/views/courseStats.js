@@ -2,7 +2,7 @@ define(['text!templates/courseStats.html'],function(template){
     var CourseStatsView = Backbone.View.extend({
         tagName:'div',
         el:'#courseStats',
-        template: _.template(template),
+        template: Handlebars.compile(template),
         events:{
             
         },

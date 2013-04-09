@@ -2,7 +2,7 @@ define(['text!templates/score.html'],function(template){
     var ScoreView = Backbone.View.extend({
         tagName:'div',
         className:'card row-fluid',
-        template: _.template(template),
+        template: Handlebars.compile(template),
         events:{
             
         },

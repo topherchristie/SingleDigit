@@ -5,5 +5,6 @@ define([], function(){
         interpolate : /\{\{([\s\S]+?)\}\}/g
     };*/
     _.templateSettings.interpolate= /\{\{(.+?)\}\}/g;
+    console.log('template settings set');
    return config;
 });
