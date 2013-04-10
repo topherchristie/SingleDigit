@@ -10,5 +10,5 @@
 	},
 	name:"main",
 	out:"public/built-app.js",
-    include:['underscore','Backbone']
+    include:['underscore','Backbone','handlebars']
 })

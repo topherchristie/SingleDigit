@@ -7,7 +7,13 @@
 
 {% block bottomJavascript %}
           <!-- Placed at the end of the document so the pages load faster -->
-          <!--<script data-main="/public/built-app.js" src="/public/requirejs/require.js"></script>-->
-          <script data-main="/app/js/main.js" src="/public/requirejs/require.js"></script>
+          
+          
+          {% if useCompiledJs%}
+            <script data-main="/public/built-app.js" src="/public/requirejs/require.js"></script>
+          {% else %}
+            <script data-main="/app/js/main.js" src="/public/requirejs/require.js"></script>
+          {% endif %}
+          
 {% endblock %}
      

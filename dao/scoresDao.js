@@ -113,23 +113,13 @@ var HoleSchema = new Schema({
   playable: Boolean,//{type:Boolean,default:false},
   approachDistance:Number,
   stats :{
-    //  extraChips:Number,
       overPar:Number,
-     // ch15:Boolean,
-     // chipIn:Boolean,
       GIR:Boolean,
       hasFairway:Boolean,
       fairwayHit:Boolean//,
-     // playable:Boolean,
-     // shortGame:Number,
-     // shortGamePercent:Number,
-     // fairwayPercent:Number,
-     // playablePercent:Number,
-  //    extra:Number
   }
 });
-//var dburl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/golfism';
-//var dburl2= 'mongodb://singleDigitUser:pizza4All@ds031947.mongolab.com:31947/golfism';
+
 exports.connect = function(dburl2,callback) {
 	console.log('starting connection');
 	mongoose.connect(dburl2,callback);
@@ -149,9 +139,19 @@ exports.getScores = function(userId,callback){
   ScoreModel.find({}).populate("course").populate("tee")
   .sort("-date").exec(callback);
 };
+exports.getLast20Scores = function(userId,callback){
+  ScoreModel.find({}).populate("course").populate("tee").limit(20)
+  .sort("-date").exec(callback);
+};
 
 exports.getCourses = function(callback){
     CourseModel.find().sort("name").exec(callback);
+};
+exports.getTeeById = function(teeId,callback){
+   return TeeModel.findOne({"_id":teeId},callback);
+};
+exports.getTeesByCourseId = function(courseId,callback){
+   return TeeModel.find({"course":courseId},callback);
 };
 
 

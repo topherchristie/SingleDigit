@@ -74,3 +74,22 @@ vows.describe('hole calculator Tests').addBatch({
         }
     }
 }).export(module);
+
+vows.describe('Round Calculaor Tests').addBatch({
+    'Handicap with ESC tests':{
+        topic: function(){
+            var calculator = new Calculator();
+            var score = 94,
+            ESC = 93,
+            rating = 70,
+            slope = 125;
+            return calculator.Handicap(score,ESC,rating,slope);
+        },
+        'returns number':function(topic){
+          should.exist(topic);
+        },
+        'Should use ESC vs score':function(topic){
+            topic.should.be.equal(20.79);
+        }
+    }
+}).export(module);

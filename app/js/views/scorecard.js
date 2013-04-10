@@ -2,7 +2,7 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
     var RecentView = Backbone.View.extend({
         el: '#scoreModal',  
         tagName:"div",
-        template: _.template(template),
+        template: Handlebars.compile(template),
         events:{
             "click #btnBack":"showBackTable",
             "click #btnFront":"showFrontTable"

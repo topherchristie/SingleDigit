@@ -1,27 +1,27 @@
 <td class="text"><a href="" id="{{_id}}" class="scorelink">{{prettyDate}}</a></td>
-<td class="text courseName" title="{{course.name}} - {{tee.name}}">{{shortName}}</td>
+<td class="text courseName" title="{{course.name}} - {{tee.name}}">{{{shortName}}}</td>
 <td>{{score}}</td>
-<td>{{stats.handicap.toFixed(2)}}</td>
+<td>{{stats.handicap}}</td>
 <td>{{stats.GIR}}</td>
 <td>{{stats.putts}}</td><td>{{stats.onePutts}}</td><td>{{stats.threePutts}}</td>
-<td class="shortGame">{{stats.avgPuttsWithChip.toFixed(2)}}</td>
-<td class="shortGame">{{stats.avgPuttsWithoutChip.toFixed(2)}}</td>
+<td class="shortGame">{{stats.avgPuttsWithChip}}</td>
+<td class="shortGame">{{stats.avgPuttsWithoutChip}}</td>
 <td class="shortGame">{{stats.chipIn}}</td>
 <td class="shortGame">{{stats.chips}}</td>
 <td class="shortGame">{{stats.extraChips}} </td>
 <td class="shortGame" title="{{stats.scrambles}} / {{stats.scrambleChances}}">{{scrambleText}}</td>
-<td class="shortGame">{{stats.scramblePercent.toFixed(0)}}</td>
+<td class="shortGame">{{stats.scramblePercent}}</td>
 
 <td class="shortGame">{{stats.shortGame}}</td>
-<td class="shortGame">{{stats.shortGamePercent.toFixed(0)}}</td>
+<td class="shortGame">{{stats.shortGamePercent}}</td>
 
 <td>{{stats.ch15}}</td>
 <!-- driving -->
 <td class="driving" title="{{stats.fairways}} / {{stats.totalFairways}}">{{fairwayText}}</td>
-<td class="driving">{{stats.fairwayPercent.toFixed(0)}}</td>
+<td class="driving">{{stats.fairwayPercent}}</td>
 <td class="driving">{{stats.drivePoints}}</td>
 <td class="driving" title="{{stats.playable}} / {{stats.totalFairways}}">{{playableText}}</td>
-<td class="driving">{{stats.playablePercent.toFixed(0)}}</td>
+<td class="driving">{{stats.playablePercent}}</td>
 
 <td class="scoreRow">{{stats.penalties}}</td>
 <td class="scoreRow">{{stats.extra}}</td>

@@ -1,11 +1,10 @@
-define(['models/courseStats','views/courseStats','text!templates/course.html','collections/tees','views/tees','views/teesContent'],function(CourseStats,CourseStatsView,template,TeeList,TeeListView,TeesContentView){
-    var CourseView = Backbone.View.extend({
+define(['text!templates/tee.html'],function(template){
+    var TeeView = Backbone.View.extend({
         tagName:'li',
+        className:'tee' ,
         template: Handlebars.compile(template),
-        collections:{},
-        views :{},
         events:{
-            "click a.showStats":"showStats"
+           // "click a.showStats":"showStats"
         },
         initialize:function(){
             this.model.on('change',this.render, this);
@@ -18,10 +17,9 @@ define(['models/courseStats','views/courseStats','text!templates/course.html','c
             $el.html(html);
             return this;
         },
-        showStats:function(e){
+        showPrediction:function(e){
             e.preventDefault();
-            var self = this;
-            //set this course as active after clearing all other active ones
+            /*//set this course as active after clearing all other active ones
             this.$el.parent().find("a.active").removeClass('active');
             this.$el.find("a").addClass('active');
             
@@ -39,20 +37,18 @@ define(['models/courseStats','views/courseStats','text!templates/course.html','c
             
             this.collections.tees = new TeeList();
             this.views.teeList = new TeeListView({collection:this.collections.tees});
-            this.views.teesContent = new TeesContentView({collection:this.collections.tees});
             this.collections.tees.fetch({data:{"courseId":courseId},success: function(res){ 
-                self.views.teeList.render();
-                self.views.teesContent.render();
+                this.views.teeList.render();
             }});
             
             //fetch prediction stats for first tee
             
            // var teeId = this.model.
-            
+            */
             
             
         }
         
     });
-    return CourseView;
+    return TeeView;
 });

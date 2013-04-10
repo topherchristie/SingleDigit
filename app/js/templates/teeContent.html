@@ -1,0 +1,54 @@
+ <div class="row-fluid">
+    <div class="span6">
+        <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores">
+            <thead>
+                <th>Score</th>
+                <th>Round Handicap</th>
+                <th>New Handicap</th>
+            </thead>
+            <tbody>
+                {{#predictions}}
+                    <tr>
+                        <td>{{score}}</td>
+                        <td>{{handicap}}</td>
+                        <td>{{newHandicap}}</td>
+                    </tr>
+                {{/predictions}}
+            </tbody>
+        </table>
+    </div>
+    <div class="span6">
+        <div class="row-fluid">
+            <div class="span12">
+               <ul class="unstyled">
+                   <li>Rating:{{rating}}</li>
+                   <li>Slope:{{slope}}</li>
+               </ul>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+            <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores">
+                <thead>
+                    <th>Index</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Handicap</th>
+                </thead>
+                <tbody>
+                    {{#scores}}
+                        <tr>
+                            <td>{{index}}</td>  
+                            <td>{{prettydate date}}</td>
+                            <td>{{score}}</td>
+                            <td>{{handicap}}</td>
+                        </tr>
+                    {{/scores}}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+ </div>
+        
+

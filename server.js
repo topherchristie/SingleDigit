@@ -64,9 +64,10 @@ app.on('close',function(err){
 });
 var helper = require("./helper");
 app.get('/', function(req,res){
-    var locals = {"title":"Golf Home",scores:dao.getScores()};
+    var locals = {
+        "useCompiledJs":config.useCompiledJs,
+        "title":"Golf Home",scores:dao.getScores()};
     helper.render(req,res,"index.html",locals);  
- //   res.send("hello world");
 });
 
 app.get('/scores',function(req,res){
@@ -92,6 +93,7 @@ app.get('/scores/refresh',function(req,res){
         );
     }); 
 });
+
 var goalManager = require('./domain/goalManager');
 app.get('/goals',function(req,res){
     dao.reduceByYear(function(err,result){
@@ -108,14 +110,64 @@ app.get('/courses',function(req,res){
 });
 
 app.get('/course/stats',function(req,res){
-    var cId = req.query.courseId
+    var cId = req.query.courseId;
     dao.reduceByCourse(cId,function(err,result){
         if(err) throw err;
         var model = {"holes":result,"courseId":cId};
         res.json(model); 
     });
 });
+app.get('/teePredictions',function(req,res){
+    dao.getLast20Scores('me',function(err,scores){
+        var simplify =[];
+        scores.forEach(function(s){
+          simplify.push({"id":s._id,"date":s.date,"score":s.score,"handicap":s.stats.handicap});
+        });
+        if(err) throw err;
+        var predictor = require('./domain/handicapPredictor');
+        var scoreGrouping = predictor.compileScores(simplify);
+        //var model = scoreGrouping;
+        dao.getTeesByCourseId(req.query.courseId,function(err,tees){
+            if(err) throw err;
+            var teeList = [];
+            tees.forEach(function(tee){
+                var simpleTee = {};
+                simpleTee.slope = tee.slope;
+                simpleTee.rating = tee.rating;
+                simpleTee.name = tee.name;
+                simpleTee._id = tee._id;
+                simpleTee.scores = scoreGrouping.scores;
+                simpleTee.nextBest = scoreGrouping.nextBest;
+                simpleTee.isScoreBeingBumped = scoreGrouping.isScoreBeingBumped;
+                simpleTee.predictions = predictor.coursePredict(tee.rating,tee.slope,scoreGrouping.sumOfTop9Scores);
+                console.log('predictions',simpleTee.predictions);
+                teeList.push(simpleTee);
+            });
+            res.json(teeList);
+        });            
+    });
+});
 
+
+
+app.get('/course/predict',function(req,res){
+    dao.getTeeById(req.query.teeId,function(err,course){
+        if(err) throw err;
+        dao.getLast20Scores('me',function(err,result){
+            var simplify =[];
+            result.forEach(function(s){
+              simplify.push({"id":s._id,"date":s.date,"score":s.score,"handicap":s.stats.handicap});
+            });
+            if(err) throw err;
+            var predictor = require('./domain/handicapPredictor');
+            var scoreGrouping = predictor.compileScores(simplify);
+            var predictions = predictor.coursePredict(course.rating,course.slope,scoreGrouping.sumOfTop9Scores);
+            var model = scoreGrouping;
+            model.predictions = predictions;
+            res.json(model);
+        });
+    });
+});
 
 
 app.get('/handicap/month',function(req,res){

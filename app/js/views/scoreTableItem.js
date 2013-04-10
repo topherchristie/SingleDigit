@@ -2,7 +2,7 @@ define(['text!templates/table.html','views/scorecard','models/scorecard'],functi
     var ScoreView = Backbone.View.extend({
         tagName:'tr',
         className:'',
-        template: _.template(template),
+        template: Handlebars.compile(template),
         events:{
             "click a":          "scorecard"
         },

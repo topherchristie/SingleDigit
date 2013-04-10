@@ -135,7 +135,18 @@ var ScoreCalculator = (function(){
     var getExtra = proto.getExtra = function(scoreHole, teeHolePar){
             return scoreHole.score - (scoreHole.chips+scoreHole.putts) - (teeHolePar -2);// - (scoreHole.penalties?scoreHole.penalties:0);
         };
-    
+    var Handicap= proto.Handicap =  function (score,ESC,rating,slope){
+      var useScore;
+      if(ESC && ESC < score){
+        useScore = ESC;
+      }else{
+        useScore = score;
+      }
+      return Math.round(
+        (
+           (useScore - rating)/ slope*113
+        )*100) /100;
+    };
     var processHole = function (scoreHole,teeHole){
         var result = scoreHole;
         result.GIR = false;
@@ -168,18 +179,7 @@ var ScoreCalculator = (function(){
             result.playable = false;
         return result;
     };
-    var Handicap= function (score,ESC,rating,slope){
-      var useScore;
-      if(ESC && ESC < score){
-        useScore = ESC;
-      }else{
-        useScore = score;
-      }
-      return Math.round(
-        (
-           (useScore - rating)/ slope*113
-        )*100) /100;
-    };
+    
      // Export for Node.js
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = ScoreCalculator;
