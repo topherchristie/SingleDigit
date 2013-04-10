@@ -23,49 +23,107 @@ var MIN_HANDICAP = 7;
 var calcNewHandicap = predictor.calcNewHandicap = function(handicap,sumTop9Scores){
     return Math.round((handicap + sumTop9Scores) / 10 *0.96 *100)/100;
 }
-predictor.compileScores = function(storedScores){
-    var result= {"scores":[]};
-    var pushToScores = function(s){
-       result.scores.push(s);
-    };
+var getListOf20 = predictor.getListOf20  = function(storedScores){
+    var newList = [];
     // add all scores to possible results
-    storedScores.forEach(pushToScores);
+    for(var i = 0;i<storedScores.length;i++){
+        newList.push(storedScores[i]);
+    }
     // also add my 2011 scores that are not sored in db
-    last20.reverse();
-    last20.forEach(pushToScores);
+    for(var j = last20.length-1;j>=0;j--){
+        newList.push(last20[j]);
+    }
     //only need the most recent 20
-    while(result.scores.length > 20){
-        result.scores.pop();
+    while(newList.length > 20){
+        newList.pop();
     }  
     //add an index to the top 20, use this to tell if score will be bumped on next round
-    for(var sIndex=0;sIndex< result.scores.length;sIndex++){
-        result.scores[sIndex].index=sIndex;
+    for(var sIndex=0;sIndex< newList.length;sIndex++){
+        newList[sIndex].index=sIndex;
     }
+    return newList;
+};
+var getTenBest = function(scores){
+    var list = [];
+    scores.forEach(function(s){
+        list.push(s);
+    });
+    list.sort(function(a,b){return a.handicap-b.handicap});
+    while(list.length > 10){
+      list.pop();
+    }
+    return list;
+};
+var Handicap = predictor.Handicap = function(scores){
+  if(scores.length >= 10){
+      var total = 0;
+      var tenBest = getTenBest(scores);
+      tenBest.forEach(function(s){
+         total += s.handicap; 
+      });
+      return Math.round(total / 10 * 0.96 * 100) /100;
+  }else{
+      return 0;
+  }
+};
+predictor.compileScores = function(storedScores){
+    var scores= [];
+    scores = getListOf20(storedScores);
+    
     //sort by handicap so we can get the best 10
-    result.scores.sort(function(a,b){return a.handicap-b.handicap});
+    scores.sort(function(a,b){return a.handicap-b.handicap});
     //get the best 11, see next note
-    while(result.scores.length > 11){
-      result.scores.pop();
+    while(scores.length > 11){
+      scores.pop();
     }
     //get the 11th best score, incase #10 gets bumped we can see what it would be like
-    result.nextBest = result.scores.pop().handicap;
+    
+    var nextBest = scores.pop().handicap;
+    var currentHandicap = Handicap(scores);
+    var fifthBest = scores[4].handicap;
+    
     // sort by index, which is same as date
-    result.scores.sort(function(a,b){return a.index-b.index});
+    scores.sort(function(a,b){return a.index-b.index});
     // figure out if the 10
-    result.isScoreBeingBumped = result.scores[result.scores.length-1].index === 19;
-    result.sumOfTop9Scores=0;
-    for(var i=0;i<result.scores.length-1;i++){
-        console.log("result.scores[i].handicap",result.scores[i].handicap)
-        result.sumOfTop9Scores += result.scores[i].handicap;
+    
+    var isScoreBeingBumped = scores[scores.length-1].index === 19;
+    var sumOfTop9Scores=0;
+    for(var i=0;i<scores.length-1;i++){
+        sumOfTop9Scores += scores[i].handicap;
     }
-    return result;
+    return {
+        "scores":scores,
+        "sumOfTop9Scores":sumOfTop9Scores,
+        "isScoreBeingBumped":isScoreBeingBumped,
+        "nextBest":nextBest,
+        "currentHandicap":currentHandicap,
+        "fifthBest":fifthBest
+        };
 };
-predictor.coursePredict = function(rating,slope,sumTop9Scores){
+predictor.coursePredictByGrouping = function(rating,slope,scoreGrouping){
+    return coursePredict(
+        rating,
+        slope,
+        scoreGrouping.sumOfTop9Scores,
+        scoreGrouping.currentHandicap,
+        scoreGrouping.nextBest,
+        scoreGrouping.fifthBest,
+        scoreGrouping.isScoreBeingBumped,
+        scoreGrouping.fifthBest
+    );   
+}
+var coursePredict = predictor.coursePredict = function(rating,slope,sumTop9Scores,currentHandicap,tenthHandicap,top5,isBeingBumped,nextBestHandicap){
     var results = [];
     if(rating === undefined)
         throw 'ERROR coursePredict rating is required';
     if(slope === undefined)
         throw 'ERROR coursePredict slope is required';
+    if(currentHandicap === undefined)
+        throw 'ERROR coursePredict currentHandicap is required';
+    if(tenthHandicap === undefined)
+        throw 'ERROR coursePredict tenthHandicap is required';
+    if(top5 === undefined)
+        throw 'ERROR coursePredict top5 is required';
     var calc = new Calc();
     var currentScore = 110;
     var handicap = 100;
@@ -73,11 +131,17 @@ predictor.coursePredict = function(rating,slope,sumTop9Scores){
         handicap = calc.Handicap(currentScore,currentScore,rating,slope);
         if(handicap < MAX_HANDICAP){
             var newHandicap = calcNewHandicap(handicap,sumTop9Scores);
-            results.push({
+            
+            var model = {
                 "score":currentScore,
                 "handicap":handicap,
                 "newHandicap":newHandicap
-                });
+                };
+            model.counts = (handicap <= tenthHandicap || (isBeingBumped && handicap < nextBestHandicap));
+            model.isSingleDigit = (handicap*0.96 < 10);
+            model.isTop5 = (handicap <= top5);
+            model.keepsOrImprovesHandicap = (newHandicap <= currentHandicap)
+            results.push(model);
         }
         
         currentScore--;

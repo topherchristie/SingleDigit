@@ -140,7 +140,7 @@ exports.getScores = function(userId,callback){
   .sort("-date").exec(callback);
 };
 exports.getLast20Scores = function(userId,callback){
-  ScoreModel.find({}).populate("course").populate("tee").limit(20)
+  ScoreModel.find({}).populate("course").populate("tee")
   .sort("-date").exec(callback);
 };
 

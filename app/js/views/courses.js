@@ -12,9 +12,8 @@ define(['views/course'],function(CourseView){
             var self = this;
             self.$el.empty();
             this.collection.forEach(function(course){
-                console.log("course calling render:",course.get("name"));
-              var item = new CourseView({model:course});
-               self.$el.append(item.render().el);
+                var item = new CourseView({model:course});
+                self.$el.append(item.render().el);
             });
             return this;
         }

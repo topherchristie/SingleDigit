@@ -123,9 +123,12 @@ app.get('/teePredictions',function(req,res){
         scores.forEach(function(s){
           simplify.push({"id":s._id,"date":s.date,"score":s.score,"handicap":s.stats.handicap});
         });
+        console.log('simple');
+        console.log(simplify);
         if(err) throw err;
         var predictor = require('./domain/handicapPredictor');
         var scoreGrouping = predictor.compileScores(simplify);
+        
         //var model = scoreGrouping;
         dao.getTeesByCourseId(req.query.courseId,function(err,tees){
             if(err) throw err;
@@ -139,8 +142,9 @@ app.get('/teePredictions',function(req,res){
                 simpleTee.scores = scoreGrouping.scores;
                 simpleTee.nextBest = scoreGrouping.nextBest;
                 simpleTee.isScoreBeingBumped = scoreGrouping.isScoreBeingBumped;
-                simpleTee.predictions = predictor.coursePredict(tee.rating,tee.slope,scoreGrouping.sumOfTop9Scores);
-                console.log('predictions',simpleTee.predictions);
+                simpleTee.currentHandicap = scoreGrouping.currentHandicap;
+                simpleTee.predictions = predictor.coursePredictByGrouping(tee.rating,tee.slope,scoreGrouping);
+               // console.log('predictions',simpleTee.predictions);
                 teeList.push(simpleTee);
             });
             res.json(teeList);

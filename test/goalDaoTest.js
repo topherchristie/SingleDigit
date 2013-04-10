@@ -36,6 +36,18 @@ vows.describe('goal reduce Tests').addBatch({
                 should.exist(topic[1].value.threePutts);
           }
         },
+        'Score last 20 Test':{
+            topic:function(){
+                dao.getLast20Scores('me',this.callback);
+            },
+            'first item is mke':function(topic){
+                topic[0].courseId.should.equal('mkeCC');
+            },
+            'last item is browndeer 94':function(topic){
+                topic[topic.length-1].courseId.should.equal('BrownDeer');
+                topic[topic.length-1].score.should.equal(95);
+            }
+        },
         teardown :function(){
             dao.disconnect();
         }

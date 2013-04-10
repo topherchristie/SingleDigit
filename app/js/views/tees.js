@@ -7,9 +7,10 @@ define(['views/tee'],function(TeeView){
         },
         render:function(){
             var self = this;
+            var firstListElementLink = self.$el.children().first().children().first();
+            firstListElementLink.click(); // click on the first tab to reset active content
             self.$el.find("li.tee").remove();
             this.collection.forEach(function(tee){
-                console.log("tee calling render:",tee.get("name"));
                 var item = new TeeView({model:tee});
                 self.$el.append(item.render().el);
             });

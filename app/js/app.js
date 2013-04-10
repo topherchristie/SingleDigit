@@ -30,14 +30,21 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
            
            self.views.courseLayer.hide();
             $("body").on("click","#coursesLink",function(){
+                $("#scoresLink").parent().removeClass('active');
                 self.views.recentTable.hide();
                 self.views.courseLayer.show();
               //  $('div#courseLayer').show();
+                
+                $("#coursesLink").parent().addClass('active');
+                
             });
              $("body").on("click","#scoresLink",function(){
+                $("#coursesLink").parent().removeClass('active');
                 self.views.courseLayer.hide();
                 //$('div#courseLayer').hide();
                 self.views.recentTable.show();
+                
+                $("#scoresLink").parent().addClass('active');
             });
             $('div#courseLayer').hide();
             self.views.courseLayer.hide();
