@@ -17,7 +17,10 @@ define(['text!templates/goal.html'],function(template){
             return this;
         },
         showTitle:function(e){
-             this.$el.find('td.text').first().tooltip('show');
+          //  alert('touched');
+            var firstTd = this.$el.find('td.text').first();
+          //  alert(firstTd.attr('title'));
+            firstTd.tooltip('show');
         }
         
     });
