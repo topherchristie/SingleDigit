@@ -21,7 +21,7 @@
         "requirejs":"*"
   },
   "engines": {
-    "node": "0.x.x",
+    "node": "0.8.x",
     "npm":  "1.x.x"
   }
 }
