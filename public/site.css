@@ -143,13 +143,17 @@ table.predictions tr.doesNotCount td {
 }
 table.predictions tr.counts td {
   font-weight: bold;
+  color: black;
 }
 table.predictions tr.improves td {
   background-color: #cc3299;
+  color: black;
 }
 table.predictions tr.top5 td {
   background-color: #2fddff;
+  color: black;
 }
 table.predictions tr.singleDigit td {
   background-color: #2fff51;
+  color: black;
 }
