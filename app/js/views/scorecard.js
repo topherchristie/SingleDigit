@@ -22,13 +22,15 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             this.$el = $el;
             return this;
         },
-        showFrontTable:function(){
+        showFrontTable:function(e){
+            e.preventDefault();
             this.$el.find(".scoreFront").show();
             this.$el.find("#btnFront").addClass("btn-primary");
             this.$el.find("#btnBack").removeClass("btn-primary");
             this.$el.find(".scoreBack").hide();
         },
-        showBackTable:function(){
+        showBackTable:function(e){
+            e.preventDefault();
             this.$el.find(".scoreBack").show();
             this.$el.find(".scoreFront").hide();
             this.$el.find("#btnBack").addClass("btn-primary");
