@@ -139,6 +139,10 @@ exports.getScores = function(userId,callback){
   ScoreModel.find({}).populate("course").populate("tee")
   .sort("-date").exec(callback);
 };
+exports.getAllSimple = function(userId,properties,callback){
+  ScoreModel.find({},properties).exec(callback);
+};
+
 exports.getLast20Scores = function(userId,callback){
   ScoreModel.find({}).populate("course").populate("tee")
   .sort("-date").exec(callback);

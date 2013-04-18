@@ -6,9 +6,10 @@
         scoreCalculator:'lib/scoreCalculator',
         Backbone:'../../components/backbone/backbone-min',
         underscore:'../../components/underscore/underscore-min',
-        handlebars:'../../components/handlebars/handlebars'
+        handlebars:'../../components/handlebars/handlebars',
+        d3:'../../components/d3/d3.min'
 	},
 	name:"main",
 	out:"public/built-app.js",
-    include:['underscore','Backbone','handlebars']
+    include:['underscore','Backbone','handlebars','d3']
 })

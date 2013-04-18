@@ -3,7 +3,8 @@ requirejs.config({
     paths:{
         text: 'lib/text',
         xdate: '/public/xdate/xdate',
-        scoreCalculator:'lib/scoreCalculator'
+        scoreCalculator:'lib/scoreCalculator',
+        d3:'/public/d3/d3.min'
     },
     shim:{
         '/public/underscore/underscore-min.js': {

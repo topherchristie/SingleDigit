@@ -1,0 +1,54 @@
+.graph{
+    background-color:white;
+    circle{
+        fill:blue;
+    }
+}
+.graph path {
+  stroke: steelblue;
+  stroke-width: 1;
+  fill: none;
+}
+.max {
+  fill: red;
+}
+.min {
+  fill: green;
+}
+.axis {
+  shape-rendering: crispEdges;
+}
+.x.axis line {
+  stroke: lightgrey;
+}
+.x.axis .minor {
+  stroke-opacity: .5;
+}
+.x.axis path {
+  /*  display: none;*/
+
+  stroke: lightgrey;
+  stroke-width: 1;
+}
+.y.axis line,
+.y.axis path,
+.x.axis path {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1;
+}
+.y.axis line {
+  color: lightgrey;
+  background-color: orange;
+  stroke-opacity: .4;
+}
+.y.axis.weightAxis > g > line {
+  color: #006600;
+  stroke: #006600;
+  background-color: #006600;
+}
+.y.axis.fatAxis > g > line {
+  color: #cccccc;
+  stroke: #cccccc;
+  background-color: #cccccc;
+}

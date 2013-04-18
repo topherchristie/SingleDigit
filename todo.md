@@ -1,4 +1,8 @@
-* Scatter plot Score vs Stat with trend line
+* Scatter plot Score vs Stat 
+    * add drop down to pick stat 
+    * add trend line trend line
+    * transition on new stat selection
+    * beautify graph, round corners, softer background
 * design and then add Handicap table (March - Sept, HC graph?)
 * add fixed link to toggle table view (putt, score, chip, drive) for small screens
 * Filter by Year or Course, last 5, 10, 20

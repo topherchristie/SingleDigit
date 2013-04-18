@@ -42,6 +42,7 @@ app.configure(function(){
   app.use("/public/xdate",express.static(__dirname + '/components/xdate/src',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/underscore",express.static(__dirname + '/components/underscore',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/public/backbone",express.static(__dirname + '/components/backbone',{maxAge: 31557600000, "Cache-Control":"public"}));
+  app.use("/public/d3",express.static(__dirname + '/components/d3',{maxAge: 31557600000, "Cache-Control":"public"}));
   app.use("/app",express.static(__dirname + '/app'));
   app.use("/public",express.static(__dirname + '/public'));
   
@@ -120,7 +121,7 @@ app.get('/course/stats',function(req,res){
 var routes = require('./routes');
 
 app.get('/teePredictions',routes.tee.predictions);
-
+app.get('/stats/scoresVs/:stat',routes.graphs.scoreVs);
 
 
 app.get('/course/predict',function(req,res){
