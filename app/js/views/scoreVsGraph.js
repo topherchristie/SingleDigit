@@ -10,15 +10,13 @@ define(["d3"],function(ddd){
         //    this.render();
         },
         render: function(){
-            var margin = {top:20,bottom:30,left:30,right:15};
+            var margin = {top:20,bottom:30,left:40,right:15};
             var fullWidth = 400;
             var fullHeight = 300;
             var width = fullWidth - margin.left - margin.right;
             var height = fullHeight - margin.top - margin.bottom;
             var data = this.model.toJSON().data;
-              console.log(data);
-              var xlist  =[];
-          
+              console.log(data);  
             var xMax = d3.max(data,function(d){return d.x;});
             var xMin = d3.min(data,function(d){return d.x;});
             var yMax = d3.max(data,function(d){return d.y;});
@@ -31,37 +29,55 @@ define(["d3"],function(ddd){
                 .domain([yMin,yMax])
                 .range([height, 0]);
 
-            var graph = d3.select(this.el).append("svg:svg")
+
+            if(!this.graph){
+                this.graph = d3.select(this.el).append("svg:svg")
                 .attr("width", fullWidth)
                 .attr("height", fullHeight)
                 .attr("class",'graph')
                 ;
-            var main = graph.append('g')
+                this.main = this.graph.append('g')
                 .attr('transform','translate(' +margin.left + ',' + margin.top + ')')
                 .attr('width',width)
-                .attr('height',height);
-            // draw the x axis
-            var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient('bottom');
+                .attr('height',height)
+                .attr('class','main');
+                // draw the x axis
+                this.xAxis = d3.svg.axis().scale(x).orient('bottom');
+                this.xAxisHolder = this.main.append('g')
+                    .attr('transform', 'translate(0,' + height + ')')
+                    .attr('class', 'x axis');
+                // draw the y axis
+                this.yAxis = d3.svg.axis().scale(y).orient('left')//.ticks(yMax-yMin+1);
+                this.yAxisHolder = this.main.append('g').attr('transform', 'translate(0,0)').attr('class', 'y axis');
+                this.circles = this.main.append("svg:g"); 
+            }
+            this.xAxis.scale(x);
+            this.xAxisHolder.call(this.xAxis);
+            this.yAxis.scale(y);
+            this.yAxisHolder
+            .transition()
+            .duration(1000)
+            .ease("linear")
+            .call(this.yAxis);
             
-            main.append('g')
-            .attr('transform', 'translate(0,' + height + ')')
-            .attr('class', 'x axis')
-            .call(xAxis);
-            
-            // draw the y axis
-            var yAxis = d3.svg.axis().scale(y).orient('left')//.ticks(yMax-yMin+1);
-            main.append('g').attr('transform', 'translate(0,0)').attr('class', 'y axis').call(yAxis);
-
+          
             // draw the graph object
-            var g = main.append("svg:g"); 
-            g.selectAll("scatter-dots")
+            var self = this;
+            this.circles.selectAll("circle").remove();
+            this.circles.selectAll("scatter-dots")
             .data(data)  // using the values in the ydata array
             .enter().append("svg:circle")  // create a new circle for each value
             .attr("cy", function (d) { return y(d.y); } ) // translate y value to a pixel
             .attr("cx", function (d,i) { return x(d.x); } ) // translate x value
-            .attr("r", 2); // radius of circle
+            .attr("title", function(d) {return "h ha ha" + d.y;})
+            .on("mouseover",function(){   
+                var obj = this; 
+                $(obj).tooltip('show'); 
+                setTimeout(function(){ $(obj).tooltip('hide');},5000);
+            })
+            .on("touchstart",function(){   $(this).tooltip('show');})
+            .on("mouseout",function() { $(this).tooltip('hide'); }) 
+            .attr("r", 6); // radius of circle
      // .style("opacity", 0.6); // opacity of circle
        
             return this;

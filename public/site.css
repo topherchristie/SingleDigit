@@ -158,7 +158,10 @@ table.predictions tr.singleDigit td {
   color: black;
 }
 .graph {
-  background-color: white;
+  background-color: #eaeaea;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
 }
 .graph circle {
   fill: blue;

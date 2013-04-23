@@ -40,29 +40,29 @@ vows.describe('course hole stats reduce Tests').addBatch({
                 should.exist(topic[0].value.par3);
                 topic[0].value.par3.should.not.be.true;
             },
-            'Hole 1 fairways should be 40%':function(topic){
+            'Hole 1 fairways should be 50%':function(topic){
                 should.exist(topic[0].value.fairwayPercent);
-                topic[0].value.fairwayPercent.should.equal("60");
+                topic[0].value.fairwayPercent.should.equal("50");
             },
             'Hole 1 playable should be 80%':function(topic){
                 should.exist(topic[0].value.playablePercent);
-                topic[0].value.playablePercent.should.equal("80");
+                topic[0].value.playablePercent.should.equal("83");
             },
             'Hole 11 should be GIR':function(topic){
                 should.exist(topic[10].value.GIRPercent);
-                topic[10].value.GIRPercent.should.equal("0");
+                topic[10].value.GIRPercent.should.equal("17");
             },
             'Hole 12 should be not be GIR':function(topic){
                 should.exist(topic[11].value.GIRPercent);
-                topic[11].value.GIRPercent.should.equal("40");
+                topic[11].value.GIRPercent.should.equal("33");
             },
             'Hole 11 avg Score to par should be 2':function(topic){
                 should.exist(topic[10].value.avgScoreToPar);
-                topic[10].value.avgScoreToPar.should.equal("2.20");
+                topic[10].value.avgScoreToPar.should.equal("1.83");
             },
             'Hole 11 avg putts 2.40':function(topic){
                 should.exist(topic[10].value.avgPutts);
-                topic[10].value.avgPutts.should.equal("2.40");
+                topic[10].value.avgPutts.should.equal("2.33");
             },
             'Hole 3 penalties 0':function(topic){
                 should.exist(topic[2].value.penalties);

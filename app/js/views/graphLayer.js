@@ -3,7 +3,9 @@ define(["views/scoreVsGraph","models/scoreVs"],function(ScoreVsGraph,ScoreVsMode
         el: '#graphLayer',
         tagName:'div',
         events:{
-            "click a.scoreVsGIR":"scoreVsGIR"
+            "click a.scoreVsGIR":"scoreVsGIR",
+            "click a.scoreVsPutts":"scoreVsPutts",
+            "click a.scoreVsFairways":"scoreVsFairways"
         },
         hide:function(){
             $(this.el).hide();
@@ -24,12 +26,26 @@ define(["views/scoreVsGraph","models/scoreVs"],function(ScoreVsGraph,ScoreVsMode
         },
         scoreVsGIR:function(e){
             e.preventDefault();
-            this.$el.find("#graphTitle").html("Score vs GIR");
-            this.model = new ScoreVsModel({stat:"fairwayPercent"});
-            this.graph = new ScoreVsGraph({el:"#graphHolder",model:this.model});
+            this.createOrUpdate('GIR');
+        },
+        scoreVsPutts:function(e){
+            e.preventDefault();
+            this.createOrUpdate('putts');
+        },
+        scoreVsFairways:function(e){
+            e.preventDefault();
+            this.createOrUpdate('fairwayPercent');
+        },
+        createOrUpdate : function(stat){
+            this.$el.find("#graphTitle").html("Score vs " + stat);
+            if(!this.model){
+                this.model = new ScoreVsModel({stat:stat});
+                this.graph = new ScoreVsGraph({el:"#graphHolder",model:this.model});    
+            }else{
+                this.model.set({stat:stat});
+            }
             this.model.fetch();
-            
-        }    
+        }
     });
     return GraphLayer;
 });

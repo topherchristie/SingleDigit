@@ -40,8 +40,8 @@ vows.describe('goal reduce Tests').addBatch({
             topic:function(){
                 dao.getLast20Scores('me',this.callback);
             },
-            'first item is mke':function(topic){
-                topic[0].courseId.should.equal('mkeCC');
+            'first item is BrownDeer':function(topic){
+                topic[0].courseId.should.equal('BrownDeer');
             },
             'last item is browndeer 94':function(topic){
                 topic[topic.length-1].courseId.should.equal('BrownDeer');

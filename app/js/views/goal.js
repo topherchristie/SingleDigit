@@ -3,7 +3,8 @@ define(['text!templates/goal.html'],function(template){
         tagName:'tr',
         template: Handlebars.compile(template),
         events:{
-            "touchstart":"showTitle"
+            "touchstart":"showTitle",
+            "mouseover":"showTitle"
         },
         initialize:function(){
             this.model.on('change',this.render, this);
@@ -17,7 +18,7 @@ define(['text!templates/goal.html'],function(template){
             return this;
         },
         showTitle:function(e){
-          //  alert('touched');
+              console.log('touched');
             var firstTd = this.$el.find('td.text').first();
           //  alert(firstTd.attr('title'));
             firstTd.tooltip('show');
