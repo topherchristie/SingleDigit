@@ -5,7 +5,10 @@ define(["views/scoreVsGraph","models/scoreVs"],function(ScoreVsGraph,ScoreVsMode
         events:{
             "click a.scoreVsGIR":"scoreVsGIR",
             "click a.scoreVsPutts":"scoreVsPutts",
-            "click a.scoreVsFairways":"scoreVsFairways"
+            "click a.scoreVsFairways":"scoreVsFairways",
+            "click a.scoreVsPlayable":"scoreVsPlayable",
+            "click a.scoreVsDrPenPoints":"scoreVsDrPenPoints",
+            "click a.scoreVsScramble":"scoreVsScramble"
         },
         hide:function(){
             $(this.el).hide();
@@ -23,6 +26,18 @@ define(["views/scoreVsGraph","models/scoreVs"],function(ScoreVsGraph,ScoreVsMode
         },
         render:function(){  
             return this;
+        },
+        scoreVsPlayable:function(e){
+            e.preventDefault();
+            this.createOrUpdate('playablePercent');
+        },
+        scoreVsDrPenPoints:function(e){
+            e.preventDefault();
+            this.createOrUpdate('drivePoints');
+        },
+        scoreVsScramble:function(e){
+            e.preventDefault();
+            this.createOrUpdate('scramblePercent');
         },
         scoreVsGIR:function(e){
             e.preventDefault();

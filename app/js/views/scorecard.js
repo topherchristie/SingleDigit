@@ -52,8 +52,8 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             html += this.getRow(holes,index,"Putts","putts",this.model.get("stats").putts);
             html += this.getBoolRow(holes,tee.holes,index,"GIR","GIR",this.model.get("stats").GIR);
             html += this.getRow(holes,index,"Chips","chips",this.model.get("stats").chips);
-            html += this.getFairwayRow(holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"||val=="hit");});
-            html += this.getFairwayRow(holes,index,"Playable","playable",this.model.get("stats").playablePercent,function(val) {return val;});
+            html += this.getFairwayRow(holes,tee.holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"||val=="hit");});
+            html += this.getFairwayRow(holes,tee.holes,index,"Playable","playable",this.model.get("stats").playablePercent,function(val) {return val;});
             html += this.getExtraRow(holes,tee.holes,index,"Extras",this.model.get("stats").extra);
             html += this.getRow(holes,index,"Penalties","penalties",this.model.get("stats").penalties);
             html += this.getRow(holes,index,"Dr Pnts","drivePoints",this.model.get("stats").drivePoints);
@@ -62,8 +62,7 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             return html;
          },
         getRow: function(holes,index,label,stat,total){
-            var html = "<tr>";
-                html += "<th>" + label + "</th>";
+            var html =  this.htmlTop(label);
                 var sum = 0;
                 for(var i = 0;i< 9;i++){
                     var val = holes[index+i][stat];
@@ -74,14 +73,12 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
                         html += "<td>0</td>";
                     }
                 }
-                html += "<td>" + sum + "</td>";
-                html += "<td>" + total + "</td>";
-            html += "</tr>";
+                 html += this.htmlBottom(sum,total);
             return html;
         },
+        
         getExtraRow: function(holes,teeHoles,index,label,total){
-            var html = "<tr>";
-                html += "<th>" + label + "</th>";
+            var html =  this.htmlTop(label);
                 var sum = 0;
                 for(var i = 0;i< 9;i++){
                     var scoreHole = holes[index+i];
@@ -95,14 +92,12 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
                         html += "<td>0</td>";
                     }
                 }
-                html += "<td>" + sum + "</td>";
-                html += "<td>" + total + "</td>";
-            html += "</tr>";
+                html += this.htmlBottom(sum,total);
             return html;
         },
+      
         getScoreRow: function(holes,teeHoles,index,label,stat,total){
-            var html = "<tr>";
-                html += "<th>" + label + "</th>";
+            var html =  this.htmlTop(label);
                 var sum = 0;
                 for(var i = 0;i< 9;i++){
                     var val = holes[index+i][stat];
@@ -121,7 +116,7 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             return html;
         },
         getBoolRow: function(holes,teeHoles,index,label,stat,total){
-            var html = "<tr><th>" + label + "</th>";
+            var html =  this.htmlTop(label);
             var sum = 0;
             for(var i = 0;i< 9;i++){
                 var val = holes[index+i];
@@ -135,17 +130,17 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
                     html += "<td><i class='icon icon-remove' /></td>";
                 }
             }
-            html += "<td>" + sum + "</td><td>" + total + "</td></tr>";
+            html  += this.htmlBottom(sum,total);
             return html;
         },
-        getFairwayRow: function(holes,index,label,stat,total,test){
-            var html = "<tr>";
-                html += "<th>" + label + "</th>";
+        getFairwayRow: function(holes,teeHoles,index,label,stat,total,test){
+            var html =  this.htmlTop(label);
                 var sum = 0;
                 var cnt = 0;
+             
                 for(var i = 0;i< 9;i++){
                     var val = holes[index+i][stat];
-                    if(typeof val != 'undefined'){
+                    if(teeHoles[index+i].par > 3 && typeof val != 'undefined'){
                         cnt += 1;
                         if(test(val)){
                             sum += 1;    
@@ -157,10 +152,14 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
                         html += "<td>&nbsp;</td>";    
                     }
                 }
-                html += "<td>" + (sum / cnt*100).toFixed(0) + "</td>";
-                html += "<td>" + total + "</td>";
-            html += "</tr>";
+                html += this.htmlBottom((sum / cnt*100).toFixed(0),total);
             return html;
+        },
+        htmlTop : function(label){
+            return "<tr><th>" + label + "</th>";
+        },
+        htmlBottom :function(sum,total){
+             return "<td>" + sum + "</td><td>" + total + "</td></tr>";
         }
     });
     function getScoreClassName(diff){

@@ -3,8 +3,9 @@ define(['text!templates/goal.html'],function(template){
         tagName:'tr',
         template: Handlebars.compile(template),
         events:{
-            "touchstart":"showTitle",
-            "mouseover":"showTitle"
+            "touchstart span.text":"showTitleSleepy",
+            "mouseover span.text":"showTitle",
+            "span.text mouseout":"hideTitle"
         },
         initialize:function(){
             this.model.on('change',this.render, this);
@@ -18,10 +19,18 @@ define(['text!templates/goal.html'],function(template){
             return this;
         },
         showTitle:function(e){
-              console.log('touched');
-            var firstTd = this.$el.find('td.text').first();
-          //  alert(firstTd.attr('title'));
+            var firstTd = this.$el.find('span.text').first();
+            $(firstTd).tooltip('show');
+            //setTimeout(function(){ $(firstTd).tooltip('hide');},5000);
+        },
+        hideTitle:function(e){
+          //  var firstTd = this.$el.find('span.text').first();
+          //  firstTd.tooltip('hide');
+        },
+        showTitleSleepy:function(e){
+            var firstTd = this.$el.find('span.text').first();
             firstTd.tooltip('show');
+            setTimeout(function(){ $(firstTd).tooltip('hide');},5000);
         }
         
     });

@@ -28,6 +28,7 @@ define(['xdate'], function(xdate){
             return "counts";
         return "doesNotCount";
     });
+    
     console.log('template settings set');
    return config;
 });
