@@ -120,11 +120,11 @@ define(["d3"],function(ddd){
             .attr("title", function(d) {return "h ha ha" + d.y;})
             .attr("r", function(d) {return 2 + d.cnt*2;})// radius of circle
             .attr('class','tooltipCircle')
-            .on("mouseover",function(){   
+     //       .on("mouseover",function(){   
           //      console.log("mouseover" + $(this).attr('title'));
-                $(this).tooltip('show'); 
+       //         $(this).tooltip('show'); 
               //  setTimeout(function(){ $(obj).tooltip('hide');},5000);
-            })
+         //   })
            /* .on("mouseout",function(){   
                 console.log("mouseout" + $(this).attr('title'));
                 var obj = this; 
@@ -141,7 +141,7 @@ define(["d3"],function(ddd){
                 .transition()
             .duration(1000)
             .attrTween('cx', function(a) {
-                var i = d3.interpolate(this._previous, a.x);
+               var i = d3.interpolate(this._previous, a.x);
                 this._previous = i(0);
                 return function(t) {
                     return x(i(t));
@@ -156,7 +156,7 @@ define(["d3"],function(ddd){
             });
             rrr.exit().remove();
             var yAvg = (yMax + yMin) / 2;
-            $("body").tooltip({ selector: ".tooltipCircle" });
+           // $("body").tooltip({ selector: ".tooltipCircle" });
      // .style("opacity", 0.6); // opacity of circle
             var plot = self.plotFunction(data);
             if(this.myLine){
