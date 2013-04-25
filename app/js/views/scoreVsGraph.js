@@ -118,27 +118,10 @@ define(["d3"],function(ddd){
             .attr("cy", function (d) { return y(d.y); } ) // translate y value to a pixel
             .attr("cx", function (d,i) { return x(d.x); } ) // translate x value
             .attr("title", function(d) {return "h ha ha" + d.y;})
-            .attr("r", function(d) {return 2 + d.cnt*2;})// radius of circle
+            .attr("r", function(d) {return d.cnt*2;})// radius of circle
             .attr('class','tooltipCircle')
-     //       .on("mouseover",function(){   
-          //      console.log("mouseover" + $(this).attr('title'));
-       //         $(this).tooltip('show'); 
-              //  setTimeout(function(){ $(obj).tooltip('hide');},5000);
-         //   })
-           /* .on("mouseout",function(){   
-                console.log("mouseout" + $(this).attr('title'));
-                var obj = this; 
-                $(obj).tooltip('hide'); 
-                //setTimeout(function(){ $(obj).tooltip('hide');},5000);
-            }).on("click",function(){   
-                var obj = this; 
-                $(obj).tooltip('show'); 
-              //  setTimeout(function(){ $(obj).tooltip('hide');},5000);
-            })//.exit().remove()
-            */
             ;
-            rrr
-                .transition()
+            rrr.transition()
             .duration(1000)
             .attrTween('cx', function(a) {
                var i = d3.interpolate(this._previous, a.x);
