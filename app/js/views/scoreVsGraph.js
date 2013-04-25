@@ -150,8 +150,8 @@ define(["d3"],function(ddd){
             this.myLine = this.main.append("svg:line")
                 .attr("x1", x(xMin-1))
                 .attr("y1", y(plot(xMin-1)))
-                .attr("x2", x(xMax-1))
-                .attr("y2", y(plot(xMax-1)))
+                .attr("x2", x(xMax+1))
+                .attr("y2", y(plot(xMax+1)))
                 .style("stroke", "rgb(6,120,155)");
             return this;
       }
