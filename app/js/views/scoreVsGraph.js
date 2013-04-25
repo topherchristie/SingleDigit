@@ -23,27 +23,13 @@ define(["d3"],function(ddd){
                 sumXSquares += item.x * item.x * item.cnt;
                 sumXYProducts += item.x*item.y * item.cnt;
             }
-       /*     console.log("cnt",cnt);
-            console.log("sumX",sumX);
-            console.log("sumY",sumY);
-            console.log("sumXSquares",sumXSquares);
-            console.log("sumXYProducts",sumXYProducts);
-         */   
-            
+
             var meanY = sumY / cnt;
             var meanX = sumX / cnt;
-           // console.log("meanY",meanY);
-        //    console.log("meanX",meanX);
             var b =  (sumXYProducts - (sumX * sumY) / cnt) / (sumXSquares - (sumX * sumX)/ cnt);
             var a = meanY - b * meanX;
-          //  console.log("b",b);
-            //console.log("a",a);
-            
             return function(x){
-                var y = a + b * x;
-                console.log("x,y = ",x,',',y);
-                return y;
-                //return 1;
+                return a + b * x;
             };
         },
         render: function(){
@@ -119,7 +105,7 @@ define(["d3"],function(ddd){
             .attr("cx", function (d,i) { return x(d.x); } ) // translate x value
             .attr("title", function(d) {return "h ha ha" + d.y;})
             .attr("r", function(d) {
-                return d.cnt*2;
+                return 1 + (d.cnt-1)*.75;
             })// radius of circle
             .attr('class','tooltipCircle')
             ;
