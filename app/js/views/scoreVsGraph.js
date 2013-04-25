@@ -118,7 +118,9 @@ define(["d3"],function(ddd){
             .attr("cy", function (d) { return y(d.y); } ) // translate y value to a pixel
             .attr("cx", function (d,i) { return x(d.x); } ) // translate x value
             .attr("title", function(d) {return "h ha ha" + d.y;})
-            .attr("r", function(d) {return d.cnt*2;})// radius of circle
+            .attr("r", function(d) {
+                return 2; //d.cnt*2;
+            })// radius of circle
             .attr('class','tooltipCircle')
             ;
             rrr.transition()
