@@ -2,7 +2,6 @@ define(["d3"],function(ddd){
     var ScoreVsGraphView = Backbone.View.extend({
         //template: Handlebars.compile(template),
         events:{
-            
         },
         initialize:function(){
             this.model.on('change',this.render, this);
@@ -23,7 +22,6 @@ define(["d3"],function(ddd){
                 sumXSquares += item.x * item.x * item.cnt;
                 sumXYProducts += item.x*item.y * item.cnt;
             }
-
             var meanY = sumY / cnt;
             var meanX = sumX / cnt;
             var b =  (sumXYProducts - (sumX * sumY) / cnt) / (sumXSquares - (sumX * sumX)/ cnt);
@@ -39,20 +37,16 @@ define(["d3"],function(ddd){
             var width = fullWidth - margin.left - margin.right;
             var height = fullHeight - margin.top - margin.bottom;
             var data = this.model.toJSON().data;
-
             var xMax = d3.max(data,function(d){return d.x;});
             var xMin = d3.min(data,function(d){return d.x;});
             var yMax = d3.max(data,function(d){return d.y;});
             var yMin = d3.min(data,function(d){return d.y;});
-            
             var x = d3.scale.linear()
                 .domain([xMin-1,xMax+1])
                 .range([0,width]);
             var y = d3.scale.linear()
                 .domain([yMin,yMax])
                 .range([height, 0]);
-
-
             if(!this.graph){
                 this.graph = d3.select(this.el).append("svg:svg")
                 .attr("width", fullWidth)
@@ -84,7 +78,6 @@ define(["d3"],function(ddd){
                 this.yAxisHolder = this.main.append('g').attr('transform', 'translate(0,0)').attr('class', 'y axis');
                 this.circles = this.main.append("svg:g"); 
             }
-            
             this.xAxis.scale(x);
             this.xAxisHolder.call(this.xAxis);
             this.yAxis.scale(y);
