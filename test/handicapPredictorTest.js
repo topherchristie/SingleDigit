@@ -360,5 +360,35 @@ vows.describe('handicap predictor Tests').addBatch({
             topic[topic.length -1].keepsOrImprovesHandicap.should.be.true;
         }
         
+    },
+    'Current Handicap':{
+        topic:function(){
+            var list = [];
+            list.push({"date":'2011-01-01','handicap' : 24.6});
+            list.push({"date":'2011-01-02','handicap' : 19.4});
+            list.push({"date":'2011-01-03','handicap' : 21.3});
+            list.push({"date":'2011-01-04','handicap' : 19.8});
+            list.push({"date":'2011-01-05','handicap' : 12.8});
+            list.push({"date":'2011-01-06','handicap' : 8.9});
+            list.push({"date":'2011-01-07','handicap' : 13.9});
+            list.push({"date":'2011-01-08','handicap' : 18.7});
+            list.push({"date":'2011-01-09','handicap' : 17.1});
+            list.push({"date":'2011-01-10','handicap' : 23.8});
+            list.push({"date":'2011-01-11','handicap' : 17});
+            list.push({"date":'2011-01-12','handicap' : 22});
+            list.push({"date":'2011-01-13','handicap' : 17.6});
+            list.push({"date":'2011-01-14','handicap' : 18.6});
+            list.push({"date":'2011-01-15','handicap' : 22.9});
+            list.push({"date":'2011-01-16','handicap' : 15.2});
+            list.push({"date":'Sun Mar 18 2012 14:55:21 GMT-0400 (EDT) ',stats:{'handicap' : 21.2}});
+            list.push({"date":'Sun Apr 01 2012 14:55:21 GMT-0400 (EDT) ',stats:{'handicap' : 17.69}});
+            list.push({"date":'Sun Apr 15 2012 03:00:00 GMT-0400 (EDT) ','handicap' : 22.95});
+            list.push({"date":'Sun Apr 29 2012 14:55:21 GMT-0400 (EDT) ','handicap' : 18.98});
+            
+            return predictor.Handicap(list.reverse());
+        },
+        'Gets Correct HC':function(topic){
+            topic.should.equal(15.12);
+        }
     }
 }).export(module);

@@ -1,17 +1,12 @@
-* Scatter plot Score vs Stat 
-    * add drop down to pick stat 
-    * add trend line trend line
-    * transition on new stat selection
-    * beautify graph, round corners, softer background
 * design and then add Handicap table (March - Sept, HC graph?)
 * add fixed link to toggle table view (putt, score, chip, drive) for small screens
-* Filter by Year or Course, last 5, 10, 20
+* Table Filter by Year or Course, last 5, 10, 20
 * allow adding course
 * allow adding tee
 * allow adding score + stats hole by hole
 * track approach shot by club / distance & result, -to help track down correct yardages to play by club
 * make mouseover bar chart of goals by round, with running average line, and const goal line
-* add score card stats
+* fill in score card stats with ?
 * Hole Score Entry Form
     * Course (readonly)
     * Tee (readonly)

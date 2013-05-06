@@ -4,8 +4,9 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
         tagName:"div",
         template: Handlebars.compile(template),
         events:{
-            "click #btnBack":"showBackTable",
-            "click #btnFront":"showFrontTable"
+            "click #btnscoreBack":"showBackTable",
+            "click #btnscoreFront":"showFrontTable",
+            "click #btnstats":"showStats"
         },
         initialize: function(){
             // this.collection.on('add', this.render, this);
@@ -19,22 +20,47 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             $("body").append($el);
             $el.modal('show');
             $el.find(".scoreBack").hide();
+            $el.find(".stats").hide();
             this.$el = $el;
             return this;
         },
         showFrontTable:function(e){
             e.preventDefault();
-            this.$el.find(".scoreFront").show();
+           /* this.$el.find(".scoreFront").show();
             this.$el.find("#btnFront").addClass("btn-primary");
             this.$el.find("#btnBack").removeClass("btn-primary");
             this.$el.find(".scoreBack").hide();
+            this.$el.find(".stats").hide();
+            this.$el.find("#btnStats").removeClass("btn-primary");*/
+            this.hideThese(["stats","scoreBack"]);
+            this.showThis("scoreFront");
         },
         showBackTable:function(e){
             e.preventDefault();
-            this.$el.find(".scoreBack").show();
+        /*    this.$el.find(".scoreBack").show();
             this.$el.find(".scoreFront").hide();
+            this.$el.find(".stats").hide();
             this.$el.find("#btnBack").addClass("btn-primary");
             this.$el.find("#btnFront").removeClass("btn-primary");
+            this.$el.find("#btnStats").removeClass("btn-primary");*/
+            this.hideThese(["scoreFront","stats"]);
+            this.showThis("scoreBack");
+        },
+        showStats:function(e){
+            e.preventDefault();
+            this.hideThese(["scoreFront","scoreBack"]);
+            this.showThis("stats");
+        },
+        hideThese:function(items){
+            var self = this;
+            items.forEach(function(key){
+                self.$el.find("." + key).hide();
+                self.$el.find("#btn" + key ).removeClass("btn-primary");    
+            });
+        },
+        showThis:function(key){
+            this.$el.find("." + key).show();
+            this.$el.find("#btn" + key ).addClass("btn-primary");    
         },
         getFrontTable: function(){
            return this.getTable(0);
@@ -51,7 +77,16 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             html += this.getScoreRow(holes,tee.holes,index,"Score","score",this.model.get("score"));
             html += this.getRow(holes,index,"Putts","putts",this.model.get("stats").putts);
             html += this.getBoolRow(holes,tee.holes,index,"GIR","GIR",this.model.get("stats").GIR);
-            html += this.getRow(holes,index,"Chips","chips",this.model.get("stats").chips);
+            html += this.getRow(holes,index,"Chips","chips",this.model.get("stats").chips,function(d){
+                if(d.chips == 1){
+                    if(d.putts === 0){
+                        return "chipin";
+                    }else if(d.putts === 1){
+                        return "upAndDown";
+                    }
+                }
+                return "";
+            });
             html += this.getFairwayRow(holes,tee.holes,index,"Fairway","fairway",this.model.get("stats").fairwayPercent,function(val) {return (val=="Hit"||val=="hit");});
             html += this.getFairwayRow(holes,tee.holes,index,"Playable","playable",this.model.get("stats").playablePercent,function(val) {return val;});
             html += this.getExtraRow(holes,tee.holes,index,"Extras",this.model.get("stats").extra);
@@ -61,16 +96,20 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             html += "</tbody>";
             return html;
          },
-        getRow: function(holes,index,label,stat,total){
+        getRow: function(holes,index,label,stat,total,classFunction){
             var html =  this.htmlTop(label);
                 var sum = 0;
                 for(var i = 0;i< 9;i++){
                     var val = holes[index+i][stat];
+                    var className ="";
+                    if(classFunction){
+                        className = classFunction(holes[index+i]);
+                    }
                     if(typeof val != 'undefined'){
                         sum += val;
-                        html += "<td>" + val + "</td>";
+                        html += "<td class='"  + className + "'>" + val + "</td>";
                     }else{
-                        html += "<td>0</td>";
+                        html += "<td class='"  + className + "'>0</td>";
                     }
                 }
                  html += this.htmlBottom(sum,total);

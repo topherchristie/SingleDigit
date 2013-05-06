@@ -31,10 +31,12 @@ table.scores th {
   line-height: 15px;
   color: white;
 }
-table.scores td.eagle {
+table.scores td.eagle,
+table.scores td.chipin {
   background-color: #cdff00;
 }
-table.scores td.birdie {
+table.scores td.birdie,
+table.scores td.upAndDown {
   background-color: #2fff51;
 }
 table.scores td.par {

@@ -1,5 +1,4 @@
 
-
 var flash = require('connect-flash');
 var express = require('express');
 var app = module.exports = express();
@@ -49,7 +48,6 @@ app.configure(function(){
 });
 
 var dao = require("./dao/scoresDao.js");
-
 dao.connect(config.ConnectionString,function(error){
     console.log('connect returned');
     if(error) throw error;
@@ -77,17 +75,48 @@ app.get('/scores',function(req,res){
     });
 });
 app.get('/scores/refresh',function(req,res){
+    var predictor = require("./domain/handicapPredictor");
     var async = require("async");
-    dao.getScores('me',function(err,scores){
+    dao.getScoresByDate('me',function(err,scores){
+        //update current handicap for each score
+        var previousHC = 0;
+        var runningScores = [];
+        for(var i=0;i<scores.length;i++){
+            //runningScores.push(scores[i]);
+            runningScores.splice(0, 0, scores[i]);
+            console.log("runningScores",runningScores.length);
+            scores[i].handicapBefore = previousHC;
+            var list = predictor.getListOf20(runningScores);
+            if(runningScores.length == 4){
+                for(var j=list.length-1;j>=0;j--){
+                    console.log(list[j].date,':',list[j].handicap||list[j].stats.handicap);
+                }
+            }
+            previousHC = predictor.Handicap(list);
+        //    
+         /*   var result =  predictor.compileScores(runningScores);
+            if(runningScores.length == 1){
+                console.log("CH",result.currentHandicap);    
+                for(var j=0;j<result.scores.length;j++){
+                    console.log(result.scores[j].date,':',result.scores[j].handicap||result.scores[j].stats.handicap);
+                }
+            }*/
+            scores[i].handicapAfter = previousHC;
+            console.log(scores[i].date,'previousHC',previousHC);
+
+        }
+        
+    
+        
         if(err) throw err;
         async.eachLimit(scores,5,
             function(score,callback){
-                console.log('saving');
+//console.log('saving');
                 score.save(callback);
             },
             function(err){
-                if(err) throw res.send(err);
-//                res.send('finished refreshing',err);
+                if(err) throw res.send(JSON.stringify(err));
+               //res.send('finished refreshing');
                 req.flash("info",'finished refreshing score stats');
                 res.redirect("/");
             }
@@ -123,7 +152,6 @@ var routes = require('./routes');
 app.get('/teePredictions',routes.tee.predictions);
 app.get('/stats/scoresVs/:stat',routes.graphs.scoreVs);
 
-
 app.get('/course/predict',function(req,res){
     dao.getTeeById(req.query.teeId,function(err,course){
         if(err) throw err;
@@ -142,7 +170,6 @@ app.get('/course/predict',function(req,res){
         });
     });
 });
-
 
 app.get('/handicap/month',function(req,res){
     res.json([]);

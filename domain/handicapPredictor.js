@@ -2,22 +2,22 @@ var Calc = require('../app/js/lib/scoreCalculator');
 
 var predictor = exports;
 var last20 = [
-            {id:0,handicap:24.6},
-            {id:1,handicap:19.4},
-            {id:2,handicap:21.3},
-            {id:3,handicap:19.8},
-            {id:4,handicap:12.8},
-            {id:5,handicap:8.9},
-            {id:6,handicap:13.9},
-            {id:7,handicap:18.7},
-            {id:8,handicap:17.1},
-            {id:9,handicap:23.8},
-            {id:10,handicap:17},
-            {id:11,handicap:22},
-            {id:12,handicap:17.6},
-            {id:13,handicap:18.6},
-            {id:14,handicap:22.9},
-            {id:15,handicap:15.2}];
+            {id:0,handicap:24.6,date:'2011-01-01'},
+            {id:1,handicap:19.4,date:'2011-01-02'},
+            {id:2,handicap:21.3,date:'2011-01-03'},
+            {id:3,handicap:19.8,date:'2011-01-04'},
+            {id:4,handicap:12.8,date:'2011-01-05'},
+            {id:5,handicap:8.9,date:'2011-01-06'},
+            {id:6,handicap:13.9,date:'2011-01-07'},
+            {id:7,handicap:18.7,date:'2011-01-08'},
+            {id:8,handicap:17.1,date:'2011-01-09'},
+            {id:9,handicap:23.8,date:'2011-01-10'},
+            {id:10,handicap:17,date:'2011-01-11'},
+            {id:11,handicap:22,date:'2011-01-12'},
+            {id:12,handicap:17.6,date:'2011-01-13'},
+            {id:13,handicap:18.6,date:'2011-01-14'},
+            {id:14,handicap:22.9,date:'2011-01-15'},
+            {id:15,handicap:15.2,date:'2011-01-16'}];
 var MAX_HANDICAP = 21.5;
 var MIN_HANDICAP = 7;
 var calcNewHandicap = predictor.calcNewHandicap = function(handicap,sumTop9Scores){
@@ -48,7 +48,7 @@ var getTenBest = function(scores){
     scores.forEach(function(s){
         list.push(s);
     });
-    list.sort(function(a,b){return a.handicap-b.handicap});
+    list.sort(function(a,b){return (a.handicap||a.stats.handicap)-(b.handicap||b.handicap)});
     while(list.length > 10){
       list.pop();
     }
@@ -59,7 +59,7 @@ var Handicap = predictor.Handicap = function(scores){
       var total = 0;
       var tenBest = getTenBest(scores);
       tenBest.forEach(function(s){
-         total += s.handicap; 
+         total += s.handicap || s.stats.handicap; 
       });
       return Math.round(total / 10 * 0.96 * 100) /100;
   }else{

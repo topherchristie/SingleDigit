@@ -30,6 +30,8 @@ var ScoreSchema = new Schema({
   others:[OtherSchema],
   holes:[HoleSchema],
   ESC : Number,
+  handicapAfter: Number,
+  handicapBefore:Number,
   stats :{
       handicap:Number,
       threePutts:Number,
@@ -119,17 +121,22 @@ var HoleSchema = new Schema({
       fairwayHit:Boolean//,
   }
 });
-
+var _connected = false;
+exports.isConnected = function(){
+    return _connected;
+}
 exports.connect = function(dburl2,callback) {
 	console.log('starting connection');
-	mongoose.connect(dburl2,callback);
+    if(!_connected){
+	    mongoose.connect(dburl2,callback);
+        _connected = true;
+    }
 };
 exports.disconnect = function(callback){
+    _connected=false;
 	mongoose.disconnect(callback);
 	console.log('disconnected from mongo');
 };
-
-
 
 var ScoreModel = mongoose.model('Score',ScoreSchema);
 exports.getScore = function(scoreId,callback){
@@ -139,17 +146,21 @@ exports.getScores = function(userId,callback){
   ScoreModel.find({}).populate("course").populate("tee")
   .sort("-date").exec(callback);
 };
-exports.getAllSimple = function(userId,properties,sortObject,callback){
-  var query = ScoreModel.find({},properties)
-  
-  query.sort(sortObject);
-  
-  query.exec(callback);
+exports.getScoresByDate = function(userId,callback){
+  ScoreModel.find({}).populate("course").populate("tee")
+  .sort("date").exec(callback);
 };
 
+
+exports.getAllSimple = function(userId,properties,sortObject,callback){
+    var query = ScoreModel.find({},properties)
+        .sort(sortObject);
+        query.exec(callback);
+};
 exports.getLast20Scores = function(userId,callback){
-  ScoreModel.find({}).populate("course").populate("tee")
-  .sort("-date").exec(callback);
+    ScoreModel.find({})
+        .populate("course").populate("tee")
+        .sort("-date").exec(callback);
 };
 
 exports.getCourses = function(callback){
@@ -162,11 +173,9 @@ exports.getTeesByCourseId = function(courseId,callback){
    return TeeModel.find({"course":courseId},callback);
 };
 
-
-
 exports.addNewTee = function(newTee,callback){
     TeeModel.create(newTee,callback);
-}
+};
 
 exports.getTee = function(courseId, teeName, callback){
     TeeModel.findOne({"course":courseId,"name":teeName},callback);
@@ -241,6 +250,19 @@ exports.reduceByCourse = function(courseId,callback){
         query:{"course":courseId}
     };
     ScoreModel.mapReduce(r,callback);
+};
+exports.handicapForYear = function(year, callback){
+    var results = [];
+    results[0] = {'name':'March','short':'M'};
+    results[1] = {'name':'April','short':'M'};
+    results[2] = {'name':'May','short':'M'};
+    results[3] = {'name':'June','short':'M'};
+    results[4] = {'name':'July','short':'M'};
+    results[5] = {'name':'Aug','short':'M'};
+    results[6] = {'name':'Sept','short':'M'};
+    results[7] = {'name':'Oct','short':'M'};
+
+    callback(null,results);
 };
 exports.reduceByYear = function(callback){
     // reduce it    

@@ -60,10 +60,10 @@ vows.describe('goal manager Tests').addBatch({
             topic[0].goal.should.equal(2.2);
         },
         //has goal diff
-        'goal diff should be -.8':function(topic){
+        'goal diff should be .8':function(topic){
             should.exist(topic);
             should.exist(topic[0].goalDiff);
-            topic[0].goalDiff.should.equal(-0.8);
+            topic[0].goalDiff.should.equal(0.8);
         }
         
     },

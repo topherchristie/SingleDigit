@@ -48,6 +48,17 @@ vows.describe('goal reduce Tests').addBatch({
                 topic[topic.length-1].score.should.equal(95);
             }
         },
+         'Handicap Graph Tests':{
+            topic: function(){
+                dao.handicapForYear(2012,this.callback);
+            },
+            'returns array':function(topic){
+                topic.should.be.an.instanceOf(Array);
+            },
+            'should have length of 8':function(topic){
+                topic.should.have.lengthOf(8);
+            }
+        },
         teardown :function(){
             dao.disconnect();
         }
