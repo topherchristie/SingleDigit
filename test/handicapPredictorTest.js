@@ -46,7 +46,7 @@ vows.describe('handicap predictor Tests').addBatch({
             should.exist(topic.nextBest);
             topic.nextBest.should.equal(17.9);
         },
-        'laste item is index of 18': function(topic){
+        'last item is index of 18': function(topic){
               topic.scores[9].index.should.equal(18);
         },
         'Does next score bump a counting score': function(topic){
@@ -300,6 +300,51 @@ vows.describe('handicap predictor Tests').addBatch({
             topic[19].handicap.should.equal(22);
         }
     },
+    'last 20 for updating HC':{
+        topic:function(){
+            var simplified = [ 
+     { id: "4fbc153ee4b0a33e91b4b188",
+    date: new Date("Sun Mar 18 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 95,
+    handicap: 21.2 },
+  { id: "4fbcf431e4b0cd15b47fd119",
+    date: new Date("Sun Apr 01 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 91,
+    handicap: 17.69 },
+  { id: "4fbcf621e4b0cd15b47fd121",
+    date: new Date("Sun Apr 15 2012 03:00:00 GMT-0400 (EDT)"),
+    score: 97,
+    handicap: 22.95 },
+  { id: "4f9ee019184aba0100000001",
+    date: new Date("Sun Apr 29 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 94,
+    handicap: 18.98 },
+    { id: "4fbbb483e4b02039bec59cf6",
+    date: new Date("Mon May 21 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 91,
+    handicap: 21.28 },
+     { id: "4fe8887de4b0cb519caaa3c2",
+    date: new Date("Sun Jun 24 2012 03:30:00 GMT-0400 (EDT)"),
+    score: 92,
+    handicap: 17.69 }
+   ];
+            return predictor.getListOf20(simplified.reverse());
+        },
+        'confirm there are 20 results':function(topic){            
+            should.exist(topic);
+            topic.should.have.lengthOf(20);
+        },
+        'confirm 1st item':function(topic){
+            topic[0].id.should.equal('4fe8887de4b0cb519caaa3c2');
+        },'confirm 2nd item':function(topic){
+            topic[1].id.should.equal('4fbbb483e4b02039bec59cf6');
+        },'confirm 2nd last item':function(topic){
+            topic[topic.length -2].id.should.equal(3);
+        },'confirm last item':function(topic){
+            topic[topic.length -1].id.should.equal(2);
+        }
+        
+    },
     'Course Preditions':{
         topic:function(){
             var courseSlope = 129;
@@ -390,5 +435,218 @@ vows.describe('handicap predictor Tests').addBatch({
         'Gets Correct HC':function(topic){
             topic.should.equal(15.12);
         }
+    },
+    'getTenBest from 20':{
+        topic:function(){
+            var simplified = [ 
+                 { id: "4fe8887de4b0cb519caaa3c2",
+                date: new Date("Sun Jun 24 2012 03:30:00 GMT-0400 (EDT)"),
+                score: 92,
+                stats:{handicap: 17.69 }},
+                { id: "4fbbb483e4b02039bec59cf6",
+                date: new Date("Mon May 21 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 91,
+                handicap: 21.28 },
+                { id: "4f9ee019184aba0100000001",
+                date: new Date("Sun Apr 29 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 94,
+                handicap: 18.98 },
+                { id: "4fbcf621e4b0cd15b47fd121",
+                date: new Date("Sun Apr 15 2012 03:00:00 GMT-0400 (EDT)"),
+                score: 97,
+                handicap: 22.95 },
+                { id: "4fbcf431e4b0cd15b47fd119",
+                date: new Date("Sun Apr 01 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 91,
+                handicap: 17.69 },
+                 { id: "4fbc153ee4b0a33e91b4b188",
+                date: new Date("Sun Mar 18 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 95,
+                handicap: 21.2 },
+                 { id: "15",
+                date: new Date(2011,1,20),
+                handicap: 15.2 },
+                 { id: "14",
+                date: new Date(2011,1,19),
+                handicap: 22.9 },
+                 { id: "13",
+                date: new Date(2011,1,18),
+                handicap:  18.6},
+                 { id: "12",
+                date: new Date(2011,1,17),
+                handicap:  17.6},
+                 { id: "11",
+                date: new Date(2011,1,16),
+                handicap:  22},
+                 { id: "10",
+                date: new Date(2011,1,15),
+                handicap:  17},
+                 { id: "9",
+                date: new Date(2011,1,14),
+                handicap:23.8},
+                 { id: "8",
+                date: new Date(2011,1,13),
+                handicap:17.1  },
+                 { id: "7",
+                date: new Date(2011,1,12),
+                handicap: 18.7 },
+                 { id: "6",
+                date: new Date(2011,1,11),
+                handicap: 13.9 },
+                 { id: "5",
+                date: new Date(2011,1,10),
+                handicap: 8.9 },
+                 { id: "4",
+                date: new Date(2011,1,9),
+                handicap: 12.8 },
+                 { id: "3",
+                date: new Date(2011,1,8),
+                handicap: 19.8 },
+                 { id: "2",
+                date: new Date(2011,1,8),
+                handicap: 21.3 }
+            ];
+            return predictor.getTenBest(simplified);
+        },
+        'confirm there are 10 results':function(topic){            
+            should.exist(topic);
+            topic.should.have.lengthOf(10);
+        },   
+        'confirm 1st item':function(topic){
+            topic[0].id.should.equal('5');
+        },
+        'confirm 2nd item':function(topic){
+            topic[1].id.should.equal('4');
+        },
+        'confirm 2nd last item':function(topic){
+            topic[topic.length -2].stats.handicap.should.equal(17.69);
+        },
+        'confirm last item':function(topic){
+            topic[topic.length -1].id.should.equal('13');
+        }
+        
+    },
+    'Current Handicap':{
+        topic:function(){
+            var simplified = [ 
+                 { id: "4fe8887de4b0cb519caaa3c2",
+                date: new Date("Sun Jun 24 2012 03:30:00 GMT-0400 (EDT)"),
+                score: 92,
+                handicap: 17.69 },
+                { id: "4fbbb483e4b02039bec59cf6",
+                date: new Date("Mon May 21 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 91,
+                handicap: 21.28 },
+                { id: "4f9ee019184aba0100000001",
+                date: new Date("Sun Apr 29 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 94,
+                handicap: 18.98 },
+                { id: "4fbcf621e4b0cd15b47fd121",
+                date: new Date("Sun Apr 15 2012 03:00:00 GMT-0400 (EDT)"),
+                score: 97,
+                handicap: 22.95 },
+                { id: "4fbcf431e4b0cd15b47fd119",
+                date: new Date("Sun Apr 01 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 91,
+                handicap: 17.69 },
+                 { id: "4fbc153ee4b0a33e91b4b188",
+                date: new Date("Sun Mar 18 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 95,
+                handicap: 21.2 },
+                 { id: "15",
+                date: new Date(2011,1,20),
+                handicap: 15.2 },
+                 { id: "14",
+                date: new Date(2011,1,19),
+                handicap: 22.9 },
+                 { id: "13",
+                date: new Date(2011,1,18),
+                handicap:  18.6},
+                 { id: "12",
+                date: new Date(2011,1,17),
+                handicap:  17.6},
+                 { id: "11",
+                date: new Date(2011,1,16),
+                handicap:  22},
+                 { id: "10",
+                date: new Date(2011,1,15),
+                handicap:  17},
+                 { id: "9",
+                date: new Date(2011,1,14),
+                handicap:23.8},
+                 { id: "8",
+                date: new Date(2011,1,13),
+                handicap:17.1  },
+                 { id: "7",
+                date: new Date(2011,1,12),
+                handicap: 18.7 },
+                 { id: "6",
+                date: new Date(2011,1,11),
+                handicap: 13.9 },
+                 { id: "5",
+                date: new Date(2011,1,10),
+                handicap: 8.9 },
+                 { id: "4",
+                date: new Date(2011,1,9),
+                handicap: 12.8 },
+                 { id: "3",
+                date: new Date(2011,1,8),
+                handicap: 19.8 },
+                 { id: "2",
+                date: new Date(2011,1,8),
+                handicap: 21.3 }
+            ];
+            return predictor.Handicap(simplified);
+        },
+        'confirm there are 10 results':function(topic){            
+            should.exist(topic);
+            topic.should.equal(15.02);
+        }        
+    },
+    
+    
+    'updateHandicaps':{
+        topic:function(){
+            var simplified = [ 
+                { id: "4fbc153ee4b0a33e91b4b188",
+                date: new Date("Sun Mar 18 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 95,
+                handicap: 21.2 },
+                { id: "4fbcf431e4b0cd15b47fd119",
+                date: new Date("Sun Apr 01 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 91,
+                handicap: 17.69 },
+                { id: "4fbcf621e4b0cd15b47fd121",
+                date: new Date("Sun Apr 15 2012 03:00:00 GMT-0400 (EDT)"),
+                score: 97,
+                handicap: 22.95 },
+                 { id: "4f9ee019184aba0100000001",
+                date: new Date("Sun Apr 29 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 94,
+                handicap: 18.98 },
+                { id: "4fbbb483e4b02039bec59cf6",
+                date: new Date("Mon May 21 2012 14:55:21 GMT-0400 (EDT)"),
+                score: 91,
+                handicap: 21.28 },
+                 { id: "4fe8887de4b0cb519caaa3c2",
+                date: new Date("Sun Jun 24 2012 03:30:00 GMT-0400 (EDT)"),
+                score: 92,
+                stats:{handicap: 17.69} },
+                ];
+                
+            predictor.updateHandicaps(simplified);
+            return simplified;
+        },
+        'topic gets the new list':function(topic){
+            should.exist(topic);
+            topic.should.have.lengthOf(6);
+        },
+        'last should have new HC of 15.02':function(topic){
+            should.exist(topic);
+            topic[topic.length - 1].should.have.property('handicapAfter');
+            topic[topic.length - 1].handicapAfter.should.equal(15.02);
+        }
+        
+        
     }
 }).export(module);

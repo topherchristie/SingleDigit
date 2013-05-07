@@ -43,12 +43,12 @@ var getListOf20 = predictor.getListOf20  = function(storedScores){
     }
     return newList;
 };
-var getTenBest = function(scores){
+var getTenBest = predictor.getTenBest = function(scores){
     var list = [];
     scores.forEach(function(s){
         list.push(s);
     });
-    list.sort(function(a,b){return (a.handicap||a.stats.handicap)-(b.handicap||b.handicap)});
+    list.sort(function(a,b){return (a.handicap||a.stats.handicap)-(b.handicap||b.stats.handicap)});
     while(list.length > 10){
       list.pop();
     }
@@ -149,3 +149,27 @@ var coursePredict = predictor.coursePredict = function(rating,slope,sumTop9Score
     
     return results;
 };
+function printScores(list){
+    var outputString = "";
+    for(var i=0;i<list.length;i++){
+      outputString += ',' + (list[i].handicap || list[i].stats.handicap );
+    }
+    console.log("runningScores",list.length,outputString);
+}
+predictor.getCurrentForList = function(runningScores){
+    var list = predictor.getListOf20(runningScores);
+    return predictor.Handicap(list);
+};
+predictor.updateHandicaps = function(scores){
+     var previousHC = 0;
+        var runningScores = [];
+        for(var i=0;i<scores.length;i++){
+            //runningScores.push(scores[i]);
+            runningScores.splice(0, 0, scores[i]);
+            printScores(runningScores);
+            scores[i].handicapBefore = previousHC;
+            previousHC = predictor.getCurrentForList(runningScores);
+            scores[i].handicapAfter = previousHC;
+            console.log(scores[i].date,'previousHC',previousHC);
+        }
+}

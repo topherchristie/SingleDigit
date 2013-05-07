@@ -8,6 +8,11 @@ define(["d3"],function(ddd){
             //this.model.on('destroy',this.remove, this);
         //    this.render();
         },
+        changeModel:function(newModel){
+            this.model.off('change',this.render);
+            this.model = newModel;
+            this.model.on('change',this.render, this);
+        },
         plotFunction: function(data){
             var sumX=0;
             var sumY=0;
@@ -79,13 +84,16 @@ define(["d3"],function(ddd){
                 this.circles = this.main.append("svg:g"); 
             }
             this.xAxis.scale(x);
-            this.xAxisHolder.call(this.xAxis);
+            this.xAxisHolder 
+                .transition()
+                .duration(1000)
+                .ease("linear").call(this.xAxis);
             this.yAxis.scale(y);
             this.yAxisHolder
-            .transition()
-            .duration(1000)
-            .ease("linear")
-            .call(this.yAxis);
+                .transition()
+                .duration(1000)
+                .ease("linear")
+                .call(this.yAxis);
                // draw the graph object
             var self = this;
             this.circles.selectAll("circle").remove();

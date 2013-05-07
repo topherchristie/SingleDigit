@@ -74,39 +74,15 @@ app.get('/scores',function(req,res){
         res.json(result) ; 
     });
 });
+
 app.get('/scores/refresh',function(req,res){
     var predictor = require("./domain/handicapPredictor");
     var async = require("async");
     dao.getScoresByDate('me',function(err,scores){
         //update current handicap for each score
-        var previousHC = 0;
-        var runningScores = [];
-        for(var i=0;i<scores.length;i++){
-            //runningScores.push(scores[i]);
-            runningScores.splice(0, 0, scores[i]);
-            console.log("runningScores",runningScores.length);
-            scores[i].handicapBefore = previousHC;
-            var list = predictor.getListOf20(runningScores);
-            if(runningScores.length == 4){
-                for(var j=list.length-1;j>=0;j--){
-                    console.log(list[j].date,':',list[j].handicap||list[j].stats.handicap);
-                }
-            }
-            previousHC = predictor.Handicap(list);
-        //    
-         /*   var result =  predictor.compileScores(runningScores);
-            if(runningScores.length == 1){
-                console.log("CH",result.currentHandicap);    
-                for(var j=0;j<result.scores.length;j++){
-                    console.log(result.scores[j].date,':',result.scores[j].handicap||result.scores[j].stats.handicap);
-                }
-            }*/
-            scores[i].handicapAfter = previousHC;
-            console.log(scores[i].date,'previousHC',previousHC);
-
-        }
+       
         
-    
+        predictor.updateHandicaps(scores);
         
         if(err) throw err;
         async.eachLimit(scores,5,
@@ -151,6 +127,9 @@ var routes = require('./routes');
 
 app.get('/teePredictions',routes.tee.predictions);
 app.get('/stats/scoresVs/:stat',routes.graphs.scoreVs);
+app.get('/stats/girVsFw',routes.graphs.girVsFw);
+
+
 
 app.get('/course/predict',function(req,res){
     dao.getTeeById(req.query.teeId,function(err,course){

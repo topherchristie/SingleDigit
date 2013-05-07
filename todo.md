@@ -1,3 +1,5 @@
+* add graph for fairway / playable % by Club
+* add fairways by club to round stats
 * design and then add Handicap table (March - Sept, HC graph?)
 * add fixed link to toggle table view (putt, score, chip, drive) for small screens
 * Table Filter by Year or Course, last 5, 10, 20

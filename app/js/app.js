@@ -25,11 +25,10 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
        views: {},
        collections: {},
        init:function(){
-           var self = this;
-           self.collections.scores.fetch({data:{},success: function(res){ self.views.recentTable.render(); }});
-           self.collections.goals.fetch({data:{},success: function(res){ self.views.goals.render();}});
-           
-           self.views.courseLayer.hide();
+            var self = this;
+            self.collections.scores.fetch({data:{},success: function(res){ self.views.recentTable.render(); }});
+            self.collections.goals.fetch({data:{},success: function(res){ self.views.goals.render();}});
+            self.views.courseLayer.hide();
             $("body").on("click","#coursesLink",function(){
                 $("#scoresLink").parent().removeClass('active');
                    $("#graphsLink").parent().removeClass('active');

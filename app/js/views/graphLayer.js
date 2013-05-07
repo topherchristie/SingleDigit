@@ -1,4 +1,4 @@
-define(["views/scoreVsGraph","models/scoreVs"],function(ScoreVsGraph,ScoreVsModel){
+define(["views/scoreVsGraph","models/scoreVs","models/GIRvsFairwayPercent"],function(ScoreVsGraph,ScoreVsModel,GIRvsFairwayPercent){
     var GraphLayer = Backbone.View.extend({
         el: '#graphLayer',
         tagName:'div',
@@ -8,7 +8,8 @@ define(["views/scoreVsGraph","models/scoreVs"],function(ScoreVsGraph,ScoreVsMode
             "click a.scoreVsFairways":"scoreVsFairways",
             "click a.scoreVsPlayable":"scoreVsPlayable",
             "click a.scoreVsDrPenPoints":"scoreVsDrPenPoints",
-            "click a.scoreVsScramble":"scoreVsScramble"
+            "click a.scoreVsScramble":"scoreVsScramble",
+            "click a.girVsFw":"girVsFw"
         },
         hide:function(){
             $(this.el).hide();
@@ -55,11 +56,38 @@ define(["views/scoreVsGraph","models/scoreVs"],function(ScoreVsGraph,ScoreVsMode
             this.$el.find("#graphTitle").html("Score vs " + stat);
             if(!this.model){
                 this.model = new ScoreVsModel({stat:stat});
-                this.graph = new ScoreVsGraph({el:"#graphHolder",model:this.model});    
-            }else{
+            }else{                
                 this.model.set({stat:stat});
             }
-            this.model.fetch();
+            if(!this.graph){
+                this.graph = new ScoreVsGraph({el:"#graphHolder",model:this.model});    
+            }else{
+                this.graph.changeModel(this.model);
+            }
+            var self = this;
+            this.model.fetch({success:function(){
+                self.graph.render();
+            }});
+        },
+        girVsFw : function(e){
+            e.preventDefault();
+            this.$el.find("#graphTitle").html("GIR vs Fairway %");
+            
+            if(!this.model2){
+                this.model2 = new GIRvsFairwayPercent();
+            }
+            
+            if(!this.graph){
+                this.graph = new ScoreVsGraph({el:"#graphHolder",model:this.model2});    
+            }else{
+                this.graph.changeModel(this.model2);
+            }
+            
+            
+              var self = this;
+            this.model2.fetch({success:function(){
+                self.graph.render();
+            }});
         }
     });
     return GraphLayer;
