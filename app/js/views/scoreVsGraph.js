@@ -117,7 +117,7 @@ define(["d3"],function(ddd){
             })// radius of circle
             .attr('class','tooltipCircle')
             ;
-            rrr.transition()
+          /*  rrr.transition()
             .duration(1000)
             .attrTween('cx', function(a) {
                var i = d3.interpolate(this._previous, a.x);
@@ -134,6 +134,7 @@ define(["d3"],function(ddd){
                 };
             });
             rrr.exit().remove();
+            */
             var yAvg = (yMax + yMin) / 2;
            // $("body").tooltip({ selector: ".tooltipCircle" });
      // .style("opacity", 0.6); // opacity of circle
