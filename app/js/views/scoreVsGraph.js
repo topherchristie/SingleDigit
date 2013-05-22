@@ -46,12 +46,19 @@ define(["d3"],function(ddd){
             var xMin = d3.min(data,function(d){return d.x;});
             var yMax = d3.max(data,function(d){return d.y;});
             var yMin = d3.min(data,function(d){return d.y;});
+            
+            console.log("xMax",xMax);
+            console.log("xMin",xMin);
+            console.log("yMax",yMax);
+            console.log("yMin",yMin);
             var x = d3.scale.linear()
                 .domain([xMin-1,xMax+1])
                 .range([0,width]);
             var y = d3.scale.linear()
                 .domain([yMin,yMax])
                 .range([height, 0]);
+                
+            console.log("x(10)",x(10));
             if(!this.graph){
                 this.graph = d3.select(this.el).append("svg:svg")
                 .attr("width", fullWidth)
