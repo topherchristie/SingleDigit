@@ -16,9 +16,17 @@ define(['xdate','scoreCalculator'],function(xdate,scoreCalculator){
                 
             }
             var stats =  this.get("stats");
+            var fairwayText;
+            var playableText;
+            
+            if(stats){
             scrambleText = stats.scrambles + "/" + stats.scrambleChances;
-            var fairwayText = stats.fairways + "/" + stats.totalFairways;
-            var playableText = stats.playable + "/" + stats.totalFairways;
+                fairwayText = stats.fairways + "/" + stats.totalFairways;
+                playableText = stats.playable + "/" + stats.totalFairways;
+            }else{
+                fairwayText="";
+                playableText="";
+            }
             var eagles = this.get("eagles");
             var eagleAstrix = (eagles && eagles > 0)?"*":"";
             

@@ -18,7 +18,7 @@ vows.describe('handicap predictor Tests').addBatch({
             testScores.push({"id":"test7","date":new Date(2012,9,16),handicap:16.9});
             testScores.push({"id":"test8","date":new Date(2012,9,15),handicap:17.44});
             testScores.push({"id":"test9","date":new Date(2012,9,14),handicap:21.61});
-            testScores.push({"id":"test10","date":new Date(2012,9,13),handicap:17.69});
+          testScores.push({"id":"test10","date":new Date(2012,9,13),handicap:17.69});  
             testScores.push({"id":"test11","date":new Date(2012,9,12),handicap:22.22});
             testScores.push({"id":"test12","date":new Date(2012,9,11),handicap:19.86});
             testScores.push({"id":"test13","date":new Date(2012,9,10),handicap:22.95});
@@ -46,8 +46,9 @@ vows.describe('handicap predictor Tests').addBatch({
             should.exist(topic.nextBest);
             topic.nextBest.should.equal(17.9);
         },
-        'last item is index of 18': function(topic){
-              topic.scores[9].index.should.equal(18);
+        'last item is 17.6 and index of 18': function(topic){
+              topic.scores[topic.scores.length-1].index.should.equal(18);
+              topic.scores[topic.scores.length-1].handicap.should.equal(17.6);
         },
         'Does next score bump a counting score': function(topic){
             should.exist(topic.isScoreBeingBumped);
@@ -55,7 +56,7 @@ vows.describe('handicap predictor Tests').addBatch({
         },
         'sum of best 9 should be correct':function(topic){
             topic.should.have.property("sumOfTop9Scores");
-            topic.sumOfTop9Scores.should.equal(138.16);
+            topic.sumOfTop9Scores.should.equal(138.07);
         }
     },
     'Scores comple2':{
@@ -648,5 +649,91 @@ vows.describe('handicap predictor Tests').addBatch({
         }
         
         
-    }
+    },
+        'Scores compile Bug 20130521':{
+         topic:function(){
+            var simplified = [ 
+                { id: 'Broadlands1',
+    date: new Date("Sun May 18 2013 09:40:21 GMT-0400 (EDT)"),
+    score: 82,
+    handicap: 11.67 },
+                { id: 'Browndeer1',
+    date: new Date("Sun Apr 21 2013 09:40:21 GMT-0400 (EDT)"),
+    score: 93,
+    handicap: 19.45 },
+                { id: '5040d0e8e4b0c977a953cb1d',
+    date: new Date("Sun Sep 09 2012 09:40:21 GMT-0400 (EDT)"),
+    score: 92,
+    handicap: 13.63 },
+  { id: '503bb873e4b0ac449f5ba601',
+    date: new Date("Sun Aug 26 2012 06:00:21 GMT-0400 (EDT)"),
+    score: 92,
+    handicap: 12.98 },
+  { id: '504e58b5e4b0adc170211c19',
+    date: new Date("Sat Aug 25 2012 09:40:21 GMT-0400 (EDT)"),
+    score: 96,
+    handicap: 17.9 },
+  { id: "5050d97be4b02f705f157094",
+    date: new Date("Fri Aug 24 2012 09:40:21 GMT-0400 (EDT)"),
+    score: 94,
+    handicap: 18.26 },
+  { id: "50324ac4e4b01966199d1c3f",
+    date: new Date("Fri Aug 17 2012 10:00:21 GMT-0400 (EDT)"),
+    score: 86,
+    handicap: 11.56 },
+  { id: "5011498be4b0aabe32a8f9b9",
+    date: new Date("Wed Jul 25 2012 11:00:21 GMT-0400 (EDT)"),
+    score: 89,
+    handicap: 15.07 },
+  { id: "500d7d2ae4b06613bcc49375",
+    date: new Date("Sun Jul 22 2012 13:05:21 GMT-0400 (EDT)"),
+    score: 88,
+    handicap: 16.9 },
+  { id: "5004363de4b0e762af01b629",
+    date: new Date("Sun Jul 15 2012 04:40:21 GMT-0400 (EDT)"),
+    score: 97,
+    handicap: 17.44 },
+  { id: "4ff1b95be4b02a63da8ab804",
+    date: new Date("Sun Jul 01 2012 03:35:21 GMT-0400 (EDT)"),
+    score: 94,
+    handicap: 20.7 },
+  { id: "4fe8887de4b0cb519caaa3c2",
+    date: new Date("Sun Jun 24 2012 03:30:00 GMT-0400 (EDT)"),
+    score: 92,
+    handicap: 17.69 },
+  { id: "4fbbb483e4b02039bec59cf6",
+    date: new Date("Mon May 21 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 91,
+    handicap: 21.28 },
+  { id: "4f9ee019184aba0100000001",
+    date: new Date("Sun Apr 29 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 94,
+    handicap: 18.98 },
+  { id: "4fbcf621e4b0cd15b47fd121",
+    date: new Date("Sun Apr 15 2012 03:00:00 GMT-0400 (EDT)"),
+    score: 97,
+    handicap: 22.95 },
+  { id: "4fbcf431e4b0cd15b47fd119",
+    date: new Date("Sun Apr 01 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 91,
+    handicap: 17.69 },
+  { id: "4fbc153ee4b0a33e91b4b188",
+    date: new Date("Sun Mar 18 2012 14:55:21 GMT-0400 (EDT)"),
+    score: 95,
+    handicap: 21.2 } ];
+            return predictor.compileScores(simplified);
+        },
+        'last result is quit-qui ock 15.2':function(topic){            
+            should.exist(topic.scores);
+            topic.scores[topic.scores.length-1].handicap.should.equal(15.2);
+        },
+        'current handicap':function(topic){
+            topic.should.have.property('currentHandicap')   ;
+            topic.currentHandicap.should.equal(14.38);
+        },
+        'Sum of top 9':function(topic){
+            topic.should.have.property('sumOfTop9Scores');
+            topic.sumOfTop9Scores.should.equal(132.14);
+        }
+    },
 }).export(module);

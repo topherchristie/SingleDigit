@@ -1,5 +1,5 @@
 /*!
- * Bootstrap v2.3.1
+ * Bootstrap v2.3.2
  *
  * Copyright 2012 Twitter, Inc
  * Licensed under the Apache License v2.0
@@ -2519,6 +2519,14 @@ table th[class*="span"],
 }
 .open > .dropdown-menu {
   display: block;
+}
+.dropdown-backdrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 990;
 }
 .pull-right > .dropdown-menu {
   right: 0;
@@ -5261,6 +5269,12 @@ table a {
 }
 .nav-pills {
   margin-bottom: 0px;
+}
+.hero-unit {
+  padding: 15px;
+}
+.form-horizontal .control-group {
+  margin-bottom: 7px;
 }
 .pull-right {
   float: right;

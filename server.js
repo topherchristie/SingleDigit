@@ -65,8 +65,18 @@ var helper = require("./helper");
 app.get('/', function(req,res){
     var locals = {
         "useCompiledJs":config.useCompiledJs,
-        "title":"Golf Home",scores:dao.getScores()};
+        "title":"Golf Home"};
     helper.render(req,res,"index.html",locals);  
+});
+app.get('/score/add', function(req,res){
+    dao.getCourses(function(err,result){
+        if(err) throw err;
+        var locals = {
+            "useCompiledJs":config.useCompiledJs,
+            "title":"Golf - Add Score",courses:result,score:0,fairways:"0 of 0",putts:0,chips:0,GIR:0
+        };
+        helper.render(req,res,"score/add.html",locals);  
+    });
 });
 
 app.get('/scores',function(req,res){
@@ -129,7 +139,15 @@ app.get('/teePredictions',routes.tee.predictions);
 app.get('/stats/scoresVs/:stat',routes.graphs.scoreVs);
 app.get('/stats/girVsFw',routes.graphs.girVsFw);
 
-
+app.post('/course/tees',function(req,res){
+    var cId = req.body.id;
+    console.log("cid",cId);
+    dao.getTeesByCourseId(cId,function(err,result){
+        if(err) throw err;
+        var model = {"tees":result,"courseId":cId};
+        res.json(model); 
+    });
+});
 
 app.get('/course/predict',function(req,res){
     dao.getTeeById(req.query.teeId,function(err,course){

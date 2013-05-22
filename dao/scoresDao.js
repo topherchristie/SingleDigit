@@ -84,10 +84,14 @@ ScoreSchema.pre('save',function(next){
         console.log('saving score,tee or tee.holes is false');
     }
     this.stats = scoreCalculator.calc(this.score,this.ESC,this.holes,this.course,this.tee);
+    
+ //   scoreCalculator.UpdateScore(this);
     this.markModified('holes');
    //console.log(this.stats.extra);
     next();
 });
+
+
 
 var CourseSchema = new Schema({
     _id:String,
@@ -186,32 +190,33 @@ exports.reduceByCourse = function(courseId,callback){
             
             this.holes.forEach(function(h){
                 var par3,fairways,playable,fairwayPercent,playablePercent;
-                
-                if(h.stats.hasFairway){
-                    par3=false;
-                    fairways = h.stats.fairwayHit?1:0;
-                    playable = h.playable?1:0;
-                   // var gir = h.gir;
-                    fairwayPercent= (fairways/1*100).toFixed(0);
-                    playablePercent=(playable/1*100).toFixed(0);
-                }else{
-                    par3=true;
-                    fairwayPercent= 'n/a';
-                    playablePercent= 'n/a';
+                if(h.stats){
+                    if(h.stats.hasFairway){
+                        par3=false;
+                        fairways = h.stats.fairwayHit?1:0;
+                        playable = h.playable?1:0;
+                       // var gir = h.gir;
+                        fairwayPercent= (fairways/1*100).toFixed(0);
+                        playablePercent=(playable/1*100).toFixed(0);
+                    }else{
+                        par3=true;
+                        fairwayPercent= 'n/a';
+                        playablePercent= 'n/a';
+                    }
+                    emit(h.id,{
+                        "par3":par3,
+                        "fairway":fairways,
+                        'avgScoreToPar':h.stats.overPar,
+                        "playable":playable,
+                        "fairwayPercent":fairwayPercent,
+                        "playablePercent":playablePercent,
+                        'GIR':h.stats.GIR?1:0,
+                        'GIRPercent':h.stats.GIR?'100':'0',
+                        'count':1,
+                        'avgPutts':h.putts,
+                        'penalties':h.penalties
+                    });
                 }
-                emit(h.id,{
-                    "par3":par3,
-                    "fairway":fairways,
-                    'avgScoreToPar':h.stats.overPar,
-                    "playable":playable,
-                    "fairwayPercent":fairwayPercent,
-                    "playablePercent":playablePercent,
-                    'GIR':h.stats.GIR?1:0,
-                    'GIRPercent':h.stats.GIR?'100':'0',
-                    'count':1,
-                    'avgPutts':h.putts,
-                    'penalties':h.penalties
-                });
             });
         },
         scope:{},
@@ -268,16 +273,18 @@ exports.reduceByYear = function(callback){
     // reduce it    
     var o = {
         map: function(){
-            emit(this.date.getFullYear(),{
-                "threePutts":this.stats.threePutts,
-                "extraChips":this.stats.extraChips, 
-                "putts":this.stats.putts, 
-                "scramblePercent":this.stats.scramblePercent,
-                "extras":this.stats.extra,
-                "GIR":this.stats.GIR,
-                "drivePoints":this.stats.drivePoints,
-                "score":this.score
-                });                
+          //  if(this.stats){
+                emit(this.date.getFullYear(),{
+                    "threePutts":this.stats.threePutts,
+                    "extraChips":this.stats.extraChips, 
+                    "putts":this.stats.putts, 
+                    "scramblePercent":this.stats.scramblePercent,
+                    "extras":this.stats.extra,
+                    "GIR":this.stats.GIR,
+                    "drivePoints":this.stats.drivePoints,
+                    "score":this.score
+                    });      
+            //}
         },
         scope:{},
         reduce: function(key,vals){

@@ -82,15 +82,18 @@ predictor.compileScores = function(storedScores){
     var currentHandicap = Handicap(scores);
     var fifthBest = scores[4].handicap;
     
+    //sum top 9 before sorting by index!
+    var sumOfTop9Scores=0;
+    for(var i=0;i<scores.length-1;i++){
+        sumOfTop9Scores += scores[i].handicap;
+    }
+    
     // sort by index, which is same as date
     scores.sort(function(a,b){return a.index-b.index});
     // figure out if the 10
     
     var isScoreBeingBumped = scores[scores.length-1].index === 19;
-    var sumOfTop9Scores=0;
-    for(var i=0;i<scores.length-1;i++){
-        sumOfTop9Scores += scores[i].handicap;
-    }
+   
     return {
         "scores":scores,
         "sumOfTop9Scores":sumOfTop9Scores,
@@ -164,6 +167,7 @@ predictor.updateHandicaps = function(scores){
      var previousHC = 0;
         var runningScores = [];
         for(var i=0;i<scores.length;i++){
+          
             //runningScores.push(scores[i]);
             runningScores.splice(0, 0, scores[i]);
             printScores(runningScores);

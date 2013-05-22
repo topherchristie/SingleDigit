@@ -8,6 +8,7 @@ var ScoreCalculator = (function(){
     function init(scoreCalculator, args) {
         return scoreCalculator;
     }
+
     proto.calc = function (score,ESC,holes,course,tee){
             if(course === null) throw "Course cannot be null";
             var result = {onePutts:0,threePutts:0,chipIn:0,putts:0, handicap:0,birdies:0,eagles:0,pars:0,bogies:0,others:0,doubles:0};

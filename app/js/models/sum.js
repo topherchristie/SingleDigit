@@ -74,9 +74,12 @@ define([],function(xdate,scoreCalculator){
         },
         sumStat:function(attribute,model){
             var stats = this.get('stats');
-            var value = stats[attribute] * this.count + model.get('stats')[attribute];
-            stats[attribute]=value/  (this.count+1);;
-            this.set({"stats":stats});
+            var modelStats = model.get('stats');
+            if(stats && modelStats){
+                var value = stats[attribute] * this.count + modelStats[attribute];
+                stats[attribute]=value/  (this.count+1);
+                this.set({"stats":stats});
+            }
         },
         fixIt:function(attribute){
             var stats = this.get('stats');
