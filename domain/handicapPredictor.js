@@ -173,6 +173,8 @@ predictor.updateHandicaps = function(scores){
             printScores(runningScores);
             scores[i].handicapBefore = previousHC;
             previousHC = predictor.getCurrentForList(runningScores);
+            if(!previousHC)
+                previousHC = -1;
             scores[i].handicapAfter = previousHC;
             console.log(scores[i].date,'previousHC',previousHC);
         }
