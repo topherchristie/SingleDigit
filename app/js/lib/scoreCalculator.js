@@ -95,11 +95,11 @@ var ScoreCalculator = (function(){
         			if(h.playable)
         				total.playable++;
         		}
-        		if(h.putts ==0){
+        		if(h.putts ===0){
         			total.chipIn++;
-        		}else if(h.putts == 1){
+        		}else if(h.putts === 1){
         			total.onePutts++;
-        		}else if(h.putts ==3){
+        		}else if(h.putts >=3){
         			total.threePutts++;
         		}
         		if(h.chips > 0){

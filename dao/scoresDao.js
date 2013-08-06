@@ -273,7 +273,7 @@ exports.reduceByYear = function(callback){
     // reduce it    
     var o = {
         map: function(){
-          //  if(this.stats){
+            if(this.stats){
                 emit(this.date.getFullYear(),{
                     "threePutts":this.stats.threePutts,
                     "extraChips":this.stats.extraChips, 
@@ -284,7 +284,7 @@ exports.reduceByYear = function(callback){
                     "drivePoints":this.stats.drivePoints,
                     "score":this.score
                     });      
-            //}
+            }
         },
         scope:{},
         reduce: function(key,vals){

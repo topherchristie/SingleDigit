@@ -10,7 +10,7 @@
         d3:'../../components/d3/d3.min'
 	},
 	name:"main",
-   /* optimize: "none",*/
+   optimize: "none",
 	out:"public/built-app.js",
     include:['underscore','Backbone','handlebars','d3']
 })
