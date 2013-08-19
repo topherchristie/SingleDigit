@@ -6,20 +6,22 @@ var swig = require('swig');
 var config = require('./config');
 //var routes = require('./routes');
   
+  /*
 swig.init({
     root: __dirname + '/views',
 //filters: require("./views/filters.js"),
      allowErrors: true // allows errors to be thrown and caught by express instead of suppressed
 });
-
+*/
 var consolidate = require('consolidate');
 
 // Configuration
 app.configure(function(){
-  //app.set('views', __dirname + '/views');
+  app.set('views', __dirname + '/views');
   app.set('view options',{layout:false,cache:false});
   app.engine('html',consolidate.swig);
   app.set('view engine','html');  
+  
   app.set("json spaces",0);
   app.use(express.logger());
   app.use(express.cookieParser());
@@ -68,6 +70,31 @@ app.get('/', function(req,res){
         "title":"Golf Home"};
     helper.render(req,res,"index.html",locals);  
 });
+app.post('/score/save', function(req,res){
+    if(req.body.id){
+        res.send("saving changes score for " + req.body.id);
+    }else{
+        dao.createScore(req.body,function(err,res){
+            if(err) 
+                res.send({message:err}); 
+            else
+                res.send({message:"created new score",id:res.id}); 
+        });
+    }
+    //res.send(req.body);
+});
+app.get('/score/edit/:id', function(req,res){
+    dao.getScore(req.params.id,function(err,result){
+        if(err) throw err;
+        if(result == null) throw "id:" + req.param.id + "not found";
+        var locals = {
+            "useCompiledJs":config.useCompiledJs,
+            "title":"Golf - Edit Score",score:result
+        };
+        helper.render(req,res,"score/add.html",{"locals":locals});  
+    });
+});
+
 app.get('/score/add', function(req,res){
     dao.getCourses(function(err,result){
         if(err) throw err;
@@ -148,7 +175,14 @@ app.post('/course/tees',function(req,res){
         res.json(model); 
     });
 });
-
+app.post('/tee',function(req,res){
+    var teeId = req.body.id;
+    dao.getTeeById(teeId,function(err,result){
+        if(err) throw err;
+        var model = result;
+        res.json(model); 
+    });
+});
 app.get('/course/predict',function(req,res){
     dao.getTeeById(req.query.teeId,function(err,course){
         if(err) throw err;
