@@ -22,7 +22,7 @@ var MAX_HANDICAP = 21.5;
 var MIN_HANDICAP = 7;
 var calcNewHandicap = predictor.calcNewHandicap = function(handicap,sumTop9Scores){
     return Math.round((handicap + sumTop9Scores) / 10 *0.96 *100)/100;
-}
+};
 var getListOf20 = predictor.getListOf20  = function(storedScores){
     var newList = [];
     // add all scores to possible results

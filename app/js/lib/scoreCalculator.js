@@ -8,10 +8,36 @@ var ScoreCalculator = (function(){
     function init(scoreCalculator, args) {
         return scoreCalculator;
     }
-
-    proto.calc = function (score,ESC,holes,course,tee){
-            if(course === null) throw "Course cannot be null";
+    var sumScoreAndESCByHoles = proto.sumScoreAndESCByHoles = function(_score){
+        var score = 0;
+        var ESC = 0;
+        if(_score.holes)
+        _score.holes.forEach(function(h,i){
+            console.log(i,h,h.score);
+           if(h.score){
+                score += h.score;
+                ESC += h.score > 7?7:h.score;
+           }
+        });
+        else
+            console.log("sumScoreAndESCByHoles NO HOLES!!!");
+        var result = {"score":score,"ESC":ESC};
+        console.log("sumScoreAndESCByHoles",result)
+        return {"score":score,"ESC":ESC};
+    }
+    proto.calcScore = function(score,tee){
+        var r = sumScoreAndESCByHoles(score);
+        score.score = r.score;
+        score.ESC = r.ESC;
+        
+        return calc(score.score,score.ESC, score.holes, null,tee);
+    }
+    var calc = proto.calc = function (score,ESC,holes,course,tee){
+           // if(course === null) throw "Course cannot be null";
             var result = {onePutts:0,threePutts:0,chipIn:0,putts:0, handicap:0,birdies:0,eagles:0,pars:0,bogies:0,others:0,doubles:0};
+            
+            result.ESC = ESC;
+            result.score = score;
             result.handicap = Handicap(score,ESC,tee.rating,tee.slope);
             result = processHoles(result,holes,tee);
             result.shortGamePercent = Math.round(result.shortGame / score *1000)/10;
@@ -57,9 +83,7 @@ var ScoreCalculator = (function(){
        
         	for(var i = 0;i<holes.length;i++){
                 var h = processHole(holes[i],tee.holes[i]);
-                total.putts += h.putts;
-        	
-        		if(h.GIR){
+                if(h.GIR){
         			total.GIR++;
         		}
         		if(h.Ch15) total.ch15++;
@@ -84,30 +108,32 @@ var ScoreCalculator = (function(){
         		}else{
         			total.birdies ++;
         		}
-        
-        		if(h.par > 3){
-        			total.totalFairways++;
-        			if(/[Hh]it/.test(h.fairway)){
-        				total.fairways++;
-        			}
-        			if(h.drivePoints)
-        				total.drivePoints += h.drivePoints;
-        			if(h.playable)
-        				total.playable++;
-        		}
-        		if(h.putts ===0){
-        			total.chipIn++;
-        		}else if(h.putts === 1){
-        			total.onePutts++;
-        		}else if(h.putts >=3){
-        			total.threePutts++;
-        		}
+                if(h.par > 3){
+                    total.totalFairways++;
+                    if(/[Hh]it/.test(h.fairway)){
+                        total.fairways++;
+                    }
+                    if(h.drivePoints)
+                        total.drivePoints += h.drivePoints;
+                    if(h.playable)
+                        total.playable++;
+                }
+                if(h.putts){
+                    total.putts += h.putts;
+                    if(h.putts ===0){
+            			total.chipIn++;
+            		}else if(h.putts === 1){
+            			total.onePutts++;
+            		}else if(h.putts >=3){
+            			total.threePutts++;
+            		}
+                }
         		if(h.chips > 0){
         			total.holesWChip++;
-        			total.puttsAfterChip +=h.putts;
+        			total.puttsAfterChip += h.putts?h.putts:0;
         		}else{
         			total.holesNoChip ++;
-        			total.puttsAfterNoChip += h.putts;
+        			total.puttsAfterNoChip += h.putts?h.putts:0;
         		} 
                 if(h.scramble != null){
         		  total.scrambleChances ++;
