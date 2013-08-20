@@ -75,15 +75,22 @@ ScoreSchema.pre('save',function(next){
     if(this.tee && this.tee.holes){
         var self = this;
         this.holes.forEach(function(h){
+           /* h.id = parseInt(h.id);
+            h.score = parseInt(h.score);
+            h.putts = parseInt(h.putts);
+            h.chips = parseInt(h.chips);
+            h.penalties = parseInt(h.penalties);
+            h.drivePoints = parseInt(h.drivePoints);*/
             var teeHole = self.tee.holes[h.id-1];
             if(teeHole){
                 h.stats = scoreCalculator.calculateHole(h,teeHole.par);
             }
         });
+        this.stats = scoreCalculator.calc(this.score,this.ESC,this.holes,this.course,this.tee);
     }else{
         console.log('saving score,tee or tee.holes is false');
     }
-    this.stats = scoreCalculator.calc(this.score,this.ESC,this.holes,this.course,this.tee);
+    
     
  //   scoreCalculator.UpdateScore(this);
     this.markModified('holes');
@@ -144,8 +151,22 @@ exports.disconnect = function(callback){
 
 var ScoreModel = mongoose.model('Score',ScoreSchema);
 exports.getScore = function(scoreId,callback){
-   return ScoreModel.findOne({"_id":scoreId},callback);
+   return ScoreModel.findOne({"_id":scoreId}).populate("course").populate("tee").exec(callback);
 };
+exports.createScore  =  function(score,callback){
+    var scoreModel = new ScoreModel(score);
+    scoreModel.save(callback);
+    //return ScoreModel.save(score,callback);
+};
+exports.saveScore = function(score,callback){
+    //ScoreModel.findOneAndUpdate({"_id":score._id}, score,{}, callback);
+    ScoreModel.findOne({"_id":score._id}, function (err, doc) {
+      if (err) throw err;
+      doc.holes = score.holes;
+      doc.save(callback);
+    });
+};
+
 exports.getScores = function(userId,callback){
   ScoreModel.find({}).populate("course").populate("tee")
   .sort("-date").exec(callback);

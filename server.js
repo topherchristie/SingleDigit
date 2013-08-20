@@ -4,16 +4,12 @@ var express = require('express');
 var app = module.exports = express();
 var swig = require('swig');
 var config = require('./config');
-//var routes = require('./routes');
-  
-  /*
-swig.init({
-    root: __dirname + '/views',
-//filters: require("./views/filters.js"),
-     allowErrors: true // allows errors to be thrown and caught by express instead of suppressed
-});
-*/
+var xdate = require('xdate');
+
 var consolidate = require('consolidate');
+swig.setFilter('happyDate', function(input){
+    return (new xdate(input,true)).toString('yyyy-MM-dd');    
+});
 
 // Configuration
 app.configure(function(){
@@ -71,14 +67,32 @@ app.get('/', function(req,res){
     helper.render(req,res,"index.html",locals);  
 });
 app.post('/score/save', function(req,res){
-    if(req.body.id){
-        res.send("saving changes score for " + req.body.id);
-    }else{
-        dao.createScore(req.body,function(err,res){
+    var presave = req.body;
+    presave.holes.forEach(function(h){
+        h.id = parseInt(h.id);
+        h.score = parseInt(h.score);
+        h.putts = parseInt(h.putts);
+        h.chips = parseInt(h.chips);
+        h.penalties = parseInt(h.penalties);
+        h.drivePoints = parseInt(h.drivePoints);
+        h.playable = (h.playable && (h.playable === true || h.playable === "true"));
+    });
+
+    
+    if(presave._id){
+        dao.saveScore(presave,function(err,result){
             if(err) 
-                res.send({message:err}); 
+                res.send({message:err,result:result,obj:presave,isSuccess:false}); 
             else
-                res.send({message:"created new score",id:res.id}); 
+                res.send({message:"Score Saved",result:result,isSuccess:true}); 
+        });
+    
+    }else{
+        dao.createScore(presave,function(err,result){
+            if(err) 
+                res.send({message:err,isSuccess:false}); 
+            else
+                res.send({message:"created new score",id:result._id,isSuccess : true}); 
         });
     }
     //res.send(req.body);
@@ -117,8 +131,6 @@ app.get('/scores/refresh',function(req,res){
     var async = require("async");
     dao.getScoresByDate('me',function(err,scores){
         //update current handicap for each score
-       
-        
         predictor.updateHandicaps(scores);
         
         if(err) throw err;

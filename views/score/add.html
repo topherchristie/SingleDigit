@@ -1,22 +1,21 @@
 {% extends '../layout.html' %}
 {% import 'form.html' as form %}
 {% block content %}
-<h4>{{locals.score._id}}</h4><h4>
  <form id="saveScore" name="saveScore" action="/score/save" method="POST" class="form-inline">
 <!-- Top Part of Form -->
     {% if score %}
     <div id="scoreHeader" class="row-fluid">
         <div class="span4">
             <label>Date</label>
-            <span>{{score.date}}</span>
+            <span>{{score.date | happyDate}}</span>
         </div>
         <div class="span4">
             <label>Course</label>
-            <span>{{score.course}}</span>
+            <span>{{score.course.name}}</span>
         </div>
         <div class="span4">
             <label>Tee</label>
-            <span>{{score.tee}}</span>
+            <span>{{score.tee.name}}</span>
         </div>
     </div>
     {% else %}
@@ -42,21 +41,7 @@
         </div>
     </div>
     {% endif %}
-<!-- running calculations on right -->
-    <div id="scorestats" class="row-fluid">
-        <div class="span12">
-            <label>Score</label>
-            <input id="score" class="input-mini uneditable-input" type="text" value="" />
-            <label>ESC</label>
-            <input id="ESC" class="input-mini uneditable-input" type="text" value="" />
-            <label>Putts</label>
-            <input id="putts" class="input-mini uneditable-input" type="text" value="" />
-            <label>GIR</label>
-            <input id="gir" class="input-mini uneditable-input" type="text" value="" />
-            <label>Fairways</label>
-            <input id="fairways" class="input-mini uneditable-input" type="text" value="" />
-        </div>
-    </div>
+
 <!-- Hole by Hole Entry -->
 
     <div id="holeHeader" class="row-fluid">
@@ -73,9 +58,25 @@
         <span id="yards"></span>
         </div>
     </div>
-   <div id="holePart">
+   <div >
         <div class="row-fluid">
-            <div class="span6">
+            
+            <!-- running calculations on right -->
+            <div id="scorestats" class="span4">
+                <label>Score</label>
+                <input id="score" class="input-mini uneditable-input" type="text" value="" /><br />
+                <label>ESC</label>
+                <input id="ESC" class="input-mini uneditable-input" type="text" value="" /><br />
+                <label>Putts</label>
+                <input id="putts" class="input-mini uneditable-input" type="text" value="" /><br />
+                <label>GIR</label>
+                <input id="gir" class="input-mini uneditable-input" type="text" value="" /><br />
+                <label>Fairways</label>
+                <input id="fairways" class="input-mini uneditable-input" type="text" value="" /><br />
+                <label>Drive Points</label>
+                <input id="totalDrivePoints" class="input-mini uneditable-input" type="text" value="" />
+            </div>
+            <div id="holePart" class="span4">
                 <label>Score</label>
                 <input type="number" class="input-mini" id="score" name="score" value=""/><br />
                 <label>Putts</label>
@@ -83,9 +84,9 @@
                 <label>Chips</label>
                 <input type="number" class="input-mini" id="chips" name="chips" value=""/><br />
                 <label>Penalties</label>
-                <input type="number" class="input-mini"id="penalties"  name="penalties" value=""/>
+                <input type="number" class="input-mini"id="penalties"  name="penalties" value=""/><br />
                 <label>Tee Club</label>
-                <select name="teeClub" id="teeClub" class="span2">
+                <select name="teeClub" id="teeClub" class="span4">
                     <option></option>
                     <option>Driver</option>
                     <option>3w</option>
@@ -105,7 +106,7 @@
                 </select><br />
                 <span id="fairwayPart">
                 <label>Fairway</label>
-                <select name="fairway" id="fairway" class="span2">
+                <select name="fairway" id="fairway" class="span4">
                     <option></option>
                     <option>Hit</option>
                     <option>Miss</option>
@@ -114,19 +115,27 @@
                     <option>Short</option>
                 </select><br />
                 <label>Playable</label>
-                <input type="checkbox" id="playable" name="playable" value=""/>
+                <input type="checkbox" id="playable" name="playable" value=""/><br />
+                <label>Drive Points</label>
+                 <select name="drivePoints" id="drivePoints" class="span3">
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select><br />
                 </span>
             </div>
         </div>
    </div>
 
-         <div class="row-fluid">
-            <div class="span12  text-center">
-                <button name="next" id="next" class="btn btn-mini">Next</button>
-                <button name="previous" id="previous" class="btn btn-mini">Previous</button>
-                <button name="save" id="save" class="btn btn-mini">Save</button>
-            </div>
+    <div class="row-fluid">
+        <div class="span12  text-center">
+            <button name="next" id="next" class="btn btn-mini">Next</button>
+            <button name="previous" id="previous" class="btn btn-mini">Previous</button>
+            <button name="save" id="save" class="btn btn-mini">Save</button>
         </div>
+    </div>
     </form>
     
     <pre id="scoreOut">{{score | json}}</pre>
@@ -148,13 +157,11 @@ function outputScore(){
     wrapper.find("#score").val(stats.score);
     wrapper.find("#gir").val(stats.GIR);
     wrapper.find("#fairways").val(stats.fairwayPercent);
-    
-    
-    
+    wrapper.find("#totalDrivePoints").val(stats.drivePoints);
+   /* 
     console.log(stats);
-    
     $("#scoreOut").html(JSON.stringify(window.score,null,'\t'));
-    //  $("#scoreOut").append(JSON.stringify(window.score,null,'\t'));
+    */
 }
 function goToHole(holeId){
     if(holeId == 18){
@@ -189,11 +196,15 @@ function goToHole(holeId){
         main.find("#chips").val(hole.chips);
         main.find("#score").val(hole.score).focus();
         main.find("#fairway option").prop("selected",false);
+        window.score.holes[window.hole.id-1].playable = main.find("#playable").prop("checked",hole.playable);
         if(hole.fairway)
             main.find("#fairway option").filter(function(){ return $(this).text() ==  hole.fairway }).prop("selected",true);
         main.find("#teeClub option").prop("selected",false);
         if(hole.clubOfTee)
             main.find("#teeClub option").filter(function(){ return $(this).text() ==  hole.clubOfTee }).prop("selected",true);
+        main.find("#drivePoints option").prop("selected",false);
+        if(hole.drivePoints)
+            main.find("#drivePoints option").filter(function(){ return $(this).text() ==  hole.drivePoints }).prop("selected",true);
     }
 }
 function persist(){
@@ -204,8 +215,13 @@ function persist(){
         dataType:"json",
         data:window.score,
         success:function(result){
-            console.log(result);
-            alert(result);
+            if(result.isSuccess){
+                alert(result.message);
+                window.location = "/scores/refresh";
+            }else{
+                console.log(result);
+                alert("Error Saving" + result.message);
+            }
         }
     });
 }
@@ -217,8 +233,8 @@ function saveGoToHole(direction){
     window.score.holes[window.hole.id-1].chips = parseInt(main.find("#chips").val());
     window.score.holes[window.hole.id-1].fairway =main.find("#fairway").find(":selected").val();
     window.score.holes[window.hole.id-1].clubOfTee = main.find("#teeClub").find(":selected").val();
-      
-   
+    window.score.holes[window.hole.id-1].playable = main.find("#playable").prop("checked");
+   window.score.holes[window.hole.id-1].drivePoints = main.find("#drivePoints").find(":selected").val();
    goToHole(window.hole.id + direction);
    
    outputScore();
@@ -273,6 +289,12 @@ $(document).ready(function(){
             outputScore(); 
         });
     });
+    {% if locals.score %}
+            window.score = {{ locals.score | json | raw }};
+            window.tee = {{ locals.score.tee | json | raw }};
+            goToHole(1);
+            outputScore(); 
+    {% endif %}
 });
 </script>
 {% endblock %}

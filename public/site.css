@@ -239,16 +239,28 @@ table.predictions tr.singleDigit td {
     margin: 5px 0px 5px 0px;
     background-color:#2fddff;
     color:black;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
-#holeHeader{
+#holeHeader,#holePart{
     background-color:#dddddd;
     color:#555555;
-     padding:5px;
+    padding:5px;
+    margin-top:5px;
+    margin-bottom:5px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
-#holePart label,#scoreHeader label{
+#holePart label,#scoreHeader label, #scorestats label{
     display:inline-block;
     width:100px;
 }
-#holePart label:after,#scoreHeader label:after{
+#holePart label:after,#scoreHeader label:after, #scorestats label:after{
     content:":";
+}
+#holePart label,#holePart input,#holePart select, #scorestats input{
+    margin-top:2px;
+    margin-bottom:2px;
 }

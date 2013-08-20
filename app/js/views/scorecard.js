@@ -22,6 +22,8 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             $el.find(".scoreBack").hide();
             $el.find(".stats").hide();
             this.$el = $el;
+            
+            $el.find("#editButton").prop("href","/score/edit/" + this.model.get("_id"));
             return this;
         },
         showFrontTable:function(e){
