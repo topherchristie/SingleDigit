@@ -47,15 +47,15 @@
     <div id="holeHeader" class="row-fluid">
         <div class="span4">
             <label>Hole</label>
-            <span id="hole"></span>    
+            <span id="hole" data-bind="text:id"></span>    
         </div>
         <div class="span4">
             <label>Par</label>
-            <span id="par"></span>
+            <span id="par" data-bind="text:par"></span>
         </div>
         <div class="span4">
         <label>Yards</label>
-        <span id="yards"></span>
+        <span id="yards" data-bind="text:yards"></span>
         </div>
     </div>
    <div >
@@ -78,15 +78,15 @@
             </div>
             <div id="holePart" class="span4">
                 <label>Score</label>
-                <input type="number" class="input-mini" id="score" name="score" value=""/><br />
+                <input type="number" data-bind="value: score" class="input-mini" id="score" name="score" value=""/><br />
                 <label>Putts</label>
-                <input type="number" class="input-mini" id="putts" name="putts" value=""/><br />
+                <input type="number" data-bind="value: putts" class="input-mini" id="putts" name="putts" value=""/><br />
                 <label>Chips</label>
-                <input type="number" class="input-mini" id="chips" name="chips" value=""/><br />
+                <input type="number" data-bind="value: chips" class="input-mini" id="chips" name="chips" value=""/><br />
                 <label>Penalties</label>
-                <input type="number" class="input-mini"id="penalties"  name="penalties" value=""/><br />
+                <input type="number" data-bind="value: penalties" class="input-mini"id="penalties"  name="penalties" value=""/><br />
                 <label>Tee Club</label>
-                <select name="teeClub" id="teeClub" class="span4">
+                <select name="teeClub" data-bind="value:teeClub" id="teeClub" class="span4">
                     <option></option>
                     <option>Driver</option>
                     <option>3w</option>
@@ -106,7 +106,7 @@
                 </select><br />
                 <span id="fairwayPart">
                 <label>Fairway</label>
-                <select name="fairway" id="fairway" class="span4">
+                <select name="fairway" data-bind="value: fairway" id="fairway" class="span4">
                     <option></option>
                     <option>Hit</option>
                     <option>Miss</option>
@@ -115,9 +115,9 @@
                     <option>Short</option>
                 </select><br />
                 <label>Playable</label>
-                <input type="checkbox" id="playable" name="playable" value=""/><br />
+                <input type="checkbox" data-bind="checked: playable"  id="playable" name="playable" value=""/><br />
                 <label>Drive Points</label>
-                 <select name="drivePoints" id="drivePoints" class="span3">
+                 <select name="drivePoints" data-bind="value:drivePoints" id="drivePoints" class="span3">
                     <option>0</option>
                     <option>1</option>
                     <option>2</option>
@@ -138,12 +138,13 @@
     </div>
     </form>
     
-    <pre id="scoreOut">{{score | json}}</pre>
+    <pre id="scoreOut" style="display:none">{{score | json}}</pre>
 {% endblock %}
 
 {% block bottomJavascript %}
 <!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="/app/js/lib/scoreCalculator.js" ></script>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
 <script type="text/javascript">
 
 function outputScore(){
@@ -163,6 +164,20 @@ function outputScore(){
     $("#scoreOut").html(JSON.stringify(window.score,null,'\t'));
     */
 }
+
+function HoleViewModel(hole){
+    this.id = hole.id;
+    this.score = hole.score;
+    this.putts = hole.putts;
+    this.chips = hole.chips;
+    this.penalties = hole.penalties;
+    this.teeClub = hole.clubOfTee;
+    this.fairway = hole.fairway;
+    this.playable = hole.playable;
+    this.drivePoints = hole.drivePoints;
+    this.par = hole.par;
+    this.yards  = hole.yards;
+}
 function goToHole(holeId){
     if(holeId == 18){
         $("#next").hide();
@@ -181,31 +196,14 @@ function goToHole(holeId){
     var hole = window.score.holes[holeId-1];
     window.hole = hole;
     if(hole){
+        ko.applyBindings(new HoleViewModel(hole));
         if(hole.par ==3){
-            $("#fairwayPart").hide();
+            $("#fairwayPart").css('visibility', 'hidden');
         }else{
-            $("#fairwayPart").show();
+            $("#fairwayPart").css('visibility', 'visible');
         }
-        var wrapper = $("div#holeHeader");
-        wrapper.find("#hole").html(hole.id);
-        wrapper.find("#par").html(hole.par);
-        wrapper.find("#yards").html(hole.yards);
-        var main = $("div#holePart");
-        main.find("#penalties").val(hole.penalties);
-        main.find("#putts").val(hole.putts);
-        main.find("#chips").val(hole.chips);
-        main.find("#score").val(hole.score).focus();
-        main.find("#fairway option").prop("selected",false);
-        window.score.holes[window.hole.id-1].playable = main.find("#playable").prop("checked",hole.playable);
-        if(hole.fairway)
-            main.find("#fairway option").filter(function(){ return $(this).text() ==  hole.fairway }).prop("selected",true);
-        main.find("#teeClub option").prop("selected",false);
-        if(hole.clubOfTee)
-            main.find("#teeClub option").filter(function(){ return $(this).text() ==  hole.clubOfTee }).prop("selected",true);
-        main.find("#drivePoints option").prop("selected",false);
-        if(hole.drivePoints)
-            main.find("#drivePoints option").filter(function(){ return $(this).text() ==  hole.drivePoints }).prop("selected",true);
-    }
+        $("div#holePart #score").focus();
+       }
 }
 function persist(){
     console.log("calling persist");
@@ -234,7 +232,7 @@ function saveGoToHole(direction){
     window.score.holes[window.hole.id-1].fairway =main.find("#fairway").find(":selected").val();
     window.score.holes[window.hole.id-1].clubOfTee = main.find("#teeClub").find(":selected").val();
     window.score.holes[window.hole.id-1].playable = main.find("#playable").prop("checked");
-   window.score.holes[window.hole.id-1].drivePoints = main.find("#drivePoints").find(":selected").val();
+   window.score.holes[window.hole.id-1].drivePoints = parseInt(main.find("#drivePoints").find(":selected").val());
    goToHole(window.hole.id + direction);
    
    outputScore();
@@ -287,6 +285,9 @@ $(document).ready(function(){
             window.score = score;
             goToHole(1);
             outputScore(); 
+            
+            
+            
         });
     });
     {% if locals.score %}
