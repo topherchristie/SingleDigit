@@ -40,29 +40,29 @@ vows.describe('course hole stats reduce Tests').addBatch({
                 should.exist(topic[0].value.par3);
                 topic[0].value.par3.should.not.be.true;
             },
-            'Hole 1 fairways should be 50%':function(topic){
+            'Hole 1 fairways should be 43%':function(topic){
                 should.exist(topic[0].value.fairwayPercent);
-                topic[0].value.fairwayPercent.should.equal("50");
+                topic[0].value.fairwayPercent.should.equal("43");
             },
             'Hole 1 playable should be 80%':function(topic){
                 should.exist(topic[0].value.playablePercent);
-                topic[0].value.playablePercent.should.equal("83");
+                topic[0].value.playablePercent.should.equal("86");
             },
             'Hole 11 should be GIR':function(topic){
                 should.exist(topic[10].value.GIRPercent);
-                topic[10].value.GIRPercent.should.equal("17");
+                topic[10].value.GIRPercent.should.equal("14");
             },
             'Hole 12 should be not be GIR':function(topic){
                 should.exist(topic[11].value.GIRPercent);
-                topic[11].value.GIRPercent.should.equal("33");
+                topic[11].value.GIRPercent.should.equal("29");
             },
             'Hole 11 avg Score to par should be 2':function(topic){
                 should.exist(topic[10].value.avgScoreToPar);
-                topic[10].value.avgScoreToPar.should.equal("1.83");
+                topic[10].value.avgScoreToPar.should.equal("1.71");
             },
             'Hole 11 avg putts 2.40':function(topic){
                 should.exist(topic[10].value.avgPutts);
-                topic[10].value.avgPutts.should.equal("2.33");
+                topic[10].value.avgPutts.should.equal("2.14");
             },
             'Hole 3 penalties 0':function(topic){
                 should.exist(topic[2].value.penalties);
@@ -127,6 +127,111 @@ vows.describe('course hole stats reduce Tests').addBatch({
             'Hole 10 penalties 0':function(topic){
                 should.exist(topic[9].value.penalties);
                 topic[9].value.penalties.should.equal(0);
+            }
+        },
+        'Hole Reduction One Round (broadlands) Tests':{
+            topic: function(){
+                dao.HoleVsPar({"course":"broadlands"},this.callback);
+            },
+            'returns object':function(topic){
+                should.exist(topic);
+               // console.log(topic);
+            },
+            'check count':function(topic){
+                topic.length.should.equal(18);
+            },
+            'check hole #1 id':function(topic){
+                should.exist(topic[0]);
+                should.exist(topic[0].value);
+                should.exist(topic[0].value.x);
+                topic[0].value.x.should.equal(1);
+            },
+            'check hole #10 id':function(topic){
+                should.exist(topic[9]);
+                should.exist(topic[9].value);
+                should.exist(topic[9].value.x);
+                topic[9].value.x.should.equal(10);
+            },
+            'check hole #15 overPar ':function(topic){
+                should.exist(topic[14]);
+                should.exist(topic[14].value);
+                should.exist(topic[14].value.y);
+                topic[14].value.y.should.equal(-1);
+            },
+            'check hole #3 overPar ':function(topic){
+                should.exist(topic[2]);
+                should.exist(topic[2].value);
+                should.exist(topic[2].value.y);
+                topic[2].value.y.should.equal(2);
+            },
+            'check hole #11 overPar':function(topic){
+                should.exist(topic[10]);
+                should.exist(topic[10].value);
+                should.exist(topic[10].value.y);
+                topic[10].value.y.should.equal(0);
+            }
+        },
+        'Hole Reduction All Rounds  Tests':{
+            topic: function(){
+                dao.HoleVsPar({"course":null},this.callback);
+            },
+            'returns object':function(topic){
+                should.exist(topic);
+               // console.log(topic);
+            },
+            'check count':function(topic){
+                console.log(topic);
+                topic.length.should.equal(18);
+            }
+        },
+        'Hole Reduction Two Round (mkeCC) Tests':{
+            topic: function(){
+                dao.HoleVsPar({"course":"mkeCC"},this.callback);
+            },
+            'returns object':function(topic){
+                should.exist(topic);
+               // console.log(topic);
+            },
+            'check count':function(topic){
+                topic.length.should.equal(18);
+            },
+            'check hole #1 id ':function(topic){
+                should.exist(topic[0]);
+                should.exist(topic[0].value);
+                should.exist(topic[0].value.x);
+                topic[0].value.x.should.equal(1);
+                console.log(topic[0]);
+            },
+            'check hole id 9':function(topic){
+                should.exist(topic[9]);
+                should.exist(topic[9].value);
+                should.exist(topic[9].value.x);
+                topic[9].value.x.should.equal(10);
+            },
+            'check hole #1 overPar':function(topic){
+                should.exist(topic[0]);
+                should.exist(topic[0].value);
+                should.exist(topic[0].value.y);
+                topic[0].value.y.should.equal(1);
+            },
+            'check hole #11 overPar ':function(topic){
+                should.exist(topic[10]);
+                should.exist(topic[10].value);
+                should.exist(topic[10].value.y);
+                topic[10].value.y.should.equal(1.5);
+            }
+            ,
+            'check hole overPar 17':function(topic){
+                should.exist(topic[16]);
+                should.exist(topic[16].value);
+                should.exist(topic[16].value.y);
+                topic[16].value.y.should.equal(2);
+            },
+            'check hole overPar 16':function(topic){
+                should.exist(topic[15]);
+                should.exist(topic[15].value);
+                should.exist(topic[15].value.y);
+                topic[15].value.y.should.equal(1.5);
             }
         },
         teardown :function(){

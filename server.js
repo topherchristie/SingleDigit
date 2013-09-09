@@ -177,6 +177,7 @@ var routes = require('./routes');
 app.get('/teePredictions',routes.tee.predictions);
 app.get('/stats/scoresVs/:stat',routes.graphs.scoreVs);
 app.get('/stats/girVsFw',routes.graphs.girVsFw);
+app.get('/stats/holeVsPar',routes.graphs.holeVsPar);
 
 app.post('/course/tees',function(req,res){
     var cId = req.body.id;

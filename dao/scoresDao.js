@@ -205,6 +205,7 @@ exports.addNewTee = function(newTee,callback){
 exports.getTee = function(courseId, teeName, callback){
     TeeModel.findOne({"course":courseId,"name":teeName},callback);
 };
+
 exports.reduceByCourse = function(courseId,callback){
     var r = {
         map: function(){
@@ -344,3 +345,40 @@ exports.reduceByYear = function(callback){
     };
     ScoreModel.mapReduce(o,callback);
   };
+exports.HoleVsPar = function(course,callback){
+    var r = {
+        map: function(){
+            this.holes.forEach(function(h){
+                if(h.stats){
+                    emit(h.id,
+                        {
+                         "x":h.id,    
+                         "d":h.id,
+                         "y": h.stats.overPar
+                        }
+                    
+                    );
+                }
+            });
+        },
+        scope:{},
+        reduce: function(key,vals){
+            var scoreToPar = 0;
+            var cnt = 0;
+            vals.forEach(function(v){
+                scoreToPar += parseInt(v.y);
+                cnt ++;
+            });
+         
+            return {
+                "d": key,
+                "x":key,
+                "y": Math.round(scoreToPar/cnt*100)/100
+                //"valcnt":cnt,
+                //"vals":vals
+            };
+        },
+        query: {} // cannot get something like this to workfunction(){return { "course" : course.course};}//{"course":course.course}
+    };
+    ScoreModel.mapReduce(r,callback);
+};

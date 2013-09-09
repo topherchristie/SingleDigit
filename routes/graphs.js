@@ -22,6 +22,22 @@ GraphRoute.scoreVs = function(req,res){
         res.send({"data":model});
     });
 };
+GraphRoute.holeVsPar = function(req,res){
+    var dao = require("../dao/scoresDao.js");
+    dao.HoleVsPar({"course":"greywalls"},function(err,results){
+        if(err){
+            res.send({"error":err,"data":[]});
+            return;
+        }
+        var model =[];
+        for(var i =0;i<results.length;i++){
+            var s = results[i];
+            s.value.cnt = 1;
+            model.push(s.value);
+        }
+        res.send({"data":model});
+    });
+};
 GraphRoute.girVsFw = function(req,res){
     var dao = require("../dao/scoresDao.js");
     var id = req.params.stat || "putts";
