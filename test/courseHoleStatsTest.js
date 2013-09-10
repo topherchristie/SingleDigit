@@ -79,7 +79,6 @@ vows.describe('course hole stats reduce Tests').addBatch({
             },
             'returns object':function(topic){
                 should.exist(topic);
-               // console.log(topic);
             },
             'is array':function(topic){
                 topic.should.be.an.instanceOf(Array);
@@ -135,7 +134,6 @@ vows.describe('course hole stats reduce Tests').addBatch({
             },
             'returns object':function(topic){
                 should.exist(topic);
-               // console.log(topic);
             },
             'check count':function(topic){
                 topic.length.should.equal(18);
@@ -177,10 +175,8 @@ vows.describe('course hole stats reduce Tests').addBatch({
             },
             'returns object':function(topic){
                 should.exist(topic);
-               // console.log(topic);
             },
             'check count':function(topic){
-                console.log(topic);
                 topic.length.should.equal(18);
             }
         },

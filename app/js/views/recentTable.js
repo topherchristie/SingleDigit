@@ -1,6 +1,6 @@
 define(['views/scoreTableItem','models/score','models/sum'],function(ScoreTableItemView,Score, Sum){
     var RecentView = Backbone.View.extend({
-        el: '#recentTable',  
+   //     el: '#recentTable',  
         events:{
         },
         initialize: function(){
@@ -19,7 +19,8 @@ define(['views/scoreTableItem','models/score','models/sum'],function(ScoreTableI
             var self = this;
             self.$el.empty();
             var sum = new Sum();
-            this.collection.last20().forEach(function(score){
+            console.log(this.collection.filter());
+            this.collection.filter().forEach(function(score){
                 sum.add(score);
               var item = new ScoreTableItemView({model:score});
                self.$el.append(item.render().el);
@@ -124,5 +125,6 @@ define(['views/scoreTableItem','models/score','models/sum'],function(ScoreTableI
             }
         }
     });
+    
     return RecentView;
 });

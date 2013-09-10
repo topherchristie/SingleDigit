@@ -41,6 +41,25 @@ vows.describe('hole calculator Tests').addBatch({
             topic.overPar.should.equal(1);
         }
     },
+    'ChipIn Hole Tests':{
+        topic: function(){
+            var calculator = new Calculator();
+            var hole = {};
+            hole.score = 4;
+            hole.putts=2;
+            hole.chips=0;
+            var stats =calculator.calculateHole(hole,3);
+            this.callback(null,stats);
+        },
+        'has chipIn':function(topic){
+            topic.should.have.property("chipIn");
+        },
+        'has 1 chipIn':function(topic){
+            topic.chipIn.should.equal(1);
+            
+        }
+        
+    },
     'Par 3 Hole Tests':{
         topic: function(){
             var calculator = new Calculator();

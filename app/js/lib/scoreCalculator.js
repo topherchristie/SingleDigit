@@ -58,6 +58,7 @@ var ScoreCalculator = (function(){
             stats.fairwayHit = (/[Hh]it/.test(hole.fairway));
         stats.GIR = isGIR(par, hole.score,hole.putts); //stats.fairw
         stats.overPar = hole.score - par;
+        //stats.chipIn = 
         //if(par)
         return stats;  
     };
@@ -65,6 +66,7 @@ var ScoreCalculator = (function(){
             total.GIR = 0;
             total.ch15 =0;
             total.chips=0;
+            total.chipIn =0;
             total.extraChips = 0;
             total.eagles=0;
             total.totalFairways=0
@@ -121,16 +123,19 @@ var ScoreCalculator = (function(){
                 if(h.putts){
                     total.putts += h.putts;
                     if(h.putts ===0){
-            			total.chipIn++;
+            
             		}else if(h.putts === 1){
             			total.onePutts++;
             		}else if(h.putts >=3){
             			total.threePutts++;
             		}
                 }
+                if(h.chipIn)
+                    total.chipIn++;
         		if(h.chips > 0){
         			total.holesWChip++;
         			total.puttsAfterChip += h.putts?h.putts:0;
+        		//	total.chipIn += h.chipIn;
         		}else{
         			total.holesNoChip ++;
         			total.puttsAfterNoChip += h.putts?h.putts:0;
@@ -157,6 +162,7 @@ var ScoreCalculator = (function(){
             total.avgPuttsWithChip = Math.round(total.avgPuttsWithChip * 10 )/10;
             total.avgPuttsWithoutChip = Math.round(total.avgPuttsWithoutChip * 10)/10;
             total.puttsPerHole = Math.round(total.putts / 18 * 10)/10;
+            
             return total;
         };
     var getExtra = proto.getExtra = function(scoreHole, teeHolePar){
@@ -191,8 +197,12 @@ var ScoreCalculator = (function(){
         result.par = teeHole.par;
         result.yards = teeHole.yards;
         result.fairway = scoreHole.fairway;
+        result.chipin =false;
         if(result.chips && result.chips > 0){
             result.scramble = result.chips == 1 && result.putts <= 1;
+            if(result.putts === 0){
+                result.chipIn = true;
+            }
         }else{
             result.scramble = null;
         }

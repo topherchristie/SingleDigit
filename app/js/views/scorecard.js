@@ -80,12 +80,11 @@ define(['text!templates/scorecard.html','scoreCalculator'],function(template,sco
             html += this.getRow(holes,index,"Putts","putts",this.model.get("stats").putts);
             html += this.getBoolRow(holes,tee.holes,index,"GIR","GIR",this.model.get("stats").GIR);
             html += this.getRow(holes,index,"Chips","chips",this.model.get("stats").chips,function(d){
-                if(d.chips == 1){
-                    if(d.putts === 0){
-                        return "chipin";
-                    }else if(d.putts === 1){
-                        return "upAndDown";
-                    }
+                
+                if(d.chipIn)
+                    return "chipin";
+                else if(d.chips == 1 && d.putts === 1){
+                    return "upAndDown";
                 }
                 return "";
             });

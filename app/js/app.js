@@ -1,17 +1,21 @@
-define(['views/app','collections/scorelist','views/recent','views/recentTable','collections/goallist','views/goals','config'
-        ,'views/courseLayer' ,'views/graphLayer'
-        ], function(AppView,ScoreList,RecentView,RecentTableView,GoalList,GoalsView,config
-        , CourseLayer,GraphLayer){
+define(['views/app','collections/scorelist','collections/goallist','views/goals','config'
+        ,'views/courseLayer' ,'views/graphLayer','views/scoreTable','models/scoreTable'
+        ], function(AppView,ScoreList,GoalList,GoalsView,config
+        , CourseLayer,GraphLayer,ScoreTableView,ScoreTableModel){
    var App = function(){
        
       console.log('app loaded');
       this.views.app = new AppView();
       this.views.app.render();
-     
+      
       this.collections.scores = new ScoreList();
       this.collections.goals = new GoalList();      
       
-      this.views.recentTable = new RecentTableView({collection:this.collections.scores});
+      
+      this.views.scoreWrapper = new ScoreTableView({el:".scoreTableWrapper",collection:this.collections.scores});
+            
+      //this.views.recentTable = new RecentTableView({collection:this.collections.scores});
+      
       this.views.goals = new GoalsView({collection:this.collections.goals});
       
       this.views.courseLayer = new CourseLayer();
@@ -26,13 +30,14 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
        collections: {},
        init:function(){
             var self = this;
-            self.collections.scores.fetch({data:{},success: function(res){ self.views.recentTable.render(); }});
+       
             self.collections.goals.fetch({data:{},success: function(res){ self.views.goals.render();}});
             self.views.courseLayer.hide();
+       
             $("body").on("click","#coursesLink",function(){
                 $("#scoresLink").parent().removeClass('active');
                    $("#graphsLink").parent().removeClass('active');
-                self.views.recentTable.hide();
+                self.views.scoreWrapper.hide();
                 self.views.graphLayer.hide();
                 self.views.courseLayer.show();
               //  $('div#courseLayer').show();
@@ -46,7 +51,7 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
                 self.views.courseLayer.hide();
                 self.views.graphLayer.hide();
                 //$('div#courseLayer').hide();
-                self.views.recentTable.show();
+                self.views.scoreWrapper.show();
                 
                 $("#scoresLink").parent().addClass('active');
             });
@@ -54,7 +59,7 @@ define(['views/app','collections/scorelist','views/recent','views/recentTable','
                 $("#coursesLink").parent().removeClass('active');
                 $("#scoresLink").parent().removeClass('active');
                 self.views.courseLayer.hide();
-                self.views.recentTable.hide();
+                self.views.scoreWrapper.hide();
                 //$('div#courseLayer').hide();
                 self.views.graphLayer.show();
                 $("#graphsLink").parent().addClass('active');
