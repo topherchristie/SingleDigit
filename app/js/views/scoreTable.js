@@ -4,17 +4,36 @@ define(['text!templates/scoreTable.html','views/recentTable'],function(template,
     //    className:'scoreTableWrapper',
         template: Handlebars.compile(template),
         events:{
-            "click button.y2013":          "y2013"
+            "click button.y2013":          "y2013",
+            "click button.y2012":          "y2012",
+            "click button.all":          "all",
+            "click button.last20":          "last20",
+            "click button.last5":          "last5"
         },
         initialize:function(){
             console.log("initialize ScoreTable",new RecentView());
-            
+            this.collection.setFilter("last","20");
             this.views={};
            this.render();
         },
         y2013: function(e){
-            console.log('y2013',this.collections);
             this.collection.setFilter('year',2013);
+            this.views.recent.render();
+        },
+        y2012: function(e){
+            this.collection.setFilter('year',2012);
+            this.views.recent.render();
+        },
+        last20: function(e){
+            this.collection.setFilter('last',20);
+            this.views.recent.render();
+        },
+        last5: function(e){
+            this.collection.setFilter('last',5);
+            this.views.recent.render();
+        },
+        all: function(e){
+            this.collection.setFilter(null,null);
             this.views.recent.render();
         },
         hide:function(){

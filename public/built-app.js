@@ -1447,12 +1447,12 @@ define('collections/scorelist',['models/score','xdate'],function(Score,xdate){
    var ScoreList = Backbone.Collection.extend({
        model: Score,
        url:'scores',
-       last20 : function(){
+       lastN : function(n){
            var result = this.sortBy(function(i){
                return i.get("prettyDate");
            }).reverse();
-           if(result.length > 20){
-                result = result.slice(0,20);
+           if(result.length > n){
+                result = result.slice(0,n);
            }
            return result;
        },
@@ -1467,6 +1467,9 @@ define('collections/scorelist',['models/score','xdate'],function(Score,xdate){
                case "year":
                     return _.filter(this.models,function(a){ 
                         return self.fValue == (new xdate(a.get("date"))).getFullYear();});
+                case "last":
+                    return this.lastN(this.fValue);
+                    
            }
            return this;
        }
@@ -2220,7 +2223,7 @@ define('views/graphLayer',["views/scoreVsGraph","models/scoreVs","models/GIRvsFa
     });
     return GraphLayer;
 });
-define('text!templates/scoreTable.html',[],function () { return '\r\n<h2>Recent Scores\r\n   <!-- <button class="btn btn-mini" type="button" data-toggle="modal" data-target="#bookModal"><span class="icon-plus-sign"></span></button> -->\r\n   <a href="/score/add"><button class="btn btn-mini" type="button"><span class="icon-plus-sign"></span></button></a>\r\n   <button class="btn btn-mini last20" type="button">Last 20</button>\r\n   <button class="btn btn-mini y2013 " type="button">2013</button>\r\n   <button class="btn btn-mini y2012" type="button">2012</button>\r\n</h2>\r\n<table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores">\r\n            <thead>\r\n    <tr>\r\n        <th rowspan="2">Date</th>\r\n        <th rowspan="2">Course</th>\r\n        <th rowspan="2">Score</th>\r\n        <th rowspan="2">Handicap</th>\r\n        <th rowspan="2">GIR</th>\r\n        <th colspan="3">Putts</th>\r\n        <th  class="shortGame" colspan="2">Avg Putts</th>\r\n        <th class="shortGame" colspan="3">Chips</th>\r\n        <th class="shortGame" colspan="2">Scramble</th>\r\n        <th class="shortGame" colspan="2">Short Game</th>\r\n        \r\n        <th rowspan="2">Ch 15</th>\r\n        \r\n        \r\n        <th colspan="2" class="driving">Fairways</th>\r\n        <th rowspan="2" class="driving" title="Driver Penalty Points">Dr Pen Pts</th>\r\n        <th colspan="2" class="driving">Playable</th>\r\n        <th class="scoreRow" rowspan="2" title="Penalties">Pens</th>\r\n        <th class="scoreRow" rowspan="2" title="Extras">EX</th>\r\n        <th class="scoreRow" rowspan="2" title="Eagles">-2</th>\r\n        <th class="scoreRow" rowspan="2" title="Birdies">-1</th>\r\n        <th class="scoreRow" rowspan="2" title="Pars">0</th>\r\n        <th class="scoreRow" rowspan="2" title="Bogies">+1</th>\r\n        <th class="scoreRow" rowspan="2" title="Doubles">+2</th>\r\n        <th class="scoreRow" rowspan="2" title="Others">+3</th>\r\n        \r\n    </tr>\r\n    <tr>\r\n        <th>#</th><!--putts -->\r\n        <th>1</th><!--putts -->\r\n        <th>3</th><!--putts -->\r\n        <th class="shortGame">w/ Chip</th><!--avgputts -->\r\n        <th class="shortGame">w/o Chip</th><!--avgputts -->\r\n        <th class="shortGame">In</th><!--chips -->\r\n        <th class="shortGame">#</th><!--chips -->\r\n        <th class="shortGame" title="More then one chip on a hole">EX</th><!--chips -->\r\n        <th class="shortGame">#</th><!--scramble -->\r\n        <th class="shortGame">%</th><!--scramble -->\r\n        \r\n        <th class="shortGame">#</th><!--shortgame -->\r\n        <th class="shortGame">%</th><!--shortgame -->\r\n\r\n        <th class="driving">#</th><!--fairways -->\r\n        <th class="driving">%</th><!--fairways -->\r\n        <th class="driving">#</th><!--playable -->\r\n        <th class="driving">%</td><!--playable -->\r\n        \r\n    </tr>\r\n\t</thead>\r\n        <tbody id="recentTable">\r\n        </tbody>\r\n    </table>';});
+define('text!templates/scoreTable.html',[],function () { return '\r\n<h2>Recent Scores\r\n   <!-- <button class="btn btn-mini" type="button" data-toggle="modal" data-target="#bookModal"><span class="icon-plus-sign"></span></button> -->\r\n   <a href="/score/add"><button class="btn btn-mini" type="button"><span class="icon-plus-sign"></span></button></a>\r\n   <button class="btn btn-mini last20" type="button">Last 20</button>\r\n   <button class="btn btn-mini last5" type="button">Last 5</button>\r\n   <button class="btn btn-mini y2013 " type="button">2013</button>\r\n   <button class="btn btn-mini y2012" type="button">2012</button>\r\n   <button class="btn btn-mini all" type="button">all</button>\r\n</h2>\r\n<table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-hover scores">\r\n            <thead>\r\n    <tr>\r\n        <th rowspan="2">Date</th>\r\n        <th rowspan="2">Course</th>\r\n        <th rowspan="2">Score</th>\r\n        <th rowspan="2">Handicap</th>\r\n        <th rowspan="2">GIR</th>\r\n        <th colspan="3">Putts</th>\r\n        <th  class="shortGame" colspan="2">Avg Putts</th>\r\n        <th class="shortGame" colspan="3">Chips</th>\r\n        <th class="shortGame" colspan="2">Scramble</th>\r\n        <th class="shortGame" colspan="2">Short Game</th>\r\n        \r\n        <th rowspan="2">Ch 15</th>\r\n        \r\n        \r\n        <th colspan="2" class="driving">Fairways</th>\r\n        <th rowspan="2" class="driving" title="Driver Penalty Points">Dr Pen Pts</th>\r\n        <th colspan="2" class="driving">Playable</th>\r\n        <th class="scoreRow" rowspan="2" title="Penalties">Pens</th>\r\n        <th class="scoreRow" rowspan="2" title="Extras">EX</th>\r\n        <th class="scoreRow" rowspan="2" title="Eagles">-2</th>\r\n        <th class="scoreRow" rowspan="2" title="Birdies">-1</th>\r\n        <th class="scoreRow" rowspan="2" title="Pars">0</th>\r\n        <th class="scoreRow" rowspan="2" title="Bogies">+1</th>\r\n        <th class="scoreRow" rowspan="2" title="Doubles">+2</th>\r\n        <th class="scoreRow" rowspan="2" title="Others">+3</th>\r\n        \r\n    </tr>\r\n    <tr>\r\n        <th>#</th><!--putts -->\r\n        <th>1</th><!--putts -->\r\n        <th>3</th><!--putts -->\r\n        <th class="shortGame">w/ Chip</th><!--avgputts -->\r\n        <th class="shortGame">w/o Chip</th><!--avgputts -->\r\n        <th class="shortGame">In</th><!--chips -->\r\n        <th class="shortGame">#</th><!--chips -->\r\n        <th class="shortGame" title="More then one chip on a hole">EX</th><!--chips -->\r\n        <th class="shortGame">#</th><!--scramble -->\r\n        <th class="shortGame">%</th><!--scramble -->\r\n        \r\n        <th class="shortGame">#</th><!--shortgame -->\r\n        <th class="shortGame">%</th><!--shortgame -->\r\n\r\n        <th class="driving">#</th><!--fairways -->\r\n        <th class="driving">%</th><!--fairways -->\r\n        <th class="driving">#</th><!--playable -->\r\n        <th class="driving">%</td><!--playable -->\r\n        \r\n    </tr>\r\n\t</thead>\r\n        <tbody id="recentTable">\r\n        </tbody>\r\n    </table>';});
 
 define('text!templates/table.html',[],function () { return '<td class="text"><a href="" id="{{_id}}" class="scorelink">{{prettyDate}}</a></td>\r\n<td class="text courseName" title="{{course.name}} - {{tee.name}}"><a href="" id="{{_id}}" class="scorelink">{{{shortName}}}</a></td>\r\n<td>{{score}}</td>\r\n<td>{{stats.handicap}}</td>\r\n<td>{{stats.GIR}}</td>\r\n<td>{{stats.putts}}</td><td>{{stats.onePutts}}</td><td>{{stats.threePutts}}</td>\r\n<td class="shortGame">{{stats.avgPuttsWithChip}}</td>\r\n<td class="shortGame">{{stats.avgPuttsWithoutChip}}</td>\r\n<td class="shortGame">{{stats.chipIn}}</td>\r\n<td class="shortGame">{{stats.chips}}</td>\r\n<td class="shortGame">{{stats.extraChips}} </td>\r\n<td class="shortGame" title="{{stats.scrambles}} / {{stats.scrambleChances}}">{{scrambleText}}</td>\r\n<td class="shortGame">{{stats.scramblePercent}}</td>\r\n\r\n<td class="shortGame">{{stats.shortGame}}</td>\r\n<td class="shortGame">{{stats.shortGamePercent}}</td>\r\n\r\n<td>{{stats.ch15}}</td>\r\n<!-- driving -->\r\n<td class="driving" title="{{stats.fairways}} / {{stats.totalFairways}}">{{fairwayText}}</td>\r\n<td class="driving">{{stats.fairwayPercent}}</td>\r\n<td class="driving">{{stats.drivePoints}}</td>\r\n<td class="driving" title="{{stats.playable}} / {{stats.totalFairways}}">{{playableText}}</td>\r\n<td class="driving">{{stats.playablePercent}}</td>\r\n\r\n<td class="scoreRow">{{stats.penalties}}</td>\r\n<td class="scoreRow">{{stats.extra}}</td>\r\n<td class="scoreRow">{{stats.eagles}}</td>\r\n<td class="scoreRow">{{stats.birdies}}</td>\r\n<td class="scoreRow">{{stats.pars}}</td>\r\n<td class="scoreRow">{{stats.bogies}}</td>\r\n<td class="scoreRow">{{stats.doubles}}</td>\r\n<td class="scoreRow">{{stats.others}} </td>\r\n\r\n';});
 
@@ -2569,6 +2572,9 @@ define('models/sum',[],function(xdate,scoreCalculator){
             for(var i in this.blank.stats){
                 this.fixIt(i);    
             }
+            var rounder = 10;
+            this.set({"score":Math.round(this.get('score')*rounder)/rounder});
+            
         },
         sum:function(attribute,model){
             var value = this.get(attribute);
@@ -2606,7 +2612,6 @@ define('models/sum',[],function(xdate,scoreCalculator){
                    // console.log("rounding:",attribute,"by",rounder);
                     break;
             }
-            
             stats[attribute]=Math.round(value*rounder)/rounder;
             this.set({"stats":stats});
         }
@@ -2749,17 +2754,36 @@ define('views/scoreTable',['text!templates/scoreTable.html','views/recentTable']
     //    className:'scoreTableWrapper',
         template: Handlebars.compile(template),
         events:{
-            "click button.y2013":          "y2013"
+            "click button.y2013":          "y2013",
+            "click button.y2012":          "y2012",
+            "click button.all":          "all",
+            "click button.last20":          "last20",
+            "click button.last5":          "last5"
         },
         initialize:function(){
             console.log("initialize ScoreTable",new RecentView());
-            
+            this.collection.setFilter("last","20");
             this.views={};
            this.render();
         },
         y2013: function(e){
-            console.log('y2013',this.collections);
             this.collection.setFilter('year',2013);
+            this.views.recent.render();
+        },
+        y2012: function(e){
+            this.collection.setFilter('year',2012);
+            this.views.recent.render();
+        },
+        last20: function(e){
+            this.collection.setFilter('last',20);
+            this.views.recent.render();
+        },
+        last5: function(e){
+            this.collection.setFilter('last',5);
+            this.views.recent.render();
+        },
+        all: function(e){
+            this.collection.setFilter(null,null);
             this.views.recent.render();
         },
         hide:function(){

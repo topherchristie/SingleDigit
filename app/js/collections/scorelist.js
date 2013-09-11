@@ -2,12 +2,12 @@ define(['models/score','xdate'],function(Score,xdate){
    var ScoreList = Backbone.Collection.extend({
        model: Score,
        url:'scores',
-       last20 : function(){
+       lastN : function(n){
            var result = this.sortBy(function(i){
                return i.get("prettyDate");
            }).reverse();
-           if(result.length > 20){
-                result = result.slice(0,20);
+           if(result.length > n){
+                result = result.slice(0,n);
            }
            return result;
        },
@@ -22,6 +22,9 @@ define(['models/score','xdate'],function(Score,xdate){
                case "year":
                     return _.filter(this.models,function(a){ 
                         return self.fValue == (new xdate(a.get("date"))).getFullYear();});
+                case "last":
+                    return this.lastN(this.fValue);
+                    
            }
            return this;
        }

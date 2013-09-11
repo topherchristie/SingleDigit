@@ -63,6 +63,9 @@ define([],function(xdate,scoreCalculator){
             for(var i in this.blank.stats){
                 this.fixIt(i);    
             }
+            var rounder = 10;
+            this.set({"score":Math.round(this.get('score')*rounder)/rounder});
+            
         },
         sum:function(attribute,model){
             var value = this.get(attribute);
@@ -100,7 +103,6 @@ define([],function(xdate,scoreCalculator){
                    // console.log("rounding:",attribute,"by",rounder);
                     break;
             }
-            
             stats[attribute]=Math.round(value*rounder)/rounder;
             this.set({"stats":stats});
         }
