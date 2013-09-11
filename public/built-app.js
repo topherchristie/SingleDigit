@@ -1465,7 +1465,8 @@ define('collections/scorelist',['models/score','xdate'],function(Score,xdate){
            var self = this;
            switch(this.fType){
                case "year":
-                    return _.filter(this.models,function(a){ console.log((new xdate(a.get("date"))).getFullYear()); return true;});
+                    return _.filter(this.models,function(a){ 
+                        return self.fValue == (new xdate(a.get("date"))).getFullYear();});
            }
            return this;
        }
@@ -2758,7 +2759,7 @@ define('views/scoreTable',['text!templates/scoreTable.html','views/recentTable']
         },
         y2013: function(e){
             console.log('y2013',this.collections);
-            this.collection.set('year',2013);
+            this.collection.setFilter('year',2013);
             this.views.recent.render();
         },
         hide:function(){
