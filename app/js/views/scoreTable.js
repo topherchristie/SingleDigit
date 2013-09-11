@@ -14,7 +14,7 @@ define(['text!templates/scoreTable.html','views/recentTable'],function(template,
         },
         y2013: function(e){
             console.log('y2013',this.collections);
-            this.collection.set('year',2013);
+            this.collection.setFilter('year',2013);
             this.views.recent.render();
         },
         hide:function(){

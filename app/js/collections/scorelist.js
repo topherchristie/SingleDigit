@@ -20,7 +20,8 @@ define(['models/score','xdate'],function(Score,xdate){
            var self = this;
            switch(this.fType){
                case "year":
-                    return _.filter(this.models,function(a){ console.log((new xdate(a.get("date"))).getFullYear()); return true;});
+                    return _.filter(this.models,function(a){ 
+                        return self.fValue == (new xdate(a.get("date"))).getFullYear();});
            }
            return this;
        }
